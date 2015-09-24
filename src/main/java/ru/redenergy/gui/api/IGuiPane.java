@@ -2,7 +2,7 @@ package ru.redenergy.gui.api;
 
 import java.util.List;
 
-public interface IGuiPane extends IGuiComponent{
+public interface IGuiPane extends IGui{
 	
 	void registerComponent(IGuiComponent component);
 	
