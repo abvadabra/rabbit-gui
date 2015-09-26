@@ -1,11 +1,23 @@
 package ru.redenergy.gui.internal;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.gui.GuiScreen;
+import ru.redenergy.gui.api.IGuiComponent;
 import ru.redenergy.gui.api.IGuiPane;
 
 public abstract class GuiPane extends GuiScreen implements IGuiPane{
 
+	private List<IGuiComponent> components = new ArrayList();
 
+	@Override
+	public void onCreate(){
+		getComponentsList().clear();
+	}
+	
 	@Override
 	public void onDraw(int mouseX, int mouseY, float partialTicks) {
 		getComponentsList().forEach(component -> component.onDraw(mouseX, mouseY, partialTicks));
@@ -13,7 +25,10 @@ public abstract class GuiPane extends GuiScreen implements IGuiPane{
 
 	@Override
 	public void onKeyTyped(char typedChar, int typedIndex) {
-		getComponentsList().forEach(component -> component.onKeyTyped(typedChar, typedIndex));		
+		getComponentsList().forEach(component -> component.onKeyTyped(typedChar, typedIndex));
+		if(typedIndex == Keyboard.KEY_ESCAPE){
+			mc.setIngameFocus();
+		}
 	}
 
 	@Override
@@ -31,40 +46,49 @@ public abstract class GuiPane extends GuiScreen implements IGuiPane{
 		getComponentsList().forEach(component -> component.onClose());
 	}
 	
-	
+	@Override
+	public void registerComponent(IGuiComponent component) {
+		this.components.add(component);
+	}
+
+	@Override
+	public List<IGuiComponent> getComponentsList() {
+		return components;
+	}
+
 	/**                   VANILLA CALLS                          */
 	@Override
-	public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
+	public final void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
 		onDraw(p_73863_1_, p_73863_2_, p_73863_3_);
 	}
 
 	@Override
-	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
+	protected final void keyTyped(char p_73869_1_, int p_73869_2_) {
 		onKeyTyped(p_73869_1_, p_73869_2_);
 	}
 
 	@Override
-	protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_) {
+	protected final void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_) {
 		onMouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
 	}
 
 	@Override
-	public void initGui() {
+	public final void initGui() {
 		onCreate();
 	}
 
 	@Override
-	public void updateScreen() {
+	public final void updateScreen() {
 		onUpdate();
 	}
 
 	@Override
-	public void onGuiClosed() {
+	public final void onGuiClosed() {
 		onClose();
 	}
 
 	@Override
-	public boolean doesGuiPauseGame() {
+	public final boolean doesGuiPauseGame() {
 		return false;
 	}
 
