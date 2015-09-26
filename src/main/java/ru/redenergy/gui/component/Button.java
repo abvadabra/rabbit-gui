@@ -46,33 +46,20 @@ public class Button implements IGuiComponent{
 			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			if(!isEnabled()){
-				drawIdleButton(DISABLED_STATE);
+				drawButton(DISABLED_STATE);
 			} else if(isButtonUnderMouse(mouseX, mouseY)){
-				drawIdleButton(HOVER_STATE);
+				drawButton(HOVER_STATE);
 			} else {
-				drawIdleButton(IDLE_STATE);
+				drawButton(IDLE_STATE);
 			}
 		}
 	}
 	
-	private void drawIdleButton(int state){
-        if(this.height < 20){
-        	Renderer.drawTexturedModalRect(this.xPos, this.yPos, 0, 46 + (state * 20), this.width / 2, 2);
-        	Renderer.drawTexturedModalRect(this.xPos + this.width / 2, this.yPos, 200 - this.width / 2, 46 + (state * 20), this.width / 2, 2);
-        	IntStream.range(0, height - 5).forEach(idx -> Renderer.drawTexturedModalRect(this.xPos, this.yPos + 2 + idx, 0, 46 + (state * 20) + 2 + idx, this.width /2 , 1));
-        	IntStream.range(0, height - 5).forEach(idx -> Renderer.drawTexturedModalRect(this.xPos + this.width / 2, this.yPos + 2 + idx, 200 - this.width / 2, 46 + (state * 20) + 2 + idx, this.width /2 , 1));
-        	Renderer.drawTexturedModalRect(this.xPos, this.yPos + 2 + (this.height - 5), 0, 46 + (state * 20 - (state != 0 ? 20 : 0) + 17), this.width / 2, 2);
-        	Renderer.drawTexturedModalRect(this.xPos + this.width / 2, this.yPos + 2 + (this.height - 5), 200 - this.width / 2, 46 + (state * 20 - (state != 0 ? 20 : 0) + 17), this.width / 2, 2);
-        } else {
-        	Renderer.drawTexturedModalRect(this.xPos, this.yPos, 0, 46 + (state * 20), this.width / 2, 2);
-        	Renderer.drawTexturedModalRect(this.xPos + this.width / 2, this.yPos, 200 - this.width / 2, 46 + (state * 20), this.width / 2, 2);
-        	int amount = this.height / 15;
-        	if(amount <= 0) amount = 1;
-        	IntStream.range(0, amount).forEach(idx -> Renderer.drawTexturedModalRect(this.xPos, this.yPos + 2 + (idx * 15), 0, 46 + (state * 20) + 2, this.width / 2, 15));
-        	IntStream.range(0, amount).forEach(idx -> Renderer.drawTexturedModalRect(this.xPos + this.width / 2, this.yPos + 2 + (idx * 15), 200 - this.width / 2, 46 + (state * 20) + 2, this.width / 2, 15));
-        	Renderer.drawTexturedModalRect(this.xPos, this.yPos + 2 + (amount * 15), 0, 46 + (state * 20 - (state != 0 ? 20 : 0) + 17), this.width / 2, 3);
-        	Renderer.drawTexturedModalRect(this.xPos + this.width / 2, this.yPos + 2 + (amount * 15), 200 - this.width / 2, 46 + (state * 20 - (state != 0 ? 20 : 0) + 17), this.width / 2, 3);
-        }
+	private void drawButton(int state){
+		Renderer.drawTexturedModalRect(this.xPos, this.yPos, 0, 46 + (state * 20), this.width, 2);
+		Renderer.drawTexturedModalRect(this.xPos, this.yPos + this.height - 3, 0, 46 + (state * 20) + 17, this.width, 3);
+		IntStream.range(0, this.height - 5).forEach(idx -> Renderer.drawTexturedModalRect(this.xPos, this.yPos + 2 + (1 * idx), 0, 46 + (state * 20) + 2 + idx % 15, this.width, 1));
+		
 	}
 	
 	@Override
