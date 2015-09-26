@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 import ru.redenergy.gui.api.IGuiComponent;
 import ru.redenergy.gui.render.Renderer;
+import ru.redenergy.gui.render.TextRenderer;
 
 public class Button implements IGuiComponent{
 
@@ -20,7 +21,7 @@ public class Button implements IGuiComponent{
 	private String title;
 	private boolean isVisible = true;
 	private boolean isEnabled = true;
-	private Runnable onClick;
+	private ButtonListener onClick;
 	public ResourceLocation buttonTexture = new ResourceLocation("textures/gui/widgets.png");
 	private static final int DISABLED_STATE = 0;
 	private static final int IDLE_STATE = 1;
@@ -52,6 +53,7 @@ public class Button implements IGuiComponent{
 			} else {
 				drawButton(IDLE_STATE);
 			}
+			TextRenderer.renderCenteredString(this.xPos + this.width / 2, this.yPos + this.height / 2, title);
 		}
 	}
 	
@@ -65,11 +67,10 @@ public class Button implements IGuiComponent{
 	@Override
 	public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
 		if(isButtonUnderMouse(posX, posY) && isEnabled()){
-			if(getClickListener() != null) getClickListener().run();
+			if(getClickListener() != null) getClickListener().onClick(this);;
 			playClickSound();
 		}
 	}
-
 
 	@Override
 	public void onKeyTyped(char typedChar, int typedIndex) {}
@@ -85,12 +86,12 @@ public class Button implements IGuiComponent{
 				mouseY >= yPos && mouseY <= yPos + height;
 	}
 	
-	public Button setClickListener(Runnable onClicked){
+	public Button setClickListener(ButtonListener onClicked){
 		this.onClick = onClicked;
 		return this;
 	}
 	
-	public Runnable getClickListener(){
+	public ButtonListener getClickListener(){
 		return onClick;
 	}
 	
@@ -123,6 +124,12 @@ public class Button implements IGuiComponent{
 	
 	public void playClickSound(){
 		Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+	}
+	
+	@FunctionalInterface
+	public static interface ButtonListener{
+		
+		void onClick(Button button);
 	}
 
 }

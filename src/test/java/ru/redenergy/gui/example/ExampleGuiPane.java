@@ -7,6 +7,6 @@ public class ExampleGuiPane extends GuiPane {
 	
 	public void onCreate(){
 		super.onCreate();
-		registerComponent(new Button(this.width / 2, this.height / 2 + 20, 200, 200, "Example"));
+		registerComponent(new Button(this.width / 2, this.height / 2 + 20, 200, 200, "Example").setClickListener(button -> button.setIsVisible(!button.isVisible())));
 	}
 }
