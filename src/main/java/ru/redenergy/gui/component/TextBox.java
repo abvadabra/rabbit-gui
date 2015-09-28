@@ -3,6 +3,7 @@ package ru.redenergy.gui.component;
 import javax.xml.soap.Text;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 import com.ibm.icu.impl.ICUService.Key;
 
@@ -33,6 +34,7 @@ public class TextBox implements IGuiComponent{
     private int maxStringLenght = 100;
     private int enabledColor = 14737632;
     private int disabledColor = 7368816;
+    private TextBoxChangedListener textChangedListener;
 	
 	public static final int BACKGROUND_GRAY_COLOR = -6250336;
 	public static final int BACKGROUND_DARK_COLOR = -16777216;
@@ -49,9 +51,8 @@ public class TextBox implements IGuiComponent{
 		this.height = height;
 		this.text = initialText;
 		this.setCursorPosition(this.text.length());
+		Keyboard.enableRepeatEvents(true);
 	}
-	
-	
 
 	@Override
 	public void onDraw(int mouseX, int mouseY, float partialTicks) {
@@ -99,7 +100,13 @@ public class TextBox implements IGuiComponent{
 
             if (selEnd != cursorPosWithOffset){
                 int finishX = firstTextX + TextRenderer.getFontRenderer().getStringWidth(text.substring(0, selEnd));
-                Renderer.drawRect(cursorX, textY - 1, finishX - 1, textY + 1 + TextRenderer.getFontRenderer().FONT_HEIGHT, 0x0000FF);
+                Renderer.drawRectWithSpecialGL(cursorX, textY - 1, finishX - 1, textY + 1 + TextRenderer.getFontRenderer().FONT_HEIGHT, -0x5555FF, () -> {
+                    GL11.glColor4f(0.0F, 0.0F, 255.0F, 255.0F);
+                    GL11.glDisable(GL11.GL_TEXTURE_2D);
+                    GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);
+                    GL11.glLogicOp(GL11.GL_OR_REVERSE);
+                });
+                GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
             }
 			
 		}
@@ -135,22 +142,17 @@ public class TextBox implements IGuiComponent{
 		if(this.getText().length() > 0 && j < this.getText().length()){
 			result = result + this.getText().substring(j);
 		}
-		this.text = result;
+		this.setTextWithEvent(result);
 		this.setCursorPosition(this.selectionEnd + (i - this.selectionEnd + end));
 	}
 	
 	
 	@Override
 	public void onKeyTyped(char typedChar, int typedIndex) {
-		System.out.println((int)typedChar + " : " + typedIndex);
-		System.out.println(Keyboard.getKeyName(typedIndex));
 		if(!isFocused()) return;
 		boolean isSpecialCharCombination = handleSpecialCharComb(typedChar, typedIndex);
 		if(!isSpecialCharCombination){
 			handleInput(typedChar, typedIndex);
-		}
-		if(isFocused()){
-			pushText(String.valueOf(typedChar));
 		}
 	}
 	
@@ -221,7 +223,7 @@ public class TextBox implements IGuiComponent{
 					result += getText().substring(k);
 				}
 				
-				this.text = result;
+				this.setTextWithEvent(result);
 				
 				if(negative){
 					this.setCursorPosition(this.selectionEnd + amount);
@@ -279,9 +281,11 @@ public class TextBox implements IGuiComponent{
 	}
 	
 	public int getAmountOfWordsFromPos(int n, int pos, boolean flag){
+		return getAmountOfWordsFromPos(n < 0, Math.abs(n), pos, flag);
+	}
+	
+	public int getAmountOfWordsFromPos(boolean negative, int absolute, int pos, boolean flag){
 		int result = pos;
-		boolean negative = n < 0;
-		int absolute = Math.abs(n);
 		for(int i = 0; i < absolute; ++i){
 			if(negative){
 				while(flag && result > 0 && getText().charAt(result - 1) == 32){
@@ -439,11 +443,44 @@ public class TextBox implements IGuiComponent{
 		return disabledColor;
 	}
 	
+	public TextBox setText(String newText){
+		this.text = newText;
+		return this;
+	}
+	
+	/**
+	 * Will set text of textbox and execute TextChangedListener
+	 * @param newText
+	 * @return this
+	 */
+	public TextBox setTextWithEvent(String newText){
+		String previousText = this.text;
+		this.setText(newText);
+		if(getTextChangedListener() != null) getTextChangedListener().onTextChanged(this, previousText);
+		return this;
+	}
+	
+	public TextBox setTextChangedListener(TextBoxChangedListener listener){
+		this.textChangedListener = listener;
+		return this;
+	}
+	
+	public TextBoxChangedListener getTextChangedListener(){
+		return textChangedListener;
+	}
+	
 	@Override
-	public void onClose() {}
+	public void onClose() {
+		Keyboard.enableRepeatEvents(false);
+	}
+	
 	@Override
 	public void onCreate() {}
 	
+	@FunctionalInterface
+	public static interface TextBoxChangedListener{
+		void onTextChanged(TextBox textbox, String previousText);
+	}
 	
 	
 }

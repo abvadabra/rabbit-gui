@@ -66,4 +66,34 @@ public class Renderer {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
     }
+    
+    public static void drawRectWithSpecialGL(int xTop, int yTop, int xBot, int yBot, int color, Runnable specialGL){
+        int temp;
+        if (xTop < xBot){
+            temp = xTop;
+            xTop = xBot;
+            xBot = temp;
+        }
+        if (yTop < yBot){
+            temp = yTop;
+            yTop = yBot;
+            yBot = temp;
+        }
+        float f3 = (float)(color >> 24 & 255) / 255.0F;
+        float f = (float)(color >> 16 & 255) / 255.0F;
+        float f1 = (float)(color >> 8 & 255) / 255.0F;
+        float f2 = (float)(color & 255) / 255.0F;
+        Tessellator tessellator = Tessellator.instance;
+        specialGL.run();
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        GL11.glColor4f(f, f1, f2, f3);
+        tessellator.startDrawingQuads();
+        tessellator.addVertex((double)xTop, (double)yBot, 0.0D);
+        tessellator.addVertex((double)xBot, (double)yBot, 0.0D);
+        tessellator.addVertex((double)xBot, (double)yTop, 0.0D);
+        tessellator.addVertex((double)xTop, (double)yTop, 0.0D);
+        tessellator.draw();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+    }
 }
