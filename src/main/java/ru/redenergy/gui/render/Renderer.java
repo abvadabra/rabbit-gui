@@ -85,6 +85,8 @@ public class Renderer {
         float f2 = (float)(color & 255) / 255.0F;
         Tessellator tessellator = Tessellator.instance;
         specialGL.run();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         GL11.glColor4f(f, f1, f2, f3);
         tessellator.startDrawingQuads();

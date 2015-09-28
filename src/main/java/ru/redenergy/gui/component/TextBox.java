@@ -1,22 +1,16 @@
 package ru.redenergy.gui.component;
 
-import javax.xml.soap.Text;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.ibm.icu.impl.ICUService.Key;
-
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ChatAllowedCharacters;
 import ru.redenergy.gui.api.IGuiComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 import ru.redenergy.gui.utils.ControlCharacters;
-import scala.Char;
 
-public class TextBox implements IGuiComponent{
+public class TextBox extends GuiComponent{
 
 	private int xPos;
 	private int yPos;
@@ -474,13 +468,11 @@ public class TextBox implements IGuiComponent{
 		Keyboard.enableRepeatEvents(false);
 	}
 	
-	@Override
-	public void onCreate() {}
 	
 	@FunctionalInterface
 	public static interface TextBoxChangedListener{
 		void onTextChanged(TextBox textbox, String previousText);
 	}
-	
-	
+
 }
+

@@ -12,9 +12,10 @@ import ru.redenergy.gui.api.IGuiPane;
 public abstract class GuiPane extends GuiScreen implements IGuiPane{
 
 	private List<IGuiComponent> components = new ArrayList();
+	private boolean hasBeenInitialized = false;
 
 	@Override
-	public void onCreate(){
+	public void setupPane(){
 		getComponentsList().clear();
 	}
 	
@@ -49,6 +50,7 @@ public abstract class GuiPane extends GuiScreen implements IGuiPane{
 	@Override
 	public void registerComponent(IGuiComponent component) {
 		this.components.add(component);
+		component.onRegistered(this);
 	}
 
 	@Override
@@ -74,7 +76,10 @@ public abstract class GuiPane extends GuiScreen implements IGuiPane{
 
 	@Override
 	public final void initGui() {
-		onCreate();
+		if(!hasBeenInitialized){
+			onInit();
+		}
+		setupPane();
 	}
 
 	@Override

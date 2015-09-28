@@ -9,10 +9,11 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 import ru.redenergy.gui.api.IGuiComponent;
+import ru.redenergy.gui.api.IGuiPane;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 
-public class Button implements IGuiComponent{
+public class Button extends GuiComponent{
 
 	private int width;
 	private int height;
@@ -35,8 +36,6 @@ public class Button implements IGuiComponent{
 		this.title = title;
 	}
 	
-	@Override
-	public void onCreate() {}
 
 	@Override
 	public void onDraw(int mouseX, int mouseY, float partialTicks) {
@@ -131,5 +130,4 @@ public class Button implements IGuiComponent{
 		
 		void onClick(Button button);
 	}
-
 }
