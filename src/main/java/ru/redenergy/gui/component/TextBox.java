@@ -2,11 +2,17 @@ package ru.redenergy.gui.component;
 
 import javax.xml.soap.Text;
 
+import org.lwjgl.input.Keyboard;
+
+import com.ibm.icu.impl.ICUService.Key;
+
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ChatAllowedCharacters;
 import ru.redenergy.gui.api.IGuiComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
+import ru.redenergy.gui.utils.ControlCharacters;
 import scala.Char;
 
 public class TextBox implements IGuiComponent{
@@ -100,7 +106,7 @@ public class TextBox implements IGuiComponent{
 	}
 	
 	private void drawCursor(int xPos, int yPos){
-		Renderer.drawRect(xPos, yPos, xPos + 2, yPos + TextRenderer.getFontRenderer().FONT_HEIGHT, -3092272);
+		Renderer.drawRect(xPos, yPos, xPos + 2, yPos + TextRenderer.getFontRenderer().FONT_HEIGHT, CURSOR_COLOR);
 	}
 	
 	private void drawTextBoxBackground(){
@@ -136,9 +142,166 @@ public class TextBox implements IGuiComponent{
 	
 	@Override
 	public void onKeyTyped(char typedChar, int typedIndex) {
+		System.out.println((int)typedChar + " : " + typedIndex);
+		System.out.println(Keyboard.getKeyName(typedIndex));
+		if(!isFocused()) return;
+		boolean isSpecialCharCombination = handleSpecialCharComb(typedChar, typedIndex);
+		if(!isSpecialCharCombination){
+			handleInput(typedChar, typedIndex);
+		}
 		if(isFocused()){
 			pushText(String.valueOf(typedChar));
 		}
+	}
+	
+	private boolean handleInput(char typedChar, int typedKeyIndex){
+		switch(typedKeyIndex){
+		case Keyboard.KEY_BACK:
+			if(isEnabled()){
+				if(GuiScreen.isCtrlKeyDown()){
+					deleteWordsFromCursor(-1);
+				} else {
+					deleteTextFromCursor(-1);
+				}
+			}
+			return true;
+		case Keyboard.KEY_HOME:
+			if(GuiScreen.isShiftKeyDown()){
+				this.setSelectionPos(0);
+			} else {
+				this.setCursorPosition(0);
+			}
+			return true;
+		case Keyboard.KEY_LEFT:
+			handleKeyboardArrow(-1);
+			return true;
+		case Keyboard.KEY_RIGHT:
+			handleKeyboardArrow(1);
+			return true;
+		case Keyboard.KEY_END:
+			if(GuiScreen.isShiftKeyDown()){
+				this.setSelectionPos(getText().length());
+			} else {
+				this.setCursorPosition(getText().length());
+			}
+			return true;
+		case Keyboard.KEY_DELETE:
+			if(isEnabled()){
+				if(GuiScreen.isCtrlKeyDown()){
+					deleteWordsFromCursor(1);
+				} else {
+					deleteTextFromCursor(1);
+				}
+			}
+			return true;
+		default:
+			if(isEnabled() && ChatAllowedCharacters.isAllowedCharacter(typedChar)){
+				this.pushText(Character.toString(typedChar));
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public void deleteTextFromCursor(int amount){
+		if(getText().length() != 0){
+			if(this.selectionEnd != getCursorPosition()){
+				this.pushText("");
+			} else {
+				boolean negative = amount < 0;
+				int j = negative ? getCursorPosition() + amount : getCursorPosition();
+				int k = negative ? getCursorPosition() : getCursorPosition() + amount;
+				String result = "";
+				if(j >= 0){
+					result = getText().substring(0, j);
+				}
+				
+				if(k < getText().length()){
+					result += getText().substring(k);
+				}
+				
+				this.text = result;
+				
+				if(negative){
+					this.setCursorPosition(this.selectionEnd + amount);
+				}
+			}
+		}
+	}
+	
+	public void deleteWordsFromCursor(int amount){
+		if(getText().length() != 0){
+			if(this.selectionEnd != getCursorPosition()){
+				this.pushText("");
+			} else {
+				this.deleteTextFromCursor(this.getAmountOfWordsFromPos(amount, getCursorPosition(), true) - getCursorPosition());
+			}
+		}
+	}
+	
+	private void handleKeyboardArrow(int n){
+		if(GuiScreen.isShiftKeyDown()){
+			if(GuiScreen.isCtrlKeyDown()){
+				this.setSelectionPos(getAmountOfWordsFromPos(n, this.selectionEnd, true));
+			} else {
+				this.setSelectionPos(this.selectionEnd + n);
+			}
+		} else if(GuiScreen.isCtrlKeyDown()){
+			this.setCursorPosition(this.getAmountOfWordsFromPos(n, getCursorPosition(), true));
+		} else {
+			this.setCursorPosition(this.selectionEnd + (n));
+		}
+	}
+	
+	private boolean handleSpecialCharComb(char typedChar, int typedIndex){
+		switch(typedChar){
+		case 1:
+			this.setCursorPosition(getText().length());
+			this.setSelectionPos(0);
+			return true;
+		case ControlCharacters.CtrlC:
+			GuiScreen.setClipboardString(this.getSelectedText());
+			return true;
+		case ControlCharacters.CtrlV:
+			if(isEnabled()){
+				this.pushText(GuiScreen.getClipboardString());
+			}
+			return true;
+		case ControlCharacters.CtrlX:
+			GuiScreen.setClipboardString(getSelectedText());
+			if(isEnabled()){
+				this.pushText("");
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	public int getAmountOfWordsFromPos(int n, int pos, boolean flag){
+		int result = pos;
+		boolean negative = n < 0;
+		int absolute = Math.abs(n);
+		for(int i = 0; i < absolute; ++i){
+			if(negative){
+				while(flag && result > 0 && getText().charAt(result - 1) == 32){
+					--result;
+				}
+				while(result > 0 && getText().charAt(result - 1) != 32){
+					--result;
+				}
+			} else {
+				result = getText().indexOf(32, result);
+				if(result == -1){
+					result = getText().length();
+				} else {
+					while(flag && result < getText().length() && getText().charAt(result) == 32){
+						++result;
+					}
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -151,6 +314,12 @@ public class TextBox implements IGuiComponent{
 		}
 	}
 
+	public String getSelectedText(){
+		int from = Math.min(this.getCursorPosition(), this.selectionEnd);
+		int to = Math.max(this.getCursorPosition(), this.selectionEnd);
+		return getText().substring(from, to);
+	}
+	
 	public boolean isTextBoxUnderMouse(int mouseX, int mouseY){
 		return mouseX >= this.xPos && mouseX <= this.xPos + this.width &&
 				mouseY >= this.yPos && mouseY <= this.yPos + this.height;
