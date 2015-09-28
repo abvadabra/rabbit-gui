@@ -26,6 +26,9 @@ minecraft {
     runDir = "eclipse"
 }
 
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'lib')
+}
 
 compileJava {
     sourceCompatibility = 1.8
