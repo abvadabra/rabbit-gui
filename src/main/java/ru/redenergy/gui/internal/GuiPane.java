@@ -7,16 +7,17 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.gui.GuiScreen;
 import ru.redenergy.gui.api.IGuiComponent;
-import ru.redenergy.gui.api.IGuiPane;
 
-public abstract class GuiPane extends GuiScreen implements IGuiPane {
+public abstract class GuiPane extends GuiScreen implements IGuiComponent {
 
     private List<IGuiComponent> components = new ArrayList();
     private boolean hasBeenInitialized = false;
+    private IGuiComponent parent;
 
+    public void onInit(){}
+    
     @Override
-    public void setupPane() {
-        getComponentsList().clear();
+    public void setup() {
     }
 
     @Override
@@ -77,10 +78,12 @@ public abstract class GuiPane extends GuiScreen implements IGuiPane {
 
     @Override
     public final void initGui() {
+        getComponentsList().clear();
         if (!hasBeenInitialized) {
             onInit();
         }
-        setupPane();
+        setup();
+        getComponentsList().forEach(component -> component.setup());
     }
 
     @Override
@@ -96,6 +99,16 @@ public abstract class GuiPane extends GuiScreen implements IGuiPane {
     @Override
     public final boolean doesGuiPauseGame() {
         return false;
+    }
+    
+    @Override
+    public IGuiComponent getParent() {
+        return parent;
+    }
+
+    @Override
+    public void setParent(IGuiComponent pane) {
+        this.parent = pane;
     }
 
 }

@@ -1,5 +1,6 @@
 package ru.redenergy.gui.component;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.lwjgl.opengl.GL11;
@@ -9,7 +10,6 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 import ru.redenergy.gui.api.IGuiComponent;
-import ru.redenergy.gui.api.IGuiPane;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 
@@ -51,7 +51,7 @@ public class Button extends GuiComponent {
             } else {
                 drawButton(IDLE_STATE);
             }
-            TextRenderer.renderCenteredString(this.xPos + this.width / 2, this.yPos + this.height / 2, title);
+            TextRenderer.renderCenteredString(this.xPos + this.width / 2, this.yPos + this.height / 2 - 5, title);
         }
     }
 
@@ -67,9 +67,9 @@ public class Button extends GuiComponent {
     @Override
     public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
         if (isButtonUnderMouse(posX, posY) && isEnabled()) {
-            if (getClickListener() != null)
+            if (getClickListener() != null){
                 getClickListener().onClick(this);
-            ;
+            }
             playClickSound();
         }
     }
@@ -125,10 +125,15 @@ public class Button extends GuiComponent {
         this.buttonTexture = res;
         return this;
     }
+    
+    public String getTitle(){
+        return title;
+    }
 
     public void playClickSound() {
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     }
+    
 
     @FunctionalInterface
     public static interface ButtonListener {
