@@ -17,25 +17,25 @@ public class TextBox extends GuiComponent {
     public static final int BACKGROUND_DARK_COLOR = -16777216;
     public static final int CURSOR_COLOR = -3092272;
     
-    private Rectangle shape;
+    protected Rectangle shape;
     
-    private boolean visibleBackground = true;
-    private boolean isVisible = true;
-    private boolean isEnabled = true;
-    private boolean isFocused = false;
+    protected boolean visibleBackground = true;
+    protected boolean isVisible = true;
+    protected boolean isEnabled = true;
+    protected boolean isFocused = false;
     
-    private String text;
-    private int cursorPos;
-    private int scrollOffset;
+    protected String text;
+    protected int cursorPos;
+    protected int scrollOffset;
 
-    private int maxStringLenght = 100;
-    private int selectionEnd = -1;
-    private int enabledColor = 14737632;
-    private int disabledColor = 7368816;
+    protected int maxStringLenght = 100;
+    protected int selectionEnd = -1;
+    protected int enabledColor = 14737632;
+    protected int disabledColor = 7368816;
     
-    private long cursorCounter = 0L;
+    protected long cursorCounter = 0L;
     
-    private TextBoxChangedListener textChangedListener;
+    protected TextBoxChangedListener textChangedListener;
 
     public TextBox(int xPos, int yPos, int width, int height) {
         this(xPos, yPos, width, height, "");
