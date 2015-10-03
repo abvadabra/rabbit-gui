@@ -12,32 +12,37 @@ import net.minecraft.util.ResourceLocation;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 
+/**
+ * Simple button component <br>
+ * Supported width: <b> 0 - 400 </b> (due to texture length it can't be larger) <br>
+ * Supported height: <b> 5 - INFINITY </b> <br>
+ * 
+ * Use {@link #setClickListener(ButtonListener)} to define action on button pressed
+ */
 public class Button extends GuiComponent {
 
-    private static final int DISABLED_STATE = 0;
-    private static final int IDLE_STATE = 1;
-    private static final int HOVER_STATE = 2;
+    protected static final int DISABLED_STATE = 0;
+    protected static final int IDLE_STATE = 1;
+    protected static final int HOVER_STATE = 2;
     
-    public ResourceLocation buttonTexture = new ResourceLocation("textures/gui/widgets.png");
+    protected ResourceLocation buttonTexture = new ResourceLocation("textures/gui/widgets.png");
     
-    private String title;
-    private Rectangle form;
+    protected String text;
+    protected Rectangle shape;
 
-    private boolean isVisible = true;
-    private boolean isEnabled = true;
+    protected boolean isVisible = true;
+    protected boolean isEnabled = true;
 
-    private ButtonListener onClick;
+    protected ButtonListener onClick;
     
     public Button(int xPos, int yPos, int width, int height, String title) {
         this(new Rectangle(xPos, yPos, width, height), title);
     }
     
     public Button(Rectangle rect, String title){
-        this.form = rect;
-        this.title = title;
+        this.shape = rect;
+        this.text = title;
     }
-    
-    
 
     @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
@@ -50,7 +55,7 @@ public class Button extends GuiComponent {
             } else {
                 drawButton(IDLE_STATE);
             }
-            TextRenderer.renderCenteredString(getRect().getX() + getRect().getWidth() / 2, getRect().getY() + getRect().getHeight() / 2 - 5, getTitle());
+            TextRenderer.renderCenteredString(getRect().getX() + getRect().getWidth() / 2, getRect().getY() + getRect().getHeight() / 2 - 5, getText());
         }
     }
     
@@ -66,11 +71,9 @@ public class Button extends GuiComponent {
         //top border
         Renderer.drawTexturedModalRect(getRect().getX(), getRect().getY(), 0, 46 + (state * 20), getRect().getWidth() / 2, 2);
         Renderer.drawTexturedModalRect(getRect().getX() + getRect().getWidth() / 2, getRect().getY(), 200 - getRect().getWidth() / 2, 46 + (state * 20), getRect().getWidth() / 2, 2);
-        
         //middle
         IntStream.range(0, getRect().getHeight() - 5).forEach(idx -> Renderer.drawTexturedModalRect(getRect().getX(), getRect().getY() + 2 + (1 * idx), 0, 46 + (state * 20) + 2 + idx % 15, getRect().getWidth() / 2, 1));
         IntStream.range(0, getRect().getHeight() - 5).forEach(idx -> Renderer.drawTexturedModalRect(getRect().getX() + getRect().getWidth() / 2, getRect().getY() + 2 + (1 * idx), 200 - getRect().getWidth() / 2, 46 + (state * 20) + 2 + idx % 15, getRect().getWidth() / 2, 1));
-
         //bottom border
         Renderer.drawTexturedModalRect(getRect().getX(), getRect().getY() + getRect().getHeight() - 3, 0, 46 + (state * 20) + 17, getRect().getWidth() / 2, 3);
         Renderer.drawTexturedModalRect(getRect().getX() + getRect().getWidth() / 2, getRect().getY() + getRect().getHeight() - 3, 200 - getRect().getWidth() / 2, 46 + (state * 20) + 17, getRect().getWidth() / 2, 3);
@@ -90,6 +93,11 @@ public class Button extends GuiComponent {
         return mouseX >= getRect().getX() && mouseX <= getRect().getX() + getRect().getWidth() && mouseY >= getRect().getY() && mouseY <= getRect().getY() + getRect().getHeight();
     }
 
+    /**
+     * Provided listener will be executed by pressing the button
+     * @param onClicked listener
+     * @return self 
+     */
     public Button setClickListener(ButtonListener onClicked) {
         this.onClick = onClicked;
         return this;
@@ -99,10 +107,16 @@ public class Button extends GuiComponent {
         return onClick;
     }
 
+    /**
+     * @return <code> true </code> if button would be rendered
+     */
     public boolean isVisible() {
         return isVisible;
     }
 
+    /**
+     * @return <code> true</code> if button can be clicked
+     */
     public boolean isEnabled() {
         return isEnabled;
     }
@@ -126,8 +140,8 @@ public class Button extends GuiComponent {
         return this;
     }
     
-    public String getTitle(){
-        return title;
+    public String getText(){
+        return text;
     }
 
     private void playClickSound() {
@@ -136,7 +150,7 @@ public class Button extends GuiComponent {
     
     
     public Rectangle getRect(){
-        return form;
+        return shape;
     }
 
     @FunctionalInterface
