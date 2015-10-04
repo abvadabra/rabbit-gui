@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 
+import javax.xml.soap.Text;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
 
@@ -91,80 +93,69 @@ public class DropDown<T> extends GuiComponent {
     }
     
     @Override
+    public void setup(){
+        registerComponent(new Button(getX() + getWidth() - 12, getY(), 12, 12, "\u25BC"));
+    }
+    
+    @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
         if(isEmpty()) {
            setIsEnabled(false);
         }
-        
         if(isVisible()){
             boolean hover = underMouse(mouseX, mouseY);
-            
-            Renderer.drawRect(getX() - 1, getY() - 1, getX() + getWidth() + 1, getY() + getHeight() + 1, -6250336);
-            Renderer.drawRect(getX(), getY(), getX() + getWidth() - 13, getY() + getHeight(), -16777216);
-            
-            GL11.glPushMatrix();
-            GL11.glColor4f(1F, 1F, 1F, 1F);
-            
-            Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-            int yLocTop = isEnabled() ? hover ? 86 : 66 : 46;
-            int yLocBot = isEnabled() ? hover ? 100 : 80 : 60;
-            Renderer.drawTexturedModalRect(getX() + getWidth() - 12, getY(), 0, yLocTop, 6, 6);
-            Renderer.drawTexturedModalRect(getX() + getWidth() - 6, getY(), 194, yLocTop, 6, 6);
-            Renderer.drawTexturedModalRect(getX() + getWidth() - 12, getY() + 6, 0, yLocBot, 6, 6);
-            Renderer.drawTexturedModalRect(getX() + getWidth() - 6, getY() + 6, 194, yLocBot, 6, 6);
-            
-            GL11.glTranslated(0, 0, 0);
-            GL11.glRotatef(0, 0, 1, 0);
-            
-            TextRenderer.renderCenteredString(getX() + getWidth() - 6, getY() + getHeight() / 8, isUnrolled ? "<" : ">");
-            GL11.glPopMatrix();
-            
+            drawDropDownBackground();
             if(isUnrolled){
-                drawUnrolledContent(mouseX, mouseY, partialTicks);
+                drawExpandedList(mouseX, mouseY, partialTicks);
             }
             
             if(this.selected != null){
-                String value = TextRenderer.getFontRenderer().trimStringToWidth(selected, getWidth() - 14);
-                TextRenderer.renderString(getX() + 2, getY() + getHeight() / 8, value);
+                drawSlot(getSelectedIdentifier(), getX(), getY(), getWidth(), getHeight(), false, 14);
             }
         }
-        
-        
+        super.onDraw(mouseX, mouseY, partialTicks);
     }
     
-    private void drawUnrolledContent(int mouseX, int mouseY, float partialTicks){
+    private void drawDropDownBackground(){
+        Renderer.drawRect(getX() - 1, getY() - 1, getX() + getWidth() + 1, getY() + getHeight() + 1, -6250336);
+        Renderer.drawRect(getX(), getY(), getX() + getWidth() - 13, getY() + getHeight(), -16777216);
+    }
+    
+    private void drawExpandedList(int mouseX, int mouseY, float partialTicks){
         List<String> keys = new ArrayList(getContent().keySet());
-        
         int unrollHeight = keys.size() * getHeight();
         Renderer.drawRect(getX() - 1, getY() + getHeight(), getX() + getWidth() + 1, getY() + getHeight() + unrollHeight + 1, -6250336);
         Renderer.drawRect(getX(), getY() + getHeight() + 1, getX() + getWidth(), getY() + getHeight() + unrollHeight, -16777216);
-        
         boolean hoverUnrolledList = mouseX >= getX() && mouseX <= getX() + getWidth() && mouseY >= getY() && mouseY <= getY() + getHeight() + unrollHeight + 1;
-        
         for(int index = 0; index < keys.size(); index++){
-            String item = keys.get(index);
+            String itemIdentifier = keys.get(index);
             int yPos = getY() + getHeight() + (getHeight() / 8) + (index * 12);
-            
-            boolean hoverItem = mouseX >= getX() && mouseX <= getX() + getWidth() && mouseY >= yPos && mouseY <= yPos + 12;
-            if(hoverItem){
-                Renderer.drawRect(getX(), yPos, getX() + getWidth(), yPos + 11, 0xFFFFFFFF);
-                TextRenderer.renderString(getX() + 2, yPos + (11 / 8), TextRenderer.getFontRenderer().trimStringToWidth(item, getWidth() - 2), 0); //black text
-            } else {
-                TextRenderer.renderString(getX() + 2, yPos + (11 / 8), TextRenderer.getFontRenderer().trimStringToWidth(item, getWidth() - 2));
-                if(!hoverUnrolledList && this.selected != null && this.selected.equals(item)){
-                    Renderer.drawRect(getX(), yPos, getX() + getWidth(), yPos + 11, 0xFFFFFFFF);
-                    TextRenderer.renderString(getX() + 2, yPos + (11 / 8), TextRenderer.getFontRenderer().trimStringToWidth(item, getWidth() - 2), 0);
-                }
-            }
+            boolean hoverSlot = mouseX >= getX() && mouseX <= getX() + getWidth() && mouseY >= yPos && mouseY <= yPos + 12;
+            boolean selectedSlot = hoverSlot || (!hoverUnrolledList && itemIdentifier.equalsIgnoreCase(getSelectedIdentifier()));
+            drawSlot(itemIdentifier, getX(), yPos, getWidth(), getHeight(), selectedSlot);
         }
+    }
+    
+    private void drawSlot(String item, int xPos, int yPos, int width, int height, boolean background){
+        drawSlot(item, xPos, yPos, width, height, background, 2);
+    }
+    private void drawSlot(String item, int xPos, int yPos, int width, int height, boolean background, int drawOffset){
+        String text = TextRenderer.getFontRenderer().trimStringToWidth(item, width - drawOffset);
+        int color = 0xFFFFFF;
+        if(background){
+            Renderer.drawRect(xPos, yPos, xPos + width, yPos + height - height / 8, 0xFFFFFFFF);
+            color = 0;
+        }
+        TextRenderer.renderString(xPos + 2, yPos + (getHeight() / 8), text, color);
     }
 
     @Override
     public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
+        super.onMouseClicked(posX, posY, mouseButtonIndex);
         if(isEnabled()){
-            boolean hovered = this.isUnrolled ? contentUnderMouse(posX, posY) : underMouse(posX, posY);
+            boolean inArea = this.isUnrolled ? expandedListUnderMouse(posX, posY) : underMouse(posX, posY);
             
-            if(!hovered){
+            if(!inArea){
                 this.isUnrolled = false;
             }
             
@@ -191,7 +182,7 @@ public class DropDown<T> extends GuiComponent {
         return x >= getX() && x <= getX() + getWidth() && y >= getY() && y <= getY() + getHeight();
     }
     
-    private boolean contentUnderMouse(int mouseX, int mouseY){
+    private boolean expandedListUnderMouse(int mouseX, int mouseY){
         return mouseX >= getX() - 1 && mouseX < getX() + getWidth() + 1 && mouseY >= getY() - 1 && mouseY < getY() + getHeight() + (getContent().size() * 12) - 1;
     }
     

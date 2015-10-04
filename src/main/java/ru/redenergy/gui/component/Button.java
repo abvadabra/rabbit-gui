@@ -55,7 +55,7 @@ public class Button extends GuiComponent {
             } else {
                 drawButton(IDLE_STATE);
             }
-            TextRenderer.renderCenteredString(getRect().getX() + getRect().getWidth() / 2, getRect().getY() + getRect().getHeight() / 2 - 5, getText());
+            TextRenderer.renderCenteredString(getRect().getX() + getRect().getWidth() / 2, getRect().getY() + getRect().getHeight() / 2 - 4, getText());
         }
     }
     

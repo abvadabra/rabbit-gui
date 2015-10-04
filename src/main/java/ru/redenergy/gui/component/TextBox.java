@@ -14,7 +14,7 @@ public class TextBox extends GuiComponent {
 
 
     public static final int BACKGROUND_GRAY_COLOR = -6250336;
-    public static final int BACKGROUND_DARK_COLOR = -16777216;
+    public static final int BACKGROUND_DARK_COLOR = -0xFFFFFF-1;
     public static final int CURSOR_COLOR = -3092272;
     
     protected Rectangle shape;
