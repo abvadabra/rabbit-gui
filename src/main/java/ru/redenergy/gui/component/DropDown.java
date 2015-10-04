@@ -36,6 +36,8 @@ public class DropDown<T> extends GuiComponent {
     
     protected ResourceLocation texture = new ResourceLocation("textures/gui/widgets.png");
     
+    protected ItemSelectedListener<T> itemSelectedListener;
+    
     public DropDown(int xPos, int yPos, int width){
         this(xPos, yPos, width, "");
     }
@@ -177,6 +179,7 @@ public class DropDown<T> extends GuiComponent {
                    boolean hoverItem = posX >= getX() && posX <= getX() + getWidth() && posY >= yPos && posY <= yPos + 12;
                    if(hoverItem){
                        this.selected = contentKeys.get(index);
+                       if(getItemSelectedListener() != null) getItemSelectedListener().onItemSelected(this, selected);
                        this.isUnrolled = false;
                    }
                 }
@@ -190,6 +193,15 @@ public class DropDown<T> extends GuiComponent {
     
     private boolean contentUnderMouse(int mouseX, int mouseY){
         return mouseX >= getX() - 1 && mouseX < getX() + getWidth() + 1 && mouseY >= getY() - 1 && mouseY < getY() + getHeight() + (getContent().size() * 12) - 1;
+    }
+    
+    public ItemSelectedListener<T> getItemSelectedListener(){
+        return itemSelectedListener;
+    }
+    
+    public DropDown<T> setItemSelectedListener(ItemSelectedListener<T> listener){
+        this.itemSelectedListener = listener;
+        return this;
     }
 
     public Map<String, DropDownElement<T>> getContent(){
@@ -220,6 +232,22 @@ public class DropDown<T> extends GuiComponent {
     
     public Rectangle getShape(){
         return shape;
+    }
+    
+    public void clear(){
+        getContent().clear();
+    }
+    
+    public String getSelectedIdentifier(){
+        return selected;
+    }
+    
+    public DropDownElement<T> getSelectedElement(){
+        return getElement(selected);
+    }
+    
+    public DropDownElement<T> getElement(String identifier){
+        return getContent().get(identifier);
     }
     
     public int getX(){
@@ -262,5 +290,9 @@ public class DropDown<T> extends GuiComponent {
             return this.itemName;
         }
     }
-
+    
+    @FunctionalInterface
+    public interface ItemSelectedListener<T>{
+        public void onItemSelected(DropDown<T> dropdown, String selected);
+    }
 }

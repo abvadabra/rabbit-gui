@@ -17,7 +17,7 @@ import ru.redenergy.gui.render.TextRenderer;
  * Supported width: <b> 0 - 400 </b> (due to texture length it can't be larger) <br>
  * Supported height: <b> 5 - INFINITY </b> <br>
  * 
- * Use {@link #setClickListener(ButtonListener)} to define action on button pressed
+ * Use {@link #setClickListener(ButtonClickListener)} to define action on button pressed
  */
 public class Button extends GuiComponent {
 
@@ -33,7 +33,7 @@ public class Button extends GuiComponent {
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
 
-    protected ButtonListener onClick;
+    protected ButtonClickListener onClick;
     
     public Button(int xPos, int yPos, int width, int height, String title) {
         this(new Rectangle(xPos, yPos, width, height), title);
@@ -98,12 +98,12 @@ public class Button extends GuiComponent {
      * @param onClicked listener
      * @return self 
      */
-    public Button setClickListener(ButtonListener onClicked) {
+    public Button setClickListener(ButtonClickListener onClicked) {
         this.onClick = onClicked;
         return this;
     }
 
-    public ButtonListener getClickListener() {
+    public ButtonClickListener getClickListener() {
         return onClick;
     }
 
@@ -154,7 +154,7 @@ public class Button extends GuiComponent {
     }
 
     @FunctionalInterface
-    public static interface ButtonListener {
+    public static interface ButtonClickListener {
         void onClick(Button button);
     }
 }

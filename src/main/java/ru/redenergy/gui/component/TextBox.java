@@ -35,7 +35,7 @@ public class TextBox extends GuiComponent {
     
     protected long cursorCounter = 0L;
     
-    protected TextBoxChangedListener textChangedListener;
+    protected TextChangedListener textChangedListener;
 
     public TextBox(int xPos, int yPos, int width, int height) {
         this(xPos, yPos, width, height, "");
@@ -484,12 +484,12 @@ public class TextBox extends GuiComponent {
         return this;
     }
 
-    public TextBox setTextChangedListener(TextBoxChangedListener listener) {
+    public TextBox setTextChangedListener(TextChangedListener listener) {
         this.textChangedListener = listener;
         return this;
     }
 
-    public TextBoxChangedListener getTextChangedListener() {
+    public TextChangedListener getTextChangedListener() {
         return textChangedListener;
     }
 
@@ -499,7 +499,7 @@ public class TextBox extends GuiComponent {
     }
 
     @FunctionalInterface
-    public static interface TextBoxChangedListener {
+    public static interface TextChangedListener {
         void onTextChanged(TextBox textbox, String previousText);
     }
 
