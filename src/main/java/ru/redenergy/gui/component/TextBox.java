@@ -494,6 +494,12 @@ public class TextBox extends GuiComponent {
     }
 
     @Override
+    public TextBox setId(String id) {
+        assignId(id);
+        return this;
+    }
+    
+    @Override
     public void onClose() {
         Keyboard.enableRepeatEvents(false);
     }

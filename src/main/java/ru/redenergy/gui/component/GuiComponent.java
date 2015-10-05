@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.redenergy.gui.api.IGuiComponent;
+import ru.redenergy.gui.api.exception.IdAlreadyRegisteredException;
 
 public abstract class GuiComponent implements IGuiComponent {
 
     protected IGuiComponent parent;
     protected List<IGuiComponent> components = new ArrayList<>();
+    
+    protected String id;
 
     @Override
     public IGuiComponent getParent() {
@@ -34,6 +37,23 @@ public abstract class GuiComponent implements IGuiComponent {
     public List<IGuiComponent> getComponentsList() {
         return components;
     }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public <T> IGuiComponent setId(String id) {
+        assignId(id);
+        return this;
+    }
+    
+    protected final void assignId(String id){
+        if(findComponentById(id) != null) throw new IdAlreadyRegisteredException("Id " + id + " already occupied");
+        this.id = id;
+    }
+    
     
     
 

@@ -257,6 +257,12 @@ public class DropDown<T> extends GuiComponent {
         return getShape().getHeight();
     }
     
+    @Override
+    public DropDown<T> setId(String id) {
+        assignId(id);
+        return this;
+    }
+    
     public class DropDownElement<K> {
         
         private final int itemIndex;

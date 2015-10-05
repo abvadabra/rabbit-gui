@@ -8,8 +8,6 @@ import java.util.List;
  * @author RedEnergy
  */
 public interface IGuiComponent extends IGui {
-
-    
     
     @Override
     default void onDraw(int mouseX, int mouseY, float partialTicks) {
@@ -36,7 +34,7 @@ public interface IGuiComponent extends IGui {
         getComponentsList().forEach(com -> com.onClose());
     }
 
-    /**
+    /**x
      * Called on every screen resize. All components recommended to be
      * registered in this moment
      */
@@ -55,6 +53,28 @@ public interface IGuiComponent extends IGui {
      * @return registered components
      */
     List<IGuiComponent> getComponentsList();
+    
+    /**
+     * Returns registered component with the provided id
+     * @param id
+     * @return component with id
+     * 
+     */
+    default <T> IGuiComponent findComponentById(String id){
+        return getComponentsList().stream().filter(com -> id.equals(com.getId())).findFirst().orElseGet(null);
+    }
+    
+    /**
+     * Returns and id component, can be <code>null</code>
+     * @return
+     */
+    String getId();
+    
+    /**
+     * Sets this component id to provided
+     * @return self
+     */
+    <T> IGuiComponent setId(String id);
     
     /**
      * Called when component registered in pane

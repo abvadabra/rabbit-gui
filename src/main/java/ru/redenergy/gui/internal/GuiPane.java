@@ -13,7 +13,8 @@ public abstract class GuiPane extends GuiScreen implements IGuiComponent {
     private List<IGuiComponent> components = new ArrayList();
     private boolean hasBeenInitialized = false;
     private IGuiComponent parent;
-
+    private String id;
+    
     public void onInit(){}
     
     @Override
@@ -57,6 +58,17 @@ public abstract class GuiPane extends GuiScreen implements IGuiComponent {
     @Override
     public List<IGuiComponent> getComponentsList() {
         return components;
+    }
+    
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public <T> GuiPane setId(String id) {
+        this.id = id;
+        return this;
     }
 
     /** VANILLA CALLS */

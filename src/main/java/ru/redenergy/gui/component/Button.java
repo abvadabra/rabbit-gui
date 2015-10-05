@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
+import ru.redenergy.gui.api.IGuiComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 
@@ -140,6 +141,11 @@ public class Button extends GuiComponent {
         return this;
     }
     
+    public Button setText(String text){
+        this.text = text;
+        return this;
+    }
+    
     public String getText(){
         return text;
     }
@@ -151,6 +157,12 @@ public class Button extends GuiComponent {
     
     public Rectangle getRect(){
         return shape;
+    }
+    
+    @Override
+    public Button setId(String id) {
+        assignId(id);
+        return this;
     }
 
     @FunctionalInterface
