@@ -1,4 +1,4 @@
-package ru.redenergy.gui.component;
+package ru.redenergy.gui.component.control;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -6,6 +6,7 @@ import org.lwjgl.util.Rectangle;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ChatAllowedCharacters;
+import ru.redenergy.gui.component.GuiComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 import ru.redenergy.gui.utils.ControlCharacters;

@@ -8,8 +8,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.lwjgl.util.Rectangle;
 
 import net.minecraft.util.EnumChatFormatting;
-import ru.redenergy.gui.component.Button;
 import ru.redenergy.gui.component.GuiComponent;
+import ru.redenergy.gui.component.control.Button;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 

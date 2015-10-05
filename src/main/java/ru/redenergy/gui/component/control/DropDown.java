@@ -1,4 +1,4 @@
-package ru.redenergy.gui.component;
+package ru.redenergy.gui.component.control;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +15,7 @@ import org.lwjgl.util.Rectangle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import ru.redenergy.gui.component.GuiComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 
