@@ -5,6 +5,7 @@ import java.util.stream.IntStream;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
 
+import cpw.mods.fml.client.config.GuiUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -70,15 +71,7 @@ public class Button extends GuiComponent {
     }
 
     private void drawButton(int state) {
-        //top border
-        Renderer.drawTexturedModalRect(getRect().getX(), getRect().getY(), 0, 46 + (state * 20), getRect().getWidth() / 2, 2);
-        Renderer.drawTexturedModalRect(getRect().getX() + getRect().getWidth() / 2, getRect().getY(), 200 - getRect().getWidth() / 2, 46 + (state * 20), getRect().getWidth() / 2, 2);
-        //middle
-        IntStream.range(0, getRect().getHeight() - 5).forEach(idx -> Renderer.drawTexturedModalRect(getRect().getX(), getRect().getY() + 2 + (1 * idx), 0, 46 + (state * 20) + 2 + idx % 15, getRect().getWidth() / 2, 1));
-        IntStream.range(0, getRect().getHeight() - 5).forEach(idx -> Renderer.drawTexturedModalRect(getRect().getX() + getRect().getWidth() / 2, getRect().getY() + 2 + (1 * idx), 200 - getRect().getWidth() / 2, 46 + (state * 20) + 2 + idx % 15, getRect().getWidth() / 2, 1));
-        //bottom border
-        Renderer.drawTexturedModalRect(getRect().getX(), getRect().getY() + getRect().getHeight() - 3, 0, 46 + (state * 20) + 17, getRect().getWidth() / 2, 3);
-        Renderer.drawTexturedModalRect(getRect().getX() + getRect().getWidth() / 2, getRect().getY() + getRect().getHeight() - 3, 200 - getRect().getWidth() / 2, 46 + (state * 20) + 17, getRect().getWidth() / 2, 3);
+        Renderer.drawContinuousTexturedBox(getRect().getX(), getRect().getY(), 0, 46 + (20 * state), getRect().getWidth(), getRect().getHeight(), 200, 20, 2, 3, 2, 2); 
     }
 
     @Override

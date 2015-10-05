@@ -61,7 +61,7 @@ public interface IGuiComponent extends IGui {
      * 
      */
     default <T> IGuiComponent findComponentById(String id){
-        return getComponentsList().stream().filter(com -> id.equals(com.getId())).findFirst().orElseGet(null);
+        return getComponentsList().stream().filter(com -> id.equals(com.getId())).findFirst().orElse(null);
     }
     
     /**
