@@ -128,7 +128,6 @@ public class Renderer {
      * @param bottomBorder the size of the box's bottom border
      * @param leftBorder the size of the box's left border
      * @param rightBorder the size of the box's right border
-     * @param zLevel the zLevel to draw at
      */
     public static void drawContinuousTexturedBox(int x, int y, int u, int v, int width, int height, int textureWidth, int textureHeight,
             int topBorder, int bottomBorder, int leftBorder, int rightBorder){
@@ -136,7 +135,6 @@ public class Renderer {
         GL11.glEnable(GL11.GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        
         int fillerWidth = textureWidth - leftBorder - rightBorder;
         int fillerHeight = textureHeight - topBorder - bottomBorder;
         int canvasWidth = width - leftBorder - rightBorder;
@@ -145,7 +143,6 @@ public class Renderer {
         int remainderWidth = canvasWidth % fillerWidth;
         int yPasses = canvasHeight / fillerHeight;
         int remainderHeight = canvasHeight % fillerHeight;
-        
         // Draw Border
         // Top Left
         drawTexturedModalRect(x, y, u, v, leftBorder, topBorder);
@@ -156,21 +153,18 @@ public class Renderer {
         // Bottom Right
         drawTexturedModalRect(x + leftBorder + canvasWidth, y + topBorder + canvasHeight, u + leftBorder + fillerWidth, v + topBorder + fillerHeight, rightBorder, bottomBorder);
         
-        for (int i = 0; i < xPasses + (remainderWidth > 0 ? 1 : 0); i++)
-        {
+        for (int i = 0; i < xPasses + (remainderWidth > 0 ? 1 : 0); i++){
             // Top Border
             drawTexturedModalRect(x + leftBorder + (i * fillerWidth), y, u + leftBorder, v, (i == xPasses ? remainderWidth : fillerWidth), topBorder);
             // Bottom Border
             drawTexturedModalRect(x + leftBorder + (i * fillerWidth), y + topBorder + canvasHeight, u + leftBorder, v + topBorder + fillerHeight, (i == xPasses ? remainderWidth : fillerWidth), bottomBorder);
             
-            // Throw in some filler for good measure
             for (int j = 0; j < yPasses + (remainderHeight > 0 ? 1 : 0); j++)
                 drawTexturedModalRect(x + leftBorder + (i * fillerWidth), y + topBorder + (j * fillerHeight), u + leftBorder, v + topBorder, (i == xPasses ? remainderWidth : fillerWidth), (j == yPasses ? remainderHeight : fillerHeight));
         }
         
         // Side Borders
-        for (int j = 0; j < yPasses + (remainderHeight > 0 ? 1 : 0); j++)
-        {
+        for (int j = 0; j < yPasses + (remainderHeight > 0 ? 1 : 0); j++){
             // Left Border
             drawTexturedModalRect(x, y + topBorder + (j * fillerHeight), u, v + topBorder, leftBorder, (j == yPasses ? remainderHeight : fillerHeight));
             // Right Border

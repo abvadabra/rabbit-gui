@@ -14,8 +14,22 @@ public class TextRenderer {
      * @return X position of rendered string
      */
     public static int renderCenteredString(int xPos, int yPos, String text) {
-        return renderString(xPos - getFontRenderer().getStringWidth(text) / 2, yPos, text);
+        return renderCenteredString(xPos, yPos, text, 0xFFFFFF);
     }
+    
+    /**
+     * Renders string centered
+     * 
+     * @param xPos
+     * @param yPos
+     * @param text
+     * @param color
+     * @return X position of rendered string
+     */
+    public static int renderCenteredString(int xPos, int yPos, String text, int color) {
+        return renderString(xPos - getFontRenderer().getStringWidth(text) / 2, yPos, text, color);
+    }
+
 
     /**
      * See {@link #renderString(int, int, String, int, boolean)}

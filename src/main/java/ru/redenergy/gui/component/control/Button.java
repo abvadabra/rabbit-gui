@@ -62,7 +62,7 @@ public class Button extends GuiComponent {
         }
     }
     
-    private void prepareRender(){
+    protected void prepareRender(){
         Minecraft.getMinecraft().getTextureManager().bindTexture(getButtonTexture());
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glEnable(GL11.GL_BLEND);
@@ -70,7 +70,7 @@ public class Button extends GuiComponent {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    private void drawButton(int state) {
+    protected void drawButton(int state) {
         Renderer.drawContinuousTexturedBox(getRect().getX(), getRect().getY(), 0, 46 + (20 * state), getRect().getWidth(), getRect().getHeight(), 200, 20, 2, 3, 2, 2); 
     }
 
@@ -144,7 +144,7 @@ public class Button extends GuiComponent {
         return text;
     }
 
-    private void playClickSound() {
+    protected void playClickSound() {
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     }
     
