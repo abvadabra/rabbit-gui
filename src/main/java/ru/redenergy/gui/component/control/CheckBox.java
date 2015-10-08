@@ -39,6 +39,10 @@ public class CheckBox extends GuiComponent{
         if(getRect().getWidth() != WIDTH) getRect().setWidth(WIDTH);
         if(getRect().getHeight() != HEIGHT) getRect().setHeight(HEIGHT);
     }
+    
+    void b(ResourceLocation loc){
+        Minecraft.getMinecraft().getTextureManager().getTexture(loc);
+    }
 
     @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
