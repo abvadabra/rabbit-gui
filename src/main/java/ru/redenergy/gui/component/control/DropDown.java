@@ -15,11 +15,12 @@ import org.lwjgl.util.Rectangle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import ru.redenergy.gui.api.components.MultipleModel;
 import ru.redenergy.gui.component.GuiComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 
-public class DropDown<T> extends GuiComponent {
+public class DropDown<T> extends GuiComponent implements MultipleModel<T> {
 
     protected Map<String, DropDownElement<T>> content = new TreeMap<String , DropDownElement<T>>();
     
@@ -59,30 +60,28 @@ public class DropDown<T> extends GuiComponent {
         this.text = text;
     }
     
-    public DropDown<T> addItem(T value){
-        return this.addItem(String.valueOf(value), value);
+    @Override
+    public DropDown<T> add(T value){
+        return this.add(String.valueOf(value), value);
     }
     
-    public DropDown<T> addItem(String key, T value){
+    public DropDown<T> add(String key, T value){
         getContent().put(key, new DropDownElement<T>(getContent().size(), value, key));
         return this;
     }
-    
-    public DropDown<T> addItems(T ... values){
-        return addItems(Arrays.asList(values));
-    }
-    
-    public DropDown<T> addItems(Collection<? extends T> values){
-        values.forEach(this::addItem);
+
+    @Override
+    public DropDown<T> addAll(T ... values){
+        Arrays.stream(values).forEach(this::add);
         return this;
     }
-    
-    public DropDown<T> addItemAndSetDefault(T value){
+
+    public DropDown<T> addAndSetDefault(T value){
         return addItemAndSetDefault(String.valueOf(value), value);
     }
     
     public DropDown<T> addItemAndSetDefault(String name, T value){
-        addItem(name, value);
+        add(name, value);
         setDefaultItem(name);
         return this;
     }
@@ -91,6 +90,12 @@ public class DropDown<T> extends GuiComponent {
         if(getContent().containsKey(name)){
             this.selected = name;
         }
+    }
+    
+    @Override
+    public DropDown<T> remove(T object) {
+        this.content.remove(String.valueOf(object));
+        return this;
     }
     
     @Override
@@ -196,6 +201,7 @@ public class DropDown<T> extends GuiComponent {
         return this;
     }
 
+    @Override
     public Map<String, DropDownElement<T>> getContent(){
         return this.content;
     }
@@ -226,8 +232,9 @@ public class DropDown<T> extends GuiComponent {
         return shape;
     }
     
-    public void clear(){
+    public DropDown<T> clear(){
         getContent().clear();
+        return this;
     }
     
     public String getSelectedIdentifier(){
