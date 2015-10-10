@@ -1,4 +1,4 @@
-package ru.redenergy.gui.component.base;
+package ru.redenergy.gui.base;
 
 import org.lwjgl.input.Keyboard;
 

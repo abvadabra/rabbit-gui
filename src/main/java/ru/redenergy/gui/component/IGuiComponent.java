@@ -2,7 +2,7 @@ package ru.redenergy.gui.component;
 
 import java.util.List;
 
-import ru.redenergy.gui.component.base.ComponentContainer;
+import ru.redenergy.gui.base.ComponentContainer;
 
 /**
  * Represents components of the screen

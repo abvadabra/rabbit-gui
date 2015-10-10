@@ -3,8 +3,8 @@ package ru.redenergy.gui.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.redenergy.gui.api.exception.IdAlreadyRegisteredException;
-import ru.redenergy.gui.component.base.ComponentContainer;
+import ru.redenergy.gui.base.ComponentContainer;
+import ru.redenergy.gui.exception.IdAlreadyRegisteredException;
 
 public abstract class GuiComponent implements IGuiComponent, ComponentContainer {
 

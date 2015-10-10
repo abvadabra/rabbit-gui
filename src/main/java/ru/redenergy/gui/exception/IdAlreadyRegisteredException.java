@@ -1,4 +1,4 @@
-package ru.redenergy.gui.api.exception;
+package ru.redenergy.gui.exception;
 
 public class IdAlreadyRegisteredException extends RuntimeException {
 
