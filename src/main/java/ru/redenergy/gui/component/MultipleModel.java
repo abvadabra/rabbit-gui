@@ -1,4 +1,4 @@
-package ru.redenergy.gui.api.components;
+package ru.redenergy.gui.component;
 
 import java.util.Collections;
 import java.util.List;

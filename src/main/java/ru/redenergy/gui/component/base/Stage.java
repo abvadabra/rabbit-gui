@@ -4,10 +4,9 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import ru.redenergy.gui.api.IGuiComponent;
-import ru.redenergy.gui.api.IShow;
+import ru.redenergy.gui.component.IGuiComponent;
 
-public class Stage extends GuiScreen {
+public class Stage extends GuiScreen{
     
     protected IShow show;
     protected boolean hasBeenInitialized;
@@ -16,15 +15,16 @@ public class Stage extends GuiScreen {
     
     public Stage(IShow show){
         this.show = show;
+        this.show.setStage(this);
     }
     
     @Override
-    public final void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
+    public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
         show.onDraw(p_73863_1_, p_73863_2_, p_73863_3_);
     }
 
     @Override
-    protected final void keyTyped(char p_73869_1_, int p_73869_2_) {
+    protected void keyTyped(char p_73869_1_, int p_73869_2_) {
         show.onKeyTyped(p_73869_1_, p_73869_2_);
         if(p_73869_2_ == Keyboard.KEY_ESCAPE){
             Minecraft.getMinecraft().setIngameFocus();
@@ -32,34 +32,34 @@ public class Stage extends GuiScreen {
     }
 
     @Override
-    protected final void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_) {
+    protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_) {
         show.onMouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
     }
 
     @Override
     public final void initGui() {
         show.setSize(width, height);
-        show.getComponentsList().clear();
+        if(show instanceof ComponentContainer) ((ComponentContainer)show).getComponentsList().clear();
         if (!hasBeenInitialized) {
             show.onInit();
             hasBeenInitialized = true;
         }
         show.setup();
-        show.getComponentsList().forEach(component -> component.setup());
+        if(show instanceof ComponentContainer) ((ComponentContainer)show).getComponentsList().forEach(component -> component.setup());
     }
 
     @Override
-    public final void updateScreen() {
+    public void updateScreen() {
         show.onUpdate();
     }
 
     @Override
-    public final void onGuiClosed() {
+    public void onGuiClosed() {
         show.onClose();
     }
 
     @Override
-    public final boolean doesGuiPauseGame() {
+    public boolean doesGuiPauseGame() {
         return false;
     }
     

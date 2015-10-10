@@ -3,23 +3,43 @@ package ru.redenergy.gui.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.redenergy.gui.api.IGuiComponent;
 import ru.redenergy.gui.api.exception.IdAlreadyRegisteredException;
+import ru.redenergy.gui.component.base.ComponentContainer;
 
-public abstract class GuiComponent implements IGuiComponent {
+public abstract class GuiComponent implements IGuiComponent, ComponentContainer {
 
-    protected IGuiComponent parent;
+    protected ComponentContainer parent;
     protected List<IGuiComponent> components = new ArrayList<>();
     
     protected String id;
 
+    public void onDraw(int mouseX, int mouseY, float partialTicks) {
+        getComponentsList().forEach(com -> com.onDraw(mouseX, mouseY, partialTicks));
+    }
+
+    public void onKeyTyped(char typedChar, int typedIndex) {
+        getComponentsList().forEach(com -> com.onKeyTyped(typedChar, typedIndex));
+    }
+
+    public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
+        getComponentsList().forEach(com -> com.onMouseClicked(posX, posY, mouseButtonIndex));
+    }
+
+    public void onUpdate() {
+        getComponentsList().forEach(com -> com.onUpdate());        
+    }
+
+    public void onClose() {
+        getComponentsList().forEach(com -> com.onClose());
+    }
+    
     @Override
-    public IGuiComponent getParent() {
+    public ComponentContainer getParent() {
         return parent;
     }
 
     @Override
-    public void setParent(IGuiComponent pane) {
+    public void setParent(ComponentContainer pane) {
         this.parent = pane;
     }
     
@@ -53,8 +73,5 @@ public abstract class GuiComponent implements IGuiComponent {
         if(findComponentById(id) != null) throw new IdAlreadyRegisteredException("Id " + id + " already occupied");
         this.id = id;
     }
-    
-    
-    
 
 }

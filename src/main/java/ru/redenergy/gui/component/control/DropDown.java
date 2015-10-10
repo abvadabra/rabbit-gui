@@ -15,8 +15,8 @@ import org.lwjgl.util.Rectangle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import ru.redenergy.gui.api.components.MultipleModel;
 import ru.redenergy.gui.component.GuiComponent;
+import ru.redenergy.gui.component.MultipleModel;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 

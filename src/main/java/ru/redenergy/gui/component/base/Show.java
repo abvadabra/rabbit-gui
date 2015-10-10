@@ -3,15 +3,14 @@ package ru.redenergy.gui.component.base;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.redenergy.gui.api.IGuiComponent;
-import ru.redenergy.gui.api.IShow;
+import ru.redenergy.gui.component.IGuiComponent;
 
-public abstract class Show implements IShow{
+public abstract class Show implements IShow, ComponentContainer{
 
     private List<IGuiComponent> components = new ArrayList();
     protected String id;
     protected int width, height;
-    
+    protected Stage stage;
     
     @Override
     public void setSize(int width, int height){
@@ -48,14 +47,6 @@ public abstract class Show implements IShow{
         return this;
     }
 
-    @Deprecated
-    @Override
-    public IGuiComponent getParent() {return null;}
-
-    @Deprecated
-    @Override
-    public void setParent(IGuiComponent pane) {}
-
     @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
         getComponentsList().forEach(com -> com.onDraw(mouseX, mouseY, partialTicks));
@@ -80,5 +71,29 @@ public abstract class Show implements IShow{
     public void onClose() {
         getComponentsList().forEach(com -> com.onClose());
     }
+
+    @Override
+    public ComponentContainer getParent() {
+        return null;
+    }
+
+    @Override
+    public Stage getStage() {
+        return stage;
+    }
+
+    @Override
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+    
+    /*
+     * DO NOT CALL THIS METHOD. Use #setStage instead!
+     */
+    @Deprecated
+    @Override
+    public final void setParent(ComponentContainer c){}
+    
+    
 
 }

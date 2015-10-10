@@ -10,8 +10,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
-import ru.redenergy.gui.api.IGuiComponent;
 import ru.redenergy.gui.component.GuiComponent;
+import ru.redenergy.gui.component.IGuiComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 

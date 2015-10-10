@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ru.redenergy.gui.api.components.MultipleModel;
+import ru.redenergy.gui.component.MultipleModel;
 
 public class Row<T> implements MultipleModel<T>{
     
