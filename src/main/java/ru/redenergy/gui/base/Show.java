@@ -3,6 +3,10 @@ package ru.redenergy.gui.base;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.Display;
+
+import com.mysql.jdbc.StringUtils;
+
 import ru.redenergy.gui.component.IGuiComponent;
 
 public abstract class Show implements IShow, ComponentContainer{
@@ -11,6 +15,11 @@ public abstract class Show implements IShow, ComponentContainer{
     protected String id;
     protected int width, height;
     protected Stage stage;
+    protected String title;
+    
+    private void updateDisplayTitle(){
+        Display.setTitle("Minecraft 1.7.10" + " - " + title);
+    }
     
     @Override
     public void setSize(int width, int height){
@@ -19,7 +28,11 @@ public abstract class Show implements IShow, ComponentContainer{
     }
     
     @Override
-    public void onInit(){}
+    public void onInit(){
+        if(!StringUtils.isNullOrEmpty(title)){
+            updateDisplayTitle();
+        }
+    }
     
     @Override
     public void setup() {
@@ -70,6 +83,7 @@ public abstract class Show implements IShow, ComponentContainer{
     @Override
     public void onClose() {
         getComponentsList().forEach(com -> com.onClose());
+        Display.setTitle("Minecraft 1.7.10");
     }
 
     @Override
@@ -85,6 +99,17 @@ public abstract class Show implements IShow, ComponentContainer{
     @Override
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+    
+    @Override
+    public String getTitle(){
+        return title;
+    }
+    
+    @Override
+    public void setTitle(String title){
+        this.title = title;
+        updateDisplayTitle();
     }
     
     /*

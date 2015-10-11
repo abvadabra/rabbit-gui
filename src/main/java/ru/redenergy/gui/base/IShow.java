@@ -12,4 +12,8 @@ public interface IShow extends IGuiComponent{
     
     void setStage(Stage stage);
     
+    String getTitle();
+    
+    void setTitle(String title);
+    
 }
