@@ -5,8 +5,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.Display;
 
-import com.mysql.jdbc.StringUtils;
-
+import net.minecraft.util.StringUtils;
 import ru.redenergy.gui.component.IGuiComponent;
 
 public abstract class Show implements IShow, ComponentContainer{
