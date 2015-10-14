@@ -9,7 +9,7 @@ import ru.redenergy.gui.exception.IdAlreadyRegisteredException;
 public abstract class GuiComponent implements IGuiComponent, ComponentContainer {
 
     protected ComponentContainer parent;
-    protected List<IGuiComponent> components = new ArrayList<>();
+    protected List<IGuiComponent> components;
     
     protected String id;
 
@@ -45,16 +45,19 @@ public abstract class GuiComponent implements IGuiComponent, ComponentContainer 
     
     @Override
     public void setup() {
-        components.clear();
+        getComponentsList().clear();
     }
 
     @Override
     public void registerComponent(IGuiComponent component) {
-        this.components.add(component);
+        this.getComponentsList().add(component);
     }
 
     @Override
     public List<IGuiComponent> getComponentsList() {
+        if(components == null){
+            components = new ArrayList<>();
+        }
         return components;
     }
 
