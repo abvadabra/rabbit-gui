@@ -28,6 +28,7 @@ minecraft {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'lib')
+    compile 'net.objecthunter:exp4j:0.4.5'
 }
 
 compileJava {
