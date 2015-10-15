@@ -1,5 +1,7 @@
 package ru.redenergy.gui.layout;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -12,6 +14,8 @@ import ru.redenergy.gui.layout.argument.ILayoutArgument;
 import ru.redenergy.gui.layout.argument.LayoutArgument;
 import ru.redenergy.gui.layout.argument.LayoutCalculatableArgument;
 import ru.redenergy.gui.show.IShow;
+
+import sun.reflect.*;
 
 public class LayoutComponentWrapper {
     private Class type;
@@ -36,7 +40,8 @@ public class LayoutComponentWrapper {
     
     public IGuiComponent create(IShow show) throws Exception{
         IGuiComponent com;
-        com = (IGuiComponent) UnsafeAllocator.create().newInstance(type);
+        
+        com = instantiateType(type);
         for(ILayoutArgument arg : args){
             Object value = null;
             if(arg instanceof LayoutArgument){
@@ -48,5 +53,15 @@ public class LayoutComponentWrapper {
             FieldUtils.writeField(com, arg.fieldName(), value, true);
         }
         return com;
+    }
+    
+    private static IGuiComponent instantiateType(Class type){
+        try {
+            Constructor constr = type.getDeclaredConstructor();
+            return (IGuiComponent) constr.newInstance();
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Can't instantiate " + type.getName() + " with zero-arg constructor");
+        }
     }
 }
