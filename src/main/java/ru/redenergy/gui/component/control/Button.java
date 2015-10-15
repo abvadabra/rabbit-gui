@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 import ru.redenergy.gui.component.GuiComponent;
 import ru.redenergy.gui.component.IGuiComponent;
+import ru.redenergy.gui.layout.LayoutComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 
@@ -22,6 +23,7 @@ import ru.redenergy.gui.render.TextRenderer;
  * 
  * Use {@link #setClickListener(ButtonClickListener)} to define action on button pressed
  */
+@LayoutComponent({"id", "text", "shape", "isVisible", "isEnabled"})
 public class Button extends GuiComponent {
 
     protected static final int DISABLED_STATE = 0;
@@ -37,6 +39,9 @@ public class Button extends GuiComponent {
     protected boolean isEnabled = true;
 
     protected ButtonClickListener onClick;
+   
+    /**Dummy constructor. Used in layout*/
+    public Button(){};
     
     public Button(int xPos, int yPos, int width, int height, String title) {
         this(new Rectangle(xPos, yPos, width, height), title);
