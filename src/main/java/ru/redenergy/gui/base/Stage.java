@@ -4,7 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import ru.redenergy.gui.component.IGuiComponent;
+import ru.redenergy.gui.show.IShow;
 
 public class Stage extends GuiScreen{
     

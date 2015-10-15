@@ -1,4 +1,4 @@
-package ru.redenergy.gui.base;
+package ru.redenergy.gui.show;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +6,13 @@ import java.util.List;
 import org.lwjgl.opengl.Display;
 
 import net.minecraft.util.StringUtils;
+import ru.redenergy.gui.base.ComponentContainer;
+import ru.redenergy.gui.base.Stage;
 import ru.redenergy.gui.component.IGuiComponent;
 
 public abstract class Show implements IShow, ComponentContainer{
 
-    private List<IGuiComponent> components = new ArrayList();
+    protected List<IGuiComponent> components = new ArrayList();
     protected String id;
     protected int width, height;
     protected Stage stage;
@@ -111,6 +113,16 @@ public abstract class Show implements IShow, ComponentContainer{
         updateDisplayTitle();
     }
     
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
     /*
      * DO NOT CALL THIS METHOD. Use #setStage instead!
      */

@@ -1,5 +1,6 @@
-package ru.redenergy.gui.base;
+package ru.redenergy.gui.show;
 
+import ru.redenergy.gui.base.Stage;
 import ru.redenergy.gui.component.IGuiComponent;
 
 public interface IShow extends IGuiComponent{
@@ -15,5 +16,9 @@ public interface IShow extends IGuiComponent{
     String getTitle();
     
     void setTitle(String title);
+    
+    int getWidth();
+    
+    int getHeight();
     
 }
