@@ -33,22 +33,26 @@ public class Button extends GuiComponent {
     protected ResourceLocation buttonTexture = new ResourceLocation("textures/gui/widgets.png");
     
     protected String text;
-    protected Rectangle shape;
+//    protected Rectangle shape;
 
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
 
     protected ButtonClickListener onClick;
    
+    protected int xPos = 0;
+    protected int yPos = 0;
+    protected int width = 200;
+    protected int height = 20;
+    
     /**Dummy constructor. Used in layout*/
     public Button(){};
     
     public Button(int xPos, int yPos, int width, int height, String title) {
-        this(new Rectangle(xPos, yPos, width, height), title);
-    }
-    
-    public Button(Rectangle rect, String title){
-        this.shape = rect;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.width = width;
+        this.height = height;
         this.text = title;
     }
 
@@ -63,7 +67,7 @@ public class Button extends GuiComponent {
             } else {
                 drawButton(IDLE_STATE);
             }
-            TextRenderer.renderCenteredString(getRect().getX() + getRect().getWidth() / 2, getRect().getY() + getRect().getHeight() / 2 - 4, getText());
+            TextRenderer.renderCenteredString(getX() + getWidth() / 2, getY() + getHeight() / 2 - 4, getText());
         }
     }
     
@@ -76,7 +80,7 @@ public class Button extends GuiComponent {
     }
 
     protected void drawButton(int state) {
-        Renderer.drawContinuousTexturedBox(getRect().getX(), getRect().getY(), 0, 46 + (20 * state), getRect().getWidth(), getRect().getHeight(), 200, 20, 2, 3, 2, 2); 
+        Renderer.drawContinuousTexturedBox(getX(), getY(), 0, 46 + (20 * state), getWidth(), getHeight(), 200, 20, 2, 3, 2, 2); 
     }
 
     @Override
@@ -90,7 +94,7 @@ public class Button extends GuiComponent {
     }
 
     public boolean isButtonUnderMouse(int mouseX, int mouseY) {
-        return mouseX >= getRect().getX() && mouseX <= getRect().getX() + getRect().getWidth() && mouseY >= getRect().getY() && mouseY <= getRect().getY() + getRect().getHeight();
+        return mouseX >= getX() && mouseX <= getX() + getWidth() && mouseY >= getY() && mouseY <= getY() + getHeight();
     }
 
     /**
@@ -149,13 +153,24 @@ public class Button extends GuiComponent {
         return text;
     }
 
-    protected void playClickSound() {
-        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    public int getX(){
+        return xPos;
     }
     
+    public int getY(){
+        return yPos;
+    }
     
-    public Rectangle getRect(){
-        return shape;
+    public int getWidth(){
+        return width;
+    }
+    
+    public int getHeight(){
+        return height;
+    }
+    
+    protected void playClickSound() {
+        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     }
     
     @Override
