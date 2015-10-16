@@ -15,7 +15,14 @@ import ru.redenergy.gui.render.TextRenderer;
 
 public class Table extends GuiComponent {
 
-    protected Rectangle shape;
+    protected int xPos = 0;
+    
+    protected int yPos = 0;
+    
+    protected int width = 100;
+    
+    protected int height = 20;
+    
     protected List<Row> rows;
     
     protected boolean isVisible = true;
@@ -27,11 +34,10 @@ public class Table extends GuiComponent {
     protected boolean drawBackground = true;
     
     public Table(int xPos, int yPos, int width, int height, Row ... rows){
-        this(new Rectangle(xPos, yPos, width, height), rows);
-    }
-    
-    public Table(Rectangle shape, Row ... rows){
-        this.shape = shape;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.width = width;
+        this.height = height;
         this.rows = new ArrayList<Row>(Arrays.asList(rows));
     }
     
@@ -122,24 +128,20 @@ public class Table extends GuiComponent {
         return rows;
     }
 
-    public Rectangle getShape(){
-        return shape;
-    }
-    
     public int getX(){
-        return getShape().getX();
+        return xPos;
     }
     
     public int getY(){
-        return getShape().getY();
+        return yPos;
     }
 
     public int getWidth(){
-        return getShape().getWidth();
+        return width;
     }
 
     public int getHeight(){
-        return getShape().getHeight();
+        return height;
     }
 
     @Override

@@ -18,7 +18,13 @@ public class TextBox extends GuiComponent {
     public static final int BACKGROUND_DARK_COLOR = -0xFFFFFF-1;
     public static final int CURSOR_COLOR = -3092272;
     
-    protected Rectangle shape;
+    protected int xPos = 0;
+    
+    protected int yPos = 0;
+    
+    protected int width = 100;
+    
+    protected int height = 20;
     
     protected boolean visibleBackground = true;
     protected boolean isVisible = true;
@@ -43,15 +49,10 @@ public class TextBox extends GuiComponent {
     }
 
     public TextBox(int xPos, int yPos, int width, int height, String initialText) {
-        this(new Rectangle(xPos, yPos, width, height), initialText);
-    }
-    
-    public TextBox(Rectangle shape){
-        this(shape, "");
-    }
-    
-    public TextBox(Rectangle shape, String initialText){
-        this.shape = shape;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.width = width;
+        this.height = height;
         this.text = initialText;
         this.setCursorPosition(this.text.length());
         Keyboard.enableRepeatEvents(true);
@@ -67,11 +68,11 @@ public class TextBox extends GuiComponent {
             int cursorPosWithOffset = getCursorPosition() - this.scrollOffset;
             int selEnd = this.selectionEnd - this.scrollOffset;
             String text = TextRenderer.getFontRenderer().trimStringToWidth(this.text.substring(this.scrollOffset),
-                    isBackgroundVisible() ?  getShape().getWidth() - 8 : getShape().getWidth());
+                    isBackgroundVisible() ?   getWidth() - 8 :  getWidth());
             boolean isCursorVisible = cursorPosWithOffset >= 0 && cursorPosWithOffset <= text.length();
             boolean shouldRenderCursor = isFocused() && this.cursorCounter / 6 % 2 == 0 && isCursorVisible;
-            int firstTextX = isBackgroundVisible() ? getShape().getX() + 4 : getShape().getX();
-            int textY = isBackgroundVisible() ? getShape().getY() + (getShape().getHeight() - 8) / 2 : getShape().getY();
+            int firstTextX = isBackgroundVisible() ?  getX() + 4 :  getX();
+            int textY = isBackgroundVisible() ?  getY() + ( getHeight() - 8) / 2 :  getY();
             int secondTextX = firstTextX;
 
             if (selEnd > text.length())
@@ -87,7 +88,7 @@ public class TextBox extends GuiComponent {
             int cursorX = secondTextX;
 
             if (!isCursorVisible) {
-                cursorX = cursorPosWithOffset > 0 ? firstTextX + getShape().getWidth() : firstTextX;
+                cursorX = cursorPosWithOffset > 0 ? firstTextX +  getWidth() : firstTextX;
             } else if (isCursorInText) {
                 cursorX = --secondTextX;
             }
@@ -129,8 +130,8 @@ public class TextBox extends GuiComponent {
     }
 
     private void drawTextBoxBackground() {
-        Renderer.drawRect(getShape().getX() - 1, getShape().getY() - 1, getShape().getX() + getShape().getWidth() + 1, getShape().getY() + getShape().getHeight() + 1, BACKGROUND_GRAY_COLOR);
-        Renderer.drawRect(getShape().getX(), getShape().getY(), getShape().getX() + getShape().getWidth(), getShape().getY() + getShape().getHeight(), BACKGROUND_DARK_COLOR);
+        Renderer.drawRect( getX() - 1,  getY() - 1,  getX() +  getWidth() + 1,  getY() +  getHeight() + 1, BACKGROUND_GRAY_COLOR);
+        Renderer.drawRect( getX(),  getY(),  getX() +  getWidth(),  getY() +  getHeight(), BACKGROUND_DARK_COLOR);
     }
 
     public void pushText(String text) {
@@ -325,8 +326,8 @@ public class TextBox extends GuiComponent {
     public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
         setIsFocused(isTextBoxUnderMouse(posX, posY));
         if (isFocused() && mouseButtonIndex == 0) {
-            int lenght = posX - getShape().getX();
-            String temp = TextRenderer.getFontRenderer().trimStringToWidth(this.text.substring(this.scrollOffset), getShape().getWidth());
+            int lenght = posX -  getX();
+            String temp = TextRenderer.getFontRenderer().trimStringToWidth(this.text.substring(this.scrollOffset),  getWidth());
             this.setCursorPosition(TextRenderer.getFontRenderer().trimStringToWidth(temp, lenght).length() + this.scrollOffset);
         }
     }
@@ -338,7 +339,7 @@ public class TextBox extends GuiComponent {
     }
 
     public boolean isTextBoxUnderMouse(int mouseX, int mouseY) {
-        return mouseX >= getShape().getX() && mouseX <= getShape().getX() + getShape().getWidth() && mouseY >= getShape().getY() && mouseY <= getShape().getY() + getShape().getHeight();
+        return mouseX >=  getX() && mouseX <=  getX() +  getWidth() && mouseY >=  getY() && mouseY <=  getY() +  getHeight();
     }
 
     public TextBox setSelectionPos(int pos) {
@@ -353,11 +354,11 @@ public class TextBox extends GuiComponent {
         if (this.scrollOffset > this.getText().length())
             this.scrollOffset = this.getText().length();
 
-        String trimmed = TextRenderer.getFontRenderer().trimStringToWidth(this.getText().substring(this.scrollOffset), getShape().getWidth());
+        String trimmed = TextRenderer.getFontRenderer().trimStringToWidth(this.getText().substring(this.scrollOffset),  getWidth());
         int length = trimmed.length() + this.scrollOffset;
 
         if (pos == this.scrollOffset) {
-            this.scrollOffset -= TextRenderer.getFontRenderer().trimStringToWidth(this.getText(), getShape().getWidth(), true).length();
+            this.scrollOffset -= TextRenderer.getFontRenderer().trimStringToWidth(this.getText(),  getWidth(), true).length();
         }
 
         if (pos > length) {
@@ -467,8 +468,20 @@ public class TextBox extends GuiComponent {
         return this;
     }
 
-    public Rectangle getShape(){
-        return shape;
+    public int getX(){
+        return xPos;
+    }
+    
+    public int getY(){
+        return yPos;
+    }
+
+    public int getWidth(){
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
     }
     
     /**
