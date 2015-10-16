@@ -13,6 +13,9 @@ import ru.redenergy.gui.render.TextRenderer;
 
 public class CheckBox extends GuiComponent{
 
+    //width and height of checkbox are hardcoded and can't be changed
+    //if you need to change it use glScalef
+    
     protected static final int WIDTH = 11;
     protected static final int HEIGHT = 11;
 
@@ -20,24 +23,23 @@ public class CheckBox extends GuiComponent{
     
     protected boolean isChecked;
     protected String text;
-    protected Rectangle shape;
-
+    protected int xPos = 0;
+    protected int yPos = 0;
+    protected int width = WIDTH;
+    protected int height = HEIGHT;
+    
     protected boolean isVisible = true;
     protected boolean isEnabled = true;
     
     protected CheckBoxStatusChangedListener onStatusChangedListener;
     
     public CheckBox(int xPos, int yPos, String title, boolean checked) {
-        this(new Rectangle(xPos, yPos, WIDTH, HEIGHT), title, checked);
-    }
-    
-
-    public CheckBox(Rectangle rect, String title, boolean checked) {
-        this.shape = rect;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.width = WIDTH;
+        this.height = HEIGHT;
         this.text = title;
         this.isChecked = checked;
-        if(getRect().getWidth() != WIDTH) getRect().setWidth(WIDTH);
-        if(getRect().getHeight() != HEIGHT) getRect().setHeight(HEIGHT);
     }
     
     void b(ResourceLocation loc){
@@ -58,9 +60,9 @@ public class CheckBox extends GuiComponent{
                 color = 0xFFFFFF;
             }
             if(isChecked()){
-                TextRenderer.renderCenteredString(getRect().getX() + getRect().getWidth() / 2 + 1, getRect().getY() + 1, "x", color);
+                TextRenderer.renderCenteredString(getX() + getWidth() / 2 + 1, getY() + 1, "x", color);
             }
-            TextRenderer.renderString(getRect().getX() + getRect().getWidth() + 2, getRect().getY() + getRect().getHeight() / 2 - 3, getText());
+            TextRenderer.renderString(getX() + getWidth() + 2, getY() + getHeight() / 2 - 3, getText());
         }
     }
     
@@ -73,7 +75,7 @@ public class CheckBox extends GuiComponent{
     }
     
     protected void drawButton() {
-        Renderer.drawContinuousTexturedBox(getRect().getX(), getRect().getY(), 0, 46, getRect().getWidth(), getRect().getHeight(), 200, 20, 2, 3, 2, 2); 
+        Renderer.drawContinuousTexturedBox(getX(), getY(), 0, 46, getWidth(), getHeight(), 200, 20, 2, 3, 2, 2); 
     }
 
     @Override
@@ -105,7 +107,7 @@ public class CheckBox extends GuiComponent{
     }
     
     public boolean isButtonUnderMouse(int mouseX, int mouseY) {
-        return mouseX >= getRect().getX() && mouseX <= getRect().getX() + getRect().getWidth() && mouseY >= getRect().getY() && mouseY <= getRect().getY() + getRect().getHeight();
+        return mouseX >= getX() && mouseX <= getX() + getWidth() && mouseY >= getY() && mouseY <= getY() + getHeight();
     }
 
     /**
@@ -149,13 +151,25 @@ public class CheckBox extends GuiComponent{
     public String getText(){
         return text;
     }
-
-    protected void playClickSound() {
-        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    
+    public int getX(){
+        return xPos;
     }
     
-    public Rectangle getRect(){
-        return shape;
+    public int getY(){
+        return yPos;
+    }
+    
+    public int getWidth(){
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
+    }
+    
+    protected void playClickSound() {
+        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     }
     
     public CheckBoxStatusChangedListener getStatusChangedListener(){
