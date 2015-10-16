@@ -3,6 +3,7 @@ package ru.redenergy.gui.layout.parser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.List;
@@ -34,6 +35,7 @@ import ru.redenergy.gui.layout.argument.ILayoutArgument;
 import ru.redenergy.gui.layout.argument.LayoutArgument;
 import ru.redenergy.gui.layout.argument.LayoutCalculatableArgument;
 import ru.redenergy.gui.show.LayoutShow;
+import scala.actors.threadpool.Arrays;
 
 /**
  * Generates show from json file
@@ -144,8 +146,10 @@ public class JsonLayoutParser implements LayoutParser {
         LayoutComponent config = type.getAnnotation(LayoutComponent.class);
         Validate.notNull(config, "Provided type can't be accessed throught layout");
         Map<String, Class<?>> allowedFields = Maps.newHashMap();
-        for(String arg : config.value()){
-            allowedFields.put(arg, FieldUtils.getField(type, arg, true).getType());
+        for(Field field : FieldUtils.getAllFields(type)){
+            if(field.isAnnotationPresent(LayoutComponent.class)){
+                allowedFields.put(field.getName(), field.getType());
+            }
         }
         return allowedFields;
     }

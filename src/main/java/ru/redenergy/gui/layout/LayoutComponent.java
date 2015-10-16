@@ -6,13 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotated classes can be used in the gui layout
+ * Annotated type or field can be used in the gui layout
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface LayoutComponent {
-    /**
-     * Returns variable names which can be changed thought json layout
-     */
-    String[] value();
-}
+public @interface LayoutComponent {}

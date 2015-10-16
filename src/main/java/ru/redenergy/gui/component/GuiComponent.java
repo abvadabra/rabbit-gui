@@ -5,12 +5,14 @@ import java.util.List;
 
 import ru.redenergy.gui.base.ComponentContainer;
 import ru.redenergy.gui.exception.IdAlreadyRegisteredException;
+import ru.redenergy.gui.layout.LayoutComponent;
 
 public abstract class GuiComponent implements IGuiComponent, ComponentContainer {
 
     protected ComponentContainer parent;
     protected List<IGuiComponent> components;
     
+    @LayoutComponent
     protected String id;
 
     public void onDraw(int mouseX, int mouseY, float partialTicks) {

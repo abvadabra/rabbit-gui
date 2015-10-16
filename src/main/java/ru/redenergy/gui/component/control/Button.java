@@ -1,17 +1,12 @@
 package ru.redenergy.gui.component.control;
 
-import java.util.stream.IntStream;
-
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Rectangle;
 
-import cpw.mods.fml.client.config.GuiUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 import ru.redenergy.gui.component.GuiComponent;
-import ru.redenergy.gui.component.IGuiComponent;
 import ru.redenergy.gui.layout.LayoutComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
@@ -23,7 +18,7 @@ import ru.redenergy.gui.render.TextRenderer;
  * 
  * Use {@link #setClickListener(ButtonClickListener)} to define action on button pressed
  */
-@LayoutComponent({"id", "text", "xPos", "yPos", "width", "height", "isVisible", "isEnabled"})
+@LayoutComponent
 public class Button extends GuiComponent {
 
     protected static final int DISABLED_STATE = 0;
@@ -32,17 +27,27 @@ public class Button extends GuiComponent {
     
     protected ResourceLocation buttonTexture = new ResourceLocation("textures/gui/widgets.png");
     
+    @LayoutComponent
     protected String text;
-//    protected Rectangle shape;
 
+    @LayoutComponent
     protected boolean isVisible = true;
+    
+    @LayoutComponent
     protected boolean isEnabled = true;
 
     protected ButtonClickListener onClick;
    
+    @LayoutComponent
     protected int xPos = 0;
+    
+    @LayoutComponent
     protected int yPos = 0;
+    
+    @LayoutComponent
     protected int width = 200;
+    
+    @LayoutComponent
     protected int height = 20;
     
     /**Dummy constructor. Used in layout*/
