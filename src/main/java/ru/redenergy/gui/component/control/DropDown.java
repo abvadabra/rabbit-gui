@@ -17,21 +17,27 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import ru.redenergy.gui.component.GuiComponent;
 import ru.redenergy.gui.component.MultipleModel;
+import ru.redenergy.gui.layout.LayoutComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 
+@LayoutComponent
 public class DropDown<T> extends GuiComponent implements MultipleModel<T> {
 
     protected Map<String, DropDownElement<T>> content = new TreeMap<String , DropDownElement<T>>();
     
+    @LayoutComponent
     protected int xPos = 0;
     
+    @LayoutComponent
     protected int yPos = 0;
     
+    @LayoutComponent
     protected int width = 100;
     
     protected int height = 12;
     
+    @LayoutComponent
     protected String text;
     
     protected String selected;
@@ -40,8 +46,10 @@ public class DropDown<T> extends GuiComponent implements MultipleModel<T> {
     
     protected boolean isUnrolled = false;
     
+    @LayoutComponent
     protected boolean isVisible = true;
     
+    @LayoutComponent
     protected boolean isEnabled = true;
     
     protected ResourceLocation texture = new ResourceLocation("textures/gui/widgets.png");

@@ -8,9 +8,11 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 import ru.redenergy.gui.component.GuiComponent;
+import ru.redenergy.gui.layout.LayoutComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 
+@LayoutComponent
 public class CheckBox extends GuiComponent{
 
     //width and height of checkbox are hardcoded and can't be changed
@@ -21,14 +23,25 @@ public class CheckBox extends GuiComponent{
 
     protected ResourceLocation buttonTexture = new ResourceLocation("textures/gui/widgets.png");
     
+    @LayoutComponent
     protected boolean isChecked;
+    
+    @LayoutComponent
     protected String text;
+    
+    @LayoutComponent
     protected int xPos = 0;
+    
+    @LayoutComponent
     protected int yPos = 0;
+    
     protected int width = WIDTH;
     protected int height = HEIGHT;
-    
+
+    @LayoutComponent
     protected boolean isVisible = true;
+    
+    @LayoutComponent
     protected boolean isEnabled = true;
     
     protected CheckBoxStatusChangedListener onStatusChangedListener;

@@ -7,10 +7,12 @@ import org.lwjgl.util.Rectangle;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ChatAllowedCharacters;
 import ru.redenergy.gui.component.GuiComponent;
+import ru.redenergy.gui.layout.LayoutComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 import ru.redenergy.gui.utils.ControlCharacters;
 
+@LayoutComponent
 public class TextBox extends GuiComponent {
 
 
@@ -18,26 +20,43 @@ public class TextBox extends GuiComponent {
     public static final int BACKGROUND_DARK_COLOR = -0xFFFFFF-1;
     public static final int CURSOR_COLOR = -3092272;
     
+    @LayoutComponent
     protected int xPos = 0;
     
+    @LayoutComponent
     protected int yPos = 0;
     
+    @LayoutComponent
     protected int width = 100;
     
+    @LayoutComponent
     protected int height = 20;
     
+    @LayoutComponent
     protected boolean visibleBackground = true;
+    
+    @LayoutComponent
     protected boolean isVisible = true;
+    
+    @LayoutComponent
     protected boolean isEnabled = true;
+    
+    @LayoutComponent
     protected boolean isFocused = false;
     
+    @LayoutComponent
     protected String text;
     protected int cursorPos;
     protected int scrollOffset;
 
+    @LayoutComponent
     protected int maxStringLenght = 100;
     protected int selectionEnd = -1;
+    
+    @LayoutComponent
     protected int enabledColor = 14737632;
+    
+    @LayoutComponent
     protected int disabledColor = 7368816;
     
     protected long cursorCounter = 0L;
