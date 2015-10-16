@@ -24,7 +24,13 @@ public class DropDown<T> extends GuiComponent implements MultipleModel<T> {
 
     protected Map<String, DropDownElement<T>> content = new TreeMap<String , DropDownElement<T>>();
     
-    protected Rectangle shape;
+    protected int xPos = 0;
+    
+    protected int yPos = 0;
+    
+    protected int width = 100;
+    
+    protected int height = 12;
     
     protected String text;
     
@@ -47,18 +53,13 @@ public class DropDown<T> extends GuiComponent implements MultipleModel<T> {
     }
     
     public DropDown(int xPos, int yPos, int width, String text){
-        this(new Rectangle(xPos, yPos, width, 12), text);
-    }
-    
-    public DropDown(Rectangle shape){
-        this(shape, "");
-    }
-    
-    public DropDown(Rectangle shape, String text) {
-        this.shape = shape;
-        if(shape.getHeight() >= 12) shape.setHeight(12);
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.width = width;
+        this.height = 12;
         this.text = text;
     }
+    
     
     @Override
     public DropDown<T> add(T value){
@@ -228,10 +229,6 @@ public class DropDown<T> extends GuiComponent implements MultipleModel<T> {
         return this.content != null ? content.isEmpty() : true;
     }
     
-    public Rectangle getShape(){
-        return shape;
-    }
-    
     public DropDown<T> clear(){
         getContent().clear();
         return this;
@@ -250,19 +247,19 @@ public class DropDown<T> extends GuiComponent implements MultipleModel<T> {
     }
     
     public int getX(){
-        return getShape().getX();
+        return xPos;
     }
     
     public int getY(){
-        return getShape().getY();
+        return yPos;
     }
 
     public int getWidth(){
-        return getShape().getWidth();
+        return width;
     }
 
     public int getHeight(){
-        return getShape().getHeight();
+        return height;
     }
     
     @Override
