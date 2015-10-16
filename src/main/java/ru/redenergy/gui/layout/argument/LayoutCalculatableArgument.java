@@ -24,11 +24,11 @@ public class LayoutCalculatableArgument<T> implements ILayoutArgument {
         return fieldName;
     }
 
-    public double get(Pair<String, Double> ... args) {
+    public int get(Pair<String, Double> ... args) {
         for(Pair<String, Double> p : args){
             expression.setVariable(p.getKey(), p.getValue());
         }
-        return expression.evaluate();
+        return (int)expression.evaluate();
     }
 
     

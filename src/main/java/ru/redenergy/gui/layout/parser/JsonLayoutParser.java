@@ -29,6 +29,7 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 import ru.redenergy.gui.component.IGuiComponent;
 import ru.redenergy.gui.layout.LayoutComponent;
 import ru.redenergy.gui.layout.LayoutComponentWrapper;
+import ru.redenergy.gui.layout.LayoutFunctions;
 import ru.redenergy.gui.layout.argument.ILayoutArgument;
 import ru.redenergy.gui.layout.argument.LayoutArgument;
 import ru.redenergy.gui.layout.argument.LayoutCalculatableArgument;
@@ -125,7 +126,9 @@ public class JsonLayoutParser implements LayoutParser {
             try{
                 result = Integer.parseInt(element.getAsString());
             } catch(NumberFormatException ex){
-                result = new ExpressionBuilder(element.getAsString()).build();
+                result = new ExpressionBuilder(element.getAsString())
+                        .functions(LayoutFunctions.width, LayoutFunctions.height)
+                        .build();
             }
         } else if(type.isAssignableFrom(Boolean.TYPE)){
             result = element.getAsBoolean();

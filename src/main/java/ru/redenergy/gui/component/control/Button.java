@@ -23,7 +23,7 @@ import ru.redenergy.gui.render.TextRenderer;
  * 
  * Use {@link #setClickListener(ButtonClickListener)} to define action on button pressed
  */
-@LayoutComponent({"id", "text", "shape", "isVisible", "isEnabled"})
+@LayoutComponent({"id", "text", "xPos", "yPos", "width", "height", "isVisible", "isEnabled"})
 public class Button extends GuiComponent {
 
     protected static final int DISABLED_STATE = 0;

@@ -68,4 +68,8 @@ public class Stage extends GuiScreen{
         return this;
     }
     
+    public IShow getShow(){
+        return show;
+    }
+    
 }

@@ -32,7 +32,7 @@ public class LayoutShow extends Show {
                 registerComponent(com.create(this));
             } catch(Exception ex){
                 ex.printStackTrace();
-                throw new RuntimeException("Error while trying to create " + com.getClass().getName() + " component");
+                throw new RuntimeException("Error while trying to create " + com.getType().getName() + " component");
             }
         }
     }

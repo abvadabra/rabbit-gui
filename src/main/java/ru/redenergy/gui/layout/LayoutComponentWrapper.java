@@ -47,7 +47,7 @@ public class LayoutComponentWrapper {
             if(arg instanceof LayoutArgument){
                 value = ((LayoutArgument) arg).get();
             } else if(arg instanceof LayoutCalculatableArgument && show != null){
-                value = ((LayoutCalculatableArgument) arg).get(Pair.of("width", show.getWidth()), Pair.of("height", show.getHeight()));
+                value = ((LayoutCalculatableArgument) arg).get();
             }
             
             FieldUtils.writeField(com, arg.fieldName(), value, true);
