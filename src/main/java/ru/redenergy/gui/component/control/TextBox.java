@@ -51,6 +51,7 @@ public class TextBox extends GuiComponent {
 
     @LayoutComponent
     protected int maxStringLenght = 100;
+    
     protected int selectionEnd = -1;
     
     @LayoutComponent
