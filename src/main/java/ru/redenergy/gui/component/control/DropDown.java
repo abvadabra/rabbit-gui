@@ -56,6 +56,8 @@ public class DropDown<T> extends GuiComponent implements MultipleModel<T> {
     
     protected ItemSelectedListener<T> itemSelectedListener;
     
+    private DropDown(){}
+    
     public DropDown(int xPos, int yPos, int width){
         this(xPos, yPos, width, "");
     }

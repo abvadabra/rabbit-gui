@@ -46,6 +46,8 @@ public class CheckBox extends GuiComponent{
     
     protected CheckBoxStatusChangedListener onStatusChangedListener;
     
+    private CheckBox(){}
+    
     public CheckBox(int xPos, int yPos, String title, boolean checked) {
         this.xPos = xPos;
         this.yPos = yPos;

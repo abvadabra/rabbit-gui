@@ -51,7 +51,7 @@ public class Button extends GuiComponent {
     protected int height = 20;
     
     /**Dummy constructor. Used in layout*/
-    public Button(){};
+    private Button(){};
     
     public Button(int xPos, int yPos, int width, int height, String title) {
         this.xPos = xPos;

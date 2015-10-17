@@ -63,6 +63,8 @@ public class TextBox extends GuiComponent {
     
     protected TextChangedListener textChangedListener;
 
+    private TextBox(){}
+    
     public TextBox(int xPos, int yPos, int width, int height) {
         this(xPos, yPos, width, height, "");
     }

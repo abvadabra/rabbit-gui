@@ -58,6 +58,7 @@ public class LayoutComponentWrapper {
     private static IGuiComponent instantiateType(Class type){
         try {
             Constructor constr = type.getDeclaredConstructor();
+            if(constr != null) constr.setAccessible(true);
             return (IGuiComponent) constr.newInstance();
         } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
