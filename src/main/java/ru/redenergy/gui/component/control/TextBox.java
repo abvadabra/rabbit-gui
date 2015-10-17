@@ -7,13 +7,14 @@ import org.lwjgl.util.Rectangle;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ChatAllowedCharacters;
 import ru.redenergy.gui.component.GuiComponent;
+import ru.redenergy.gui.component.Shiftable;
 import ru.redenergy.gui.layout.LayoutComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 import ru.redenergy.gui.utils.ControlCharacters;
 
 @LayoutComponent
-public class TextBox extends GuiComponent {
+public class TextBox extends GuiComponent implements Shiftable {
 
 
     public static final int BACKGROUND_GRAY_COLOR = -6250336;
@@ -543,6 +544,16 @@ public class TextBox extends GuiComponent {
     @FunctionalInterface
     public static interface TextChangedListener {
         void onTextChanged(TextBox textbox, String previousText);
+    }
+
+    @Override
+    public void shiftX(int x) {
+        this.xPos = x;
+    }
+
+    @Override
+    public void shiftY(int y) {
+        this.yPos = y;
     }
 
 }

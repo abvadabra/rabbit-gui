@@ -8,12 +8,13 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 import ru.redenergy.gui.component.GuiComponent;
+import ru.redenergy.gui.component.Shiftable;
 import ru.redenergy.gui.layout.LayoutComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 
 @LayoutComponent
-public class CheckBox extends GuiComponent{
+public class CheckBox extends GuiComponent implements Shiftable{
 
     //width and height of checkbox are hardcoded and can't be changed
     //if you need to change it use glScalef
@@ -200,6 +201,16 @@ public class CheckBox extends GuiComponent{
     @FunctionalInterface
     public interface CheckBoxStatusChangedListener{
         void onStatusChanged(CheckBox box);
+    }
+
+    @Override
+    public void shiftX(int x) {
+        this.xPos = x;
+    }
+
+    @Override
+    public void shiftY(int y) {
+        this.yPos = y;
     }
     
 }

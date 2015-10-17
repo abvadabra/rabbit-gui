@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import ru.redenergy.gui.component.GuiComponent;
+import ru.redenergy.gui.component.Shiftable;
 import ru.redenergy.gui.layout.LayoutComponent;
 import ru.redenergy.gui.render.TextRenderer;
 
 @LayoutComponent
-public class TextLabel extends GuiComponent {
+public class TextLabel extends GuiComponent implements Shiftable {
 
     @LayoutComponent
     protected String text;
@@ -114,6 +115,16 @@ public class TextLabel extends GuiComponent {
     
     public boolean isMultilined(){
         return multiline;
+    }
+
+    @Override
+    public void shiftX(int x) {
+        this.xPos = x;
+    }
+
+    @Override
+    public void shiftY(int y) {
+        this.yPos = y;
     }
 }
 

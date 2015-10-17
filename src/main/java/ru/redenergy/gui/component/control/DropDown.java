@@ -17,12 +17,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import ru.redenergy.gui.component.GuiComponent;
 import ru.redenergy.gui.component.MultipleModel;
+import ru.redenergy.gui.component.Shiftable;
 import ru.redenergy.gui.layout.LayoutComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
 
 @LayoutComponent
-public class DropDown<T> extends GuiComponent implements MultipleModel<T> {
+public class DropDown<T> extends GuiComponent implements MultipleModel<T>, Shiftable {
 
     protected Map<String, DropDownElement<T>> content = new TreeMap<String , DropDownElement<T>>();
     
@@ -306,5 +307,15 @@ public class DropDown<T> extends GuiComponent implements MultipleModel<T> {
     @FunctionalInterface
     public interface ItemSelectedListener<T>{
         public void onItemSelected(DropDown<T> dropdown, String selected);
+    }
+
+    @Override
+    public void shiftX(int x) {
+        this.xPos = x;
+    }
+
+    @Override
+    public void shiftY(int y) {
+        this.yPos = y;
     }
 }

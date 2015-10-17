@@ -7,6 +7,7 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 import ru.redenergy.gui.component.GuiComponent;
+import ru.redenergy.gui.component.Shiftable;
 import ru.redenergy.gui.layout.LayoutComponent;
 import ru.redenergy.gui.render.Renderer;
 import ru.redenergy.gui.render.TextRenderer;
@@ -19,7 +20,7 @@ import ru.redenergy.gui.render.TextRenderer;
  * Use {@link #setClickListener(ButtonClickListener)} to define action on button pressed
  */
 @LayoutComponent
-public class Button extends GuiComponent {
+public class Button extends GuiComponent implements Shiftable {
 
     protected static final int DISABLED_STATE = 0;
     protected static final int IDLE_STATE = 1;
@@ -187,5 +188,15 @@ public class Button extends GuiComponent {
     @FunctionalInterface
     public static interface ButtonClickListener {
         void onClick(Button button);
+    }
+
+    @Override
+    public void shiftX(int x) {
+        this.xPos = x;
+    }
+
+    @Override
+    public void shiftY(int y) {
+        this.yPos = y;
     }
 }
