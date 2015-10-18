@@ -26,6 +26,7 @@ import ru.redenergy.gui.render.TextRenderer;
 public class DropDown<T> extends GuiComponent implements MultipleModel<T>, Shiftable {
 
     protected Map<String, DropDownElement<T>> content = new TreeMap<String , DropDownElement<T>>();
+    private Button dropButton;
     
     @LayoutComponent
     protected int xPos = 0;
@@ -112,7 +113,7 @@ public class DropDown<T> extends GuiComponent implements MultipleModel<T>, Shift
     
     @Override
     public void setup(){
-        registerComponent(new Button(getX() + getWidth() - 12, getY(), 12, 12, "\u25BC"));
+        registerComponent(dropButton = new Button(getX() + getWidth() - 12, getY(), 12, 12, "\u25BC"));
     }
     
     @Override
@@ -311,11 +312,13 @@ public class DropDown<T> extends GuiComponent implements MultipleModel<T>, Shift
     
     @Override
     public void shiftX(int x) {
-        this.xPos += x;
+        this.xPos += x;    
+        dropButton.shiftX(x);
     }
 
     @Override
     public void shiftY(int y) {
         this.yPos += y;
+        dropButton.shiftY(y);
     }
 }
