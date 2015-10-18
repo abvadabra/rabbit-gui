@@ -308,14 +308,14 @@ public class DropDown<T> extends GuiComponent implements MultipleModel<T>, Shift
     public interface ItemSelectedListener<T>{
         public void onItemSelected(DropDown<T> dropdown, String selected);
     }
-
+    
     @Override
     public void shiftX(int x) {
-        this.xPos = x;
+        this.xPos += x;
     }
 
     @Override
     public void shiftY(int y) {
-        this.yPos = y;
+        this.yPos += y;
     }
 }

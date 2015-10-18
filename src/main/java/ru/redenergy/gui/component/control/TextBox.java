@@ -548,12 +548,11 @@ public class TextBox extends GuiComponent implements Shiftable {
 
     @Override
     public void shiftX(int x) {
-        this.xPos = x;
+        this.xPos += x;
     }
 
     @Override
     public void shiftY(int y) {
-        this.yPos = y;
+        this.yPos += y;
     }
-
 }

@@ -1,5 +1,7 @@
 package ru.redenergy.gui.component.control;
 
+import java.util.HashMap;
+
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -192,11 +194,11 @@ public class Button extends GuiComponent implements Shiftable {
 
     @Override
     public void shiftX(int x) {
-        this.xPos = x;
+        this.xPos += x;
     }
 
     @Override
     public void shiftY(int y) {
-        this.yPos = y;
+        this.yPos += y;
     }
 }
