@@ -6,23 +6,32 @@ import java.util.List;
 import com.rabbit.gui.component.GuiComponent;
 import com.rabbit.gui.component.MultipleModel;
 import com.rabbit.gui.component.list.DisplayList.ListEntry;
+import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
 import com.rabbit.gui.utils.GeometryUtils;
 
-
+@LayoutComponent
 public class DisplayList extends GuiComponent implements MultipleModel<ListEntry>{
 
+    @LayoutComponent
     protected int xPos;
     
+    @LayoutComponent
     protected int yPos;
     
+    @LayoutComponent
     protected int width;
     
+    @LayoutComponent
     protected int height;
     
+    @LayoutComponent
     protected int slotHeight;
     
+    @LayoutComponent
     protected List<ListEntry> content;
+    
+    private DisplayList(){}
     
     public DisplayList(int xPos, int yPos, int width, int height, int slotHeight, List<ListEntry> content) {
         this.xPos = xPos;
