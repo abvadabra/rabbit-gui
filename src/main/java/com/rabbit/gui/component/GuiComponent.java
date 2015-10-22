@@ -36,6 +36,11 @@ public abstract class GuiComponent implements IGuiComponent, ComponentContainer 
     }
     
     @Override
+    public void onMouseInput() {
+        getComponentsList().forEach(com -> com.onMouseInput());
+    }
+
+    @Override
     public ComponentContainer getParent() {
         return parent;
     }

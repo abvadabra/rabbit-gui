@@ -81,6 +81,11 @@ public abstract class Show implements IShow, ComponentContainer{
     public void onUpdate() {
         getComponentsList().forEach(com -> com.onUpdate());
     }
+    
+    @Override
+    public void onMouseInput() {
+        getComponentsList().forEach(com -> com.onMouseInput());
+    }
 
     @Override
     public void onClose() {

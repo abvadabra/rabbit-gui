@@ -55,7 +55,7 @@ public class DisplayList extends GuiComponent implements MultipleModel<ListEntry
     }
 
     @Override
-    public MultipleModel<ListEntry> remove(ListEntry object) {
+    public DisplayList remove(ListEntry object) {
         this.content.remove(object);
         return this;
     }

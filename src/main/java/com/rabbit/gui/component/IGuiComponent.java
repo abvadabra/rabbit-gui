@@ -47,7 +47,12 @@ public interface IGuiComponent {
      */
     void onClose();
     
-    /**x
+    /**
+     * Called then mouse moved or scrolled
+     */
+    void onMouseInput();
+    
+    /**
      * Called on every screen resize. All components recommended to be
      * registered in this moment
      */

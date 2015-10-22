@@ -1,6 +1,6 @@
 package com.rabbit.gui.base;
 
-import java.util.List;
+import java.util.List; 
 
 import com.rabbit.gui.component.IGuiComponent;
 
