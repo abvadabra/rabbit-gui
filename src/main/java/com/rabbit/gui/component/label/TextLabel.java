@@ -3,13 +3,13 @@ package com.rabbit.gui.component.label;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import com.rabbit.gui.component.GuiComponent;
+import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.Shiftable;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.TextRenderer;
 
 @LayoutComponent
-public class TextLabel extends GuiComponent implements Shiftable {
+public class TextLabel extends GuiWidget implements Shiftable {
 
     @LayoutComponent
     protected String text;

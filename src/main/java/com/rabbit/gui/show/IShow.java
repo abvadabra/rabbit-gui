@@ -1,9 +1,9 @@
 package com.rabbit.gui.show;
 
 import com.rabbit.gui.base.Stage;
-import com.rabbit.gui.component.IGuiComponent;
+import com.rabbit.gui.component.IGuiWidget;
 
-public interface IShow extends IGuiComponent{
+public interface IShow extends IGuiWidget{
     
     void onInit();
  

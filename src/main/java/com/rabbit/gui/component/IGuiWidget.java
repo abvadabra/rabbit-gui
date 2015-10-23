@@ -2,14 +2,14 @@ package com.rabbit.gui.component;
 
 import java.util.List;
 
-import com.rabbit.gui.base.ComponentContainer;
+import com.rabbit.gui.base.WidgetContainer;
 
 /**
  * Represents components of the screen
  * 
  * @author RedEnergy
  */
-public interface IGuiComponent {
+public interface IGuiWidget {
     
     /**
      * Called on every render tick
@@ -63,7 +63,7 @@ public interface IGuiComponent {
      * 
      * @param component
      */
-    void registerComponent(IGuiComponent component);
+    void registerComponent(IGuiWidget component);
 
     /**
      * Returns and id component, can be <code>null</code>
@@ -75,12 +75,12 @@ public interface IGuiComponent {
      * Sets this component id to provided
      * @return self
      */
-    <T> IGuiComponent setId(String id);
+    <T> IGuiWidget setId(String id);
     
     /**
      * Called when component registered in pane
      */
-    default void onRegistered(ComponentContainer pane) {
+    default void onRegistered(WidgetContainer pane) {
         setParent(pane);
     }
 
@@ -89,7 +89,7 @@ public interface IGuiComponent {
      * 
      * @return parent pane - can be null if it hasn't been registered yet
      */
-    ComponentContainer getParent();
+    WidgetContainer getParent();
 
-    void setParent(ComponentContainer pane);
+    void setParent(WidgetContainer pane);
 }

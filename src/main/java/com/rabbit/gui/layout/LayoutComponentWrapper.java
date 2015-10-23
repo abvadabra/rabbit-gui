@@ -8,7 +8,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.gson.internal.UnsafeAllocator;
-import com.rabbit.gui.component.IGuiComponent;
+import com.rabbit.gui.component.IGuiWidget;
 import com.rabbit.gui.layout.argument.ILayoutArgument;
 import com.rabbit.gui.layout.argument.LayoutArgument;
 import com.rabbit.gui.layout.argument.LayoutCalculatableArgument;
@@ -33,12 +33,12 @@ public class LayoutComponentWrapper {
         return args;
     }
     
-    public IGuiComponent create() throws Exception{
+    public IGuiWidget create() throws Exception{
         return create(null);
     }
     
-    public IGuiComponent create(IShow show) throws Exception{
-        IGuiComponent com;
+    public IGuiWidget create(IShow show) throws Exception{
+        IGuiWidget com;
         
         com = instantiateType(type);
         for(ILayoutArgument arg : args){
@@ -54,11 +54,11 @@ public class LayoutComponentWrapper {
         return com;
     }
     
-    private static IGuiComponent instantiateType(Class type){
+    private static IGuiWidget instantiateType(Class type){
         try {
             Constructor constr = type.getDeclaredConstructor();
             if(constr != null) constr.setAccessible(true);
-            return (IGuiComponent) constr.newInstance();
+            return (IGuiWidget) constr.newInstance();
         } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             e.printStackTrace();
             throw new RuntimeException("Can't instantiate " + type.getName() + " with zero-arg constructor");

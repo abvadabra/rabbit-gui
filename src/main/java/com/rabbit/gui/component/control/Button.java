@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.lwjgl.opengl.GL11;
 
-import com.rabbit.gui.component.GuiComponent;
+import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.Shiftable;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
@@ -23,7 +23,7 @@ import net.minecraft.util.ResourceLocation;
  * Use {@link #setClickListener(ButtonClickListener)} to define action on button pressed
  */
 @LayoutComponent
-public class Button extends GuiComponent implements Shiftable {
+public class Button extends GuiWidget implements Shiftable {
 
     protected static final int DISABLED_STATE = 0;
     protected static final int IDLE_STATE = 1;

@@ -5,15 +5,15 @@ import java.util.List;
 
 import org.lwjgl.opengl.Display;
 
-import com.rabbit.gui.base.ComponentContainer;
+import com.rabbit.gui.base.WidgetContainer;
 import com.rabbit.gui.base.Stage;
-import com.rabbit.gui.component.IGuiComponent;
+import com.rabbit.gui.component.IGuiWidget;
 
 import net.minecraft.util.StringUtils;
 
-public abstract class Show implements IShow, ComponentContainer{
+public abstract class Show implements IShow, WidgetContainer{
 
-    protected List<IGuiComponent> components = new ArrayList();
+    protected List<IGuiWidget> components = new ArrayList();
     protected String id;
     protected int width, height;
     protected Stage stage;
@@ -42,12 +42,12 @@ public abstract class Show implements IShow, ComponentContainer{
     }
 
     @Override
-    public void registerComponent(IGuiComponent component) {
+    public void registerComponent(IGuiWidget component) {
         components.add(component);
     }
 
     @Override
-    public List<IGuiComponent> getComponentsList() {
+    public List<IGuiWidget> getComponentsList() {
         return components;
     }
 
@@ -57,7 +57,7 @@ public abstract class Show implements IShow, ComponentContainer{
     }
 
     @Override
-    public <T> IGuiComponent setId(String id) {
+    public <T> IGuiWidget setId(String id) {
         this.id = id;
         return this;
     }
@@ -94,7 +94,7 @@ public abstract class Show implements IShow, ComponentContainer{
     }
 
     @Override
-    public ComponentContainer getParent() {
+    public WidgetContainer getParent() {
         return null;
     }
 
@@ -134,7 +134,7 @@ public abstract class Show implements IShow, ComponentContainer{
      */
     @Deprecated
     @Override
-    public final void setParent(ComponentContainer c){}
+    public final void setParent(WidgetContainer c){}
     
     
 

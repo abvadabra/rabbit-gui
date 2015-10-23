@@ -24,7 +24,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.rabbit.gui.component.IGuiComponent;
+import com.rabbit.gui.component.IGuiWidget;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.layout.LayoutComponentWrapper;
 import com.rabbit.gui.layout.LayoutFunctions;
@@ -84,7 +84,7 @@ public class JsonLayoutParser implements LayoutParser {
     private LayoutComponentWrapper wrap(JsonObject component){
         try{
             Map<String, JsonElement> layoutFields = component.entrySet().stream().collect(Collectors.toMap(Entry::getKey, Entry::getValue));
-            Class<? extends IGuiComponent> componentType = (Class<? extends IGuiComponent>) Class.forName(layoutFields.remove("type").getAsString());
+            Class<? extends IGuiWidget> componentType = (Class<? extends IGuiWidget>) Class.forName(layoutFields.remove("type").getAsString());
             Map<String, Class<?>> allowedFields = getAllowedFields(componentType);
             List<ILayoutArgument> layoutArgument = getArguments(layoutFields, allowedFields);
             return new LayoutComponentWrapper(componentType, new HashSet(layoutArgument));
@@ -142,7 +142,7 @@ public class JsonLayoutParser implements LayoutParser {
         return new Gson().fromJson(element, type);
     }
     
-    private Map<String, Class<?>> getAllowedFields(Class<?extends IGuiComponent> type){
+    private Map<String, Class<?>> getAllowedFields(Class<?extends IGuiWidget> type){
         LayoutComponent config = type.getAnnotation(LayoutComponent.class);
         Validate.notNull(config, "Provided type can't be accessed throught layout");
         Map<String, Class<?>> allowedFields = Maps.newHashMap();

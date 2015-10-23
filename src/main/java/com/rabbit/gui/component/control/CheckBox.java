@@ -3,7 +3,7 @@ package com.rabbit.gui.component.control;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
 
-import com.rabbit.gui.component.GuiComponent;
+import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.Shiftable;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 
 @LayoutComponent
-public class CheckBox extends GuiComponent implements Shiftable{
+public class CheckBox extends GuiWidget implements Shiftable{
 
     //width and height of checkbox are hardcoded and can't be changed
     //if you need to change it use glScalef

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.rabbit.gui.component.MultipleModel;
+import com.rabbit.gui.component.WidgetContainer;
 
-public class Row<T> implements MultipleModel<T>{
+public class Row<T> implements WidgetContainer<T>{
     
     protected final String name;
     protected final List<T> content;

@@ -7,14 +7,14 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.lwjgl.util.Rectangle;
 
-import com.rabbit.gui.component.GuiComponent;
+import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.control.Button;
 import com.rabbit.gui.render.Renderer;
 import com.rabbit.gui.render.TextRenderer;
 
 import net.minecraft.util.EnumChatFormatting;
 
-public class Table extends GuiComponent {
+public class Table extends GuiWidget {
 
     protected int xPos = 0;
     

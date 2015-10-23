@@ -40,13 +40,13 @@ public class Stage extends GuiScreen{
     @Override
     public final void initGui() {
         show.setSize(width, height);
-        if(show instanceof ComponentContainer) ((ComponentContainer)show).getComponentsList().clear();
+        if(show instanceof WidgetContainer) ((WidgetContainer)show).getComponentsList().clear();
         if (!hasBeenInitialized) {
             show.onInit();
             hasBeenInitialized = true;
         }
         show.setup();
-        if(show instanceof ComponentContainer) ((ComponentContainer)show).getComponentsList().forEach(component -> component.setup());
+        if(show instanceof WidgetContainer) ((WidgetContainer)show).getComponentsList().forEach(component -> component.setup());
     }
 
     @Override

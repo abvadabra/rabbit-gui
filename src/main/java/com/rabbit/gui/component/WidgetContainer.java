@@ -9,15 +9,15 @@ import java.util.List;
  *
  * @param <T> - type of contained objects
  */
-public interface MultipleModel<T> {
+public interface WidgetContainer<T> {
     
-    public MultipleModel<T> add(T object);
+    public WidgetContainer<T> add(T object);
     
-    public MultipleModel<T> addAll(T ... objects);
+    public WidgetContainer<T> addAll(T ... objects);
     
-    public MultipleModel<T> remove(T object);
+    public WidgetContainer<T> remove(T object);
     
-    public MultipleModel<T> clear();
+    public WidgetContainer<T> clear();
     
     public Object getContent();
 }

@@ -13,8 +13,8 @@ import javax.xml.soap.Text;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
 
-import com.rabbit.gui.component.GuiComponent;
-import com.rabbit.gui.component.MultipleModel;
+import com.rabbit.gui.component.GuiWidget;
+import com.rabbit.gui.component.WidgetContainer;
 import com.rabbit.gui.component.Shiftable;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
@@ -24,7 +24,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 @LayoutComponent
-public class DropDown<T> extends GuiComponent implements MultipleModel<T>, Shiftable {
+public class DropDown<T> extends GuiWidget implements WidgetContainer<T>, Shiftable {
 
     protected Map<String, DropDownElement<T>> content = new TreeMap<String , DropDownElement<T>>();
     private Button dropButton;

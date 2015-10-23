@@ -4,7 +4,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Rectangle;
 
-import com.rabbit.gui.component.GuiComponent;
+import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.Shiftable;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
@@ -15,7 +15,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ChatAllowedCharacters;
 
 @LayoutComponent
-public class TextBox extends GuiComponent implements Shiftable {
+public class TextBox extends GuiWidget implements Shiftable {
 
 
     public static final int BACKGROUND_GRAY_COLOR = -6250336;
