@@ -1,10 +1,14 @@
 package com.rabbit.gui.component.control;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.render.Renderer;
 import com.rabbit.gui.utils.GeometryUtils;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 
 
 public class ScrollBar extends GuiWidget {
@@ -37,14 +41,15 @@ public class ScrollBar extends GuiWidget {
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
         super.onDraw(mouseX, mouseY, partialTicks);
         calculateScroller(mouseY);
-        Renderer.drawRect(this.xPos - 2, this.yPos - 2, this.xPos + this.width + 2, this.yPos + this.height + 2, -0xFFFFFF);
-        Renderer.drawRect(this.xPos, this.yPos, this.xPos + this.width, this.yPos + this.height, Integer.MAX_VALUE);
-        Renderer.drawRect(this.xPos + 2, this.yPos + 4, this.xPos + this.width - 2, this.yPos + this.height - 4, -0x8B8B8B - 1);
-        drawScroller(this.xPos + 3, (int)(this.yPos + 5 + this.scrolled * (this.height - 20)), 10, 10);
+        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/gui/container/creative_inventory/tab_items.png"));
+        Renderer.drawContinuousTexturedBox(xPos, yPos, 174 - 1, 17 - 1, width, height, 14 + 2, 112 + 2, 2, 2, 2, 2);
+        int scrollerHeight = (int)(this.yPos + 2 + this.scrolled * (this.height - 4 - this.scrollerSize));
+        drawScroller(this.xPos + 2, scrollerHeight, this.width - 4, this.scrollerSize);
     }
     
     private void drawScroller(int xPos, int yPos, int width, int height){
-        Renderer.drawRect(xPos, yPos, xPos + width, yPos + height, -0xF1FA21F);
+        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/gui/container/creative_inventory/tabs.png"));
+        Renderer.drawContinuousTexturedBox(xPos, yPos, isScrolling() ? 244 : 232, 0, width, height, 12, 15, 1, 2, 2, 2);
     }
     
     /**
@@ -54,7 +59,8 @@ public class ScrollBar extends GuiWidget {
      */
     private void calculateScroller(int mouseY){
         if(isScrolling) {
-            float magic = ((float)(mouseY - this.yPos) - 7.5F) / ((float)(this.height) - 15.0F);
+            float magic = ((float)(mouseY - this.yPos + 2) - 10F) / ((float)(this.yPos + this.height - (this.yPos + 2)) - 15.0F);
+            System.out.println(magic);
             setProgressWithNotify(magic);
         }
     }
@@ -62,7 +68,7 @@ public class ScrollBar extends GuiWidget {
     @Override
     public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
         super.onMouseClicked(posX, posY, mouseButtonIndex);
-        this.isScrolling = GeometryUtils.isDotInArea(this.xPos + 2, (int)(this.yPos + 5 + this.scrolled * (this.height - 20)), 10, 10, posX, posY);
+        this.isScrolling = GeometryUtils.isDotInArea(this.xPos + 2, (int)(this.yPos + 2 + this.scrolled * (this.height - this.scrollerSize)), this.width - 4, this.scrollerSize, posX, posY);
     }
     
     @Override
