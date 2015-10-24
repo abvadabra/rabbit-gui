@@ -37,6 +37,15 @@ public interface IGuiWidget {
      */
     void onMouseClicked(int posX, int posY, int mouseButtonIndex);
 
+    
+    /**
+     * Called when mouse is released
+     * 
+     * @param mouseX
+     * @param mouseY
+     */
+    void onMouseRelease(int mouseX, int mouseY);
+
     /**
      * Called every update tick (usually 20 times in second)
      */

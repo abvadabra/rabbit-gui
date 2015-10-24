@@ -33,8 +33,22 @@ public class Stage extends GuiScreen{
     }
 
     @Override
-    protected void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_) {
+    public void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_) {
         show.onMouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
+    }
+    
+    @Override
+    public void handleMouseInput(){
+        super.handleMouseInput();
+        show.onMouseInput();
+    }
+
+    @Override
+    protected void mouseMovedOrUp(int mouseX, int mouseY, int type) {
+        super.mouseMovedOrUp(mouseX, mouseY, type);
+        if(type == 0 || type == 1){
+            show.onMouseRelease(mouseX, mouseY);
+        }
     }
 
     @Override

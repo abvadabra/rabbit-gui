@@ -78,6 +78,11 @@ public abstract class Show implements IShow, WidgetContainer{
     }
 
     @Override
+    public void onMouseRelease(int mouseX, int mouseY) {
+        getComponentsList().forEach(com -> com.onMouseRelease(mouseX, mouseY));
+    }
+
+    @Override
     public void onUpdate() {
         getComponentsList().forEach(com -> com.onUpdate());
     }

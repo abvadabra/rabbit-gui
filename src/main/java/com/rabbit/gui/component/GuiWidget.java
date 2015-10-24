@@ -52,6 +52,10 @@ public abstract class GuiWidget implements IGuiWidget, WidgetContainer {
         getComponentsList().forEach(com -> com.onMouseClicked(posX, posY, mouseButtonIndex));
     }
 
+    public void onMouseRelease(int mouseX, int mouseY) {
+        getComponentsList().forEach(com -> com.onMouseRelease(mouseX, mouseY));
+    }
+    
     /**
      * Called every update tick (usually 20 times in second)
      */
