@@ -4,11 +4,15 @@ import java.util.List;
 
 import com.rabbit.gui.component.control.ScrollBar;
 import com.rabbit.gui.component.list.DisplayList.ListEntry;
+import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.utils.GeometryUtils;
 
+@LayoutComponent
 public class ScrollableDisplayList extends DisplayList {
 
     protected ScrollBar scrollBar;
+    
+    private ScrollableDisplayList(){super();}
     
     public ScrollableDisplayList(int xPos, int yPos, int width, int height, int slotHeight, List<ListEntry> content) {
         super(xPos, yPos, width, height, slotHeight, content);

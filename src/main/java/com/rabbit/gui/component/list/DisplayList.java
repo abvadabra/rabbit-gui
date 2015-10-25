@@ -31,7 +31,7 @@ public class DisplayList extends GuiWidget implements WidgetContainer<ListEntry>
     @LayoutComponent
     protected List<ListEntry> content;
     
-    private DisplayList(){}
+    protected DisplayList(){}
     
     public DisplayList(int xPos, int yPos, int width, int height, int slotHeight, List<ListEntry> content) {
         this.xPos = xPos;
