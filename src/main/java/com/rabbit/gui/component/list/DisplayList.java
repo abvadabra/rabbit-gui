@@ -73,9 +73,17 @@ public class DisplayList extends GuiWidget implements WidgetContainer<ListEntry>
     
     @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
+        drawListBackground();
+        drawListContent(mouseX, mouseY);
         super.onDraw(mouseX, mouseY, partialTicks);
+    }
+    
+    protected void drawListBackground(){
         Renderer.drawRect(this.xPos - 1, this.yPos - 1, this.xPos + this.width + 1, this.yPos + this.height + 1, -6250336);
         Renderer.drawRect(this.xPos, this.yPos, this.xPos + this.width, this.yPos + this.height, -0xFFFFFF-1);
+    }
+    
+    protected void drawListContent(int mouseX, int mouseY){
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
             int slotPosX = this.xPos;
@@ -91,16 +99,20 @@ public class DisplayList extends GuiWidget implements WidgetContainer<ListEntry>
         super.onMouseClicked(posX, posY, mouseButtonIndex);
         boolean clickedOnList = GeometryUtils.isDotInArea(this.xPos, this.yPos, this.width, this.height, posX, posY);
         if(clickedOnList){
-            for(int i = 0; i < content.size(); i++){
-                ListEntry entry = content.get(i);
-                int slotPosX = this.xPos;
-                int slotPosY = this.yPos + i * slotHeight;
-                int slotWidth = this.width;
-                int slotHeight = this.slotHeight;
-                boolean clickedOnEntry = GeometryUtils.isDotInArea(slotPosX, slotPosY, slotWidth, slotHeight, posX, posY);
-                if(clickedOnEntry) entry.onClick(this, posX, posY);
-            }
+            handleMouseClickList(posX, posY);
         }
+    }
+    
+    protected void handleMouseClickList(int mouseX, int mouseY){
+        for(int i = 0; i < content.size(); i++){
+            ListEntry entry = content.get(i);
+            int slotPosX = this.xPos;
+            int slotPosY = this.yPos + i * slotHeight;
+            int slotWidth = this.width;
+            int slotHeight = this.slotHeight;
+            boolean clickedOnEntry = GeometryUtils.isDotInArea(slotPosX, slotPosY, slotWidth, slotHeight, mouseX, mouseY);
+            if(clickedOnEntry) entry.onClick(this, mouseX, mouseY);
+        } 
     }
 
     @Override
