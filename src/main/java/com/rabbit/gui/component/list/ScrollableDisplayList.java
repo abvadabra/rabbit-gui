@@ -32,7 +32,10 @@ public class ScrollableDisplayList extends DisplayList {
     @Override
     public void setup() {
         super.setup();
-        scrollBar = new ScrollBar(this.xPos + this.width - 10, this.yPos, 10, this.height, 30);
+        int scrollerSize = this.height / this.content.size();
+        if(scrollerSize < 10) scrollerSize = 10;
+        if(this.content.size() < this.height / this.slotHeight) scrollerSize = this.height - 4;
+        scrollBar = new ScrollBar(this.xPos + this.width - 10, this.yPos, 10, this.height, scrollerSize);
         registerComponent(scrollBar);
     }
     
@@ -41,8 +44,8 @@ public class ScrollableDisplayList extends DisplayList {
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
             int slotPosX = this.xPos;
-            int slotPosY = ((this.yPos + i * slotHeight) - (int)(this.slotHeight * scrollBar.getProgress() * 10));
-            int slotWidth = this.width;
+            int slotPosY = ((this.yPos + i * slotHeight) - (int)((this.slotHeight * scrollBar.getProgress() * this.content.size()) * 0.925F));
+            int slotWidth = this.width; 
             int slotHeight = this.slotHeight;
             if(slotPosY + slotHeight <= this.yPos + this.height && slotPosY >= this.yPos){
                 entry.onDraw(this, slotPosX, slotPosY, slotWidth, slotHeight, mouseX, mouseY);
