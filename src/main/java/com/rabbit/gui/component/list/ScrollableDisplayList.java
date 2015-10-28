@@ -58,7 +58,7 @@ public class ScrollableDisplayList extends DisplayList {
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
             int slotPosX = this.xPos;
-            int slotPosY = ((this.yPos + i * slotHeight) - (int)(this.slotHeight * scrollBar.getProgress() * 10));
+            int slotPosY = ((this.yPos + i * slotHeight) - (int)((this.slotHeight * scrollBar.getProgress() * this.content.size()) * 0.925F));
             int slotWidth = this.width;
             int slotHeight = this.slotHeight;
             if(slotPosY + slotHeight <= this.yPos + this.height && slotPosY >= this.yPos){
