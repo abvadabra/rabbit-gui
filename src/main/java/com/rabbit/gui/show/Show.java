@@ -7,13 +7,13 @@ import org.lwjgl.opengl.Display;
 
 import com.rabbit.gui.base.WidgetContainer;
 import com.rabbit.gui.base.Stage;
-import com.rabbit.gui.component.IGuiWidget;
+import com.rabbit.gui.component.IGui;
 
 import net.minecraft.util.StringUtils;
 
 public abstract class Show implements IShow, WidgetContainer{
 
-    protected List<IGuiWidget> components = new ArrayList();
+    protected List<IGui> components = new ArrayList();
     protected String id;
     protected int width, height;
     protected Stage stage;
@@ -42,12 +42,12 @@ public abstract class Show implements IShow, WidgetContainer{
     }
 
     @Override
-    public void registerComponent(IGuiWidget component) {
+    public void registerComponent(IGui component) {
         components.add(component);
     }
 
     @Override
-    public List<IGuiWidget> getComponentsList() {
+    public List<IGui> getComponentsList() {
         return components;
     }
 
@@ -57,7 +57,7 @@ public abstract class Show implements IShow, WidgetContainer{
     }
 
     @Override
-    public <T> IGuiWidget setId(String id) {
+    public <T> IGui setId(String id) {
         this.id = id;
         return this;
     }

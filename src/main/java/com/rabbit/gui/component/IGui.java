@@ -9,7 +9,7 @@ import com.rabbit.gui.base.WidgetContainer;
  * 
  * @author RedEnergy
  */
-public interface IGuiWidget {
+public interface IGui {
     
     /**
      * Called on every render tick
@@ -72,7 +72,7 @@ public interface IGuiWidget {
      * 
      * @param component
      */
-    void registerComponent(IGuiWidget component);
+    void registerComponent(IGui component);
 
     /**
      * Returns and id component, can be <code>null</code>
@@ -84,7 +84,7 @@ public interface IGuiWidget {
      * Sets this component id to provided
      * @return self
      */
-    <T> IGuiWidget setId(String id);
+    <T> IGui setId(String id);
     
     /**
      * Called when component registered in pane

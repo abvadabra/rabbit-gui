@@ -12,10 +12,10 @@ import com.rabbit.gui.layout.LayoutComponent;
  * 
  * @author RedEnergy
  */
-public abstract class GuiWidget implements IGuiWidget, WidgetContainer {
+public abstract class GuiWidget implements IGui, WidgetContainer {
 
     protected WidgetContainer parent;
-    protected List<IGuiWidget> components;
+    protected List<IGui> components;
     
     @LayoutComponent
     protected String id;
@@ -108,7 +108,7 @@ public abstract class GuiWidget implements IGuiWidget, WidgetContainer {
      * @param component
      */
     @Override
-    public void registerComponent(IGuiWidget component) {
+    public void registerComponent(IGui component) {
         this.getComponentsList().add(component);
     }
 
@@ -122,7 +122,7 @@ public abstract class GuiWidget implements IGuiWidget, WidgetContainer {
 
     
     @Override
-    public List<IGuiWidget> getComponentsList() {
+    public List<IGui> getComponentsList() {
         if(components == null){
             components = new ArrayList<>();
         }
@@ -143,7 +143,7 @@ public abstract class GuiWidget implements IGuiWidget, WidgetContainer {
      * @return self
      */
     @Override
-    public <T> IGuiWidget setId(String id) {
+    public <T> IGui setId(String id) {
         assignId(id);
         return this;
     }
