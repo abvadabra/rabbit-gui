@@ -27,6 +27,8 @@ public class ScrollBar extends GuiWidget {
     
     protected boolean isScrolling = false;
     
+    protected boolean visible = true;
+    
     protected OnProgressChanged progressChangedListener = (bar) -> {};
     
     public ScrollBar(int xPos, int yPos, int width, int height, int scrollerSize){
@@ -40,11 +42,13 @@ public class ScrollBar extends GuiWidget {
     @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
         super.onDraw(mouseX, mouseY, partialTicks);
-        calculateScroller(mouseY);
-        Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/gui/container/creative_inventory/tab_items.png"));
-        Renderer.drawContinuousTexturedBox(xPos, yPos, 174 - 1, 17 - 1, width, height, 14 + 2, 112 + 2, 2, 2, 2, 2);
-        int scrollerHeight = (int)(this.yPos + 2 + this.scrolled * (this.height - 4 - this.scrollerSize));
-        drawScroller(this.xPos + 2, scrollerHeight, this.width - 4, this.scrollerSize);
+        if(isVisible()){
+            calculateScroller(mouseY);
+            Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/gui/container/creative_inventory/tab_items.png"));
+            Renderer.drawContinuousTexturedBox(xPos, yPos, 174 - 1, 17 - 1, width, height, 14 + 2, 112 + 2, 2, 2, 2, 2);
+            int scrollerHeight = (int)(this.yPos + 2 + this.scrolled * (this.height - 4 - this.scrollerSize));
+            drawScroller(this.xPos + 2, scrollerHeight, this.width - 4, this.scrollerSize);
+        }
     }
     
     private void drawScroller(int xPos, int yPos, int width, int height){
@@ -96,6 +100,11 @@ public class ScrollBar extends GuiWidget {
         return this;
     }
     
+    public ScrollBar setScrollerSize(int size){
+        this.scrollerSize = size;
+        return this;
+    }
+    
     public void setProgressWithNotify(float scroll){
         setProgress(scroll);
         getProgressChangedListener().onProgressChanged(this);
@@ -107,6 +116,15 @@ public class ScrollBar extends GuiWidget {
 
     public ScrollBar setProgressChangedListener(OnProgressChanged progressChangedListener) {
         this.progressChangedListener = progressChangedListener;
+        return this;
+    }
+    
+    public boolean isVisible(){
+        return visible;
+    }
+    
+    public ScrollBar setVisiblie(boolean visible){
+        this.visible = visible;
         return this;
     }
 
