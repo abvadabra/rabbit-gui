@@ -84,6 +84,11 @@ public class TextBox extends GuiWidget implements Shiftable {
 
     @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
+        super.onDraw(mouseX, mouseY, partialTicks);
+        drawBox();
+    }
+    
+    protected void drawBox(){
         if (isVisible()) {
             if (isBackgroundVisible()) {
                 drawTextBoxBackground();
@@ -139,7 +144,7 @@ public class TextBox extends GuiWidget implements Shiftable {
         }
     }
     
-    private void renderSelectionRect(int xTop, int yTop, int xBot, int yBot){
+    protected void renderSelectionRect(int xTop, int yTop, int xBot, int yBot){
         Renderer.drawRectWithSpecialGL(xTop, yTop, xBot, yBot, -0x5555FF, () -> {
                     GL11.glColor4f(0.0F, 0.0F, 255.0F, 255.0F);
                     GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -153,7 +158,7 @@ public class TextBox extends GuiWidget implements Shiftable {
         Renderer.drawRect(xPos, yPos, xPos + 2, yPos + TextRenderer.getFontRenderer().FONT_HEIGHT, CURSOR_COLOR);
     }
 
-    private void drawTextBoxBackground() {
+    protected void drawTextBoxBackground() {
         Renderer.drawRect( getX() - 1,  getY() - 1,  getX() +  getWidth() + 1,  getY() +  getHeight() + 1, BACKGROUND_GRAY_COLOR);
         Renderer.drawRect( getX(),  getY(),  getX() +  getWidth(),  getY() +  getHeight(), BACKGROUND_DARK_COLOR);
     }
@@ -164,7 +169,7 @@ public class TextBox extends GuiWidget implements Shiftable {
         int i = this.getCursorPosition() < this.selectionEnd ? this.getCursorPosition() : this.selectionEnd;
         int j = this.getCursorPosition() < this.selectionEnd ? this.selectionEnd : this.getCursorPosition();
         int k = this.getMaxLength() - getText().length() - (i - this.selectionEnd);
-
+        
         if (getText().length() > 0) {
             result += this.getText().substring(0, i);
         }
@@ -185,6 +190,11 @@ public class TextBox extends GuiWidget implements Shiftable {
 
     @Override
     public void onKeyTyped(char typedChar, int typedIndex) {
+        super.onKeyTyped(typedChar, typedIndex);
+        handleKey(typedChar, typedIndex);
+    }
+
+    protected void handleKey(char typedChar, int typedIndex){
         if (!isFocused())
             return;
         boolean isSpecialCharCombination = handleSpecialCharComb(typedChar, typedIndex);
@@ -192,8 +202,8 @@ public class TextBox extends GuiWidget implements Shiftable {
             handleInput(typedChar, typedIndex);
         }
     }
-
-    private boolean handleInput(char typedChar, int typedKeyIndex) {
+    
+    protected boolean handleInput(char typedChar, int typedKeyIndex) {
         switch (typedKeyIndex) {
         case Keyboard.KEY_BACK:
             if (isEnabled()) {
@@ -294,7 +304,7 @@ public class TextBox extends GuiWidget implements Shiftable {
         }
     }
 
-    private boolean handleSpecialCharComb(char typedChar, int typedIndex) {
+    protected boolean handleSpecialCharComb(char typedChar, int typedIndex) {
         switch (typedChar) {
         case 1:
             this.setCursorPosition(getText().length());
@@ -348,6 +358,11 @@ public class TextBox extends GuiWidget implements Shiftable {
 
     @Override
     public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
+        super.onMouseClicked(posX, posY, mouseButtonIndex);
+        handleMouseClick(posX, posY, mouseButtonIndex);
+    }
+    
+    protected void handleMouseClick(int posX, int posY, int mouseButtonIndex){
         setIsFocused(isTextBoxUnderMouse(posX, posY));
         if (isFocused() && mouseButtonIndex == 0) {
             int lenght = posX -  getX();
