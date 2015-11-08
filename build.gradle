@@ -18,8 +18,8 @@ buildscript {
 apply plugin: 'forge'
 
 version = "1.0"
-group= "ru.redenergy.gui" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "daozi-gui"
+group= "com.rabbit"
+archivesBaseName = "rabbit-gui"
 
 minecraft {
     version = "1.7.10-10.13.3.1408-1.7.10"
@@ -27,7 +27,6 @@ minecraft {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'lib')
     compile 'net.objecthunter:exp4j:0.4.5'
 }
 
