@@ -54,7 +54,7 @@ public class TextBox extends GuiWidget implements Shiftable {
     @LayoutComponent
     protected int maxStringLenght = 100;
     
-    protected int selectionEnd = -1;
+    protected int selectionEnd = -2;
     
     @LayoutComponent
     protected int enabledColor = 14737632;
@@ -144,6 +144,10 @@ public class TextBox extends GuiWidget implements Shiftable {
         }
     }
     
+    public void moveCursorBy(int amount) {
+        this.setCursorPosition(this.selectionEnd + amount);
+    }
+    
     protected void renderSelectionRect(int xTop, int yTop, int xBot, int yBot){
         Renderer.drawRectWithSpecialGL(xTop, yTop, xBot, yBot, -0x5555FF, () -> {
                     GL11.glColor4f(0.0F, 0.0F, 255.0F, 255.0F);
@@ -185,7 +189,7 @@ public class TextBox extends GuiWidget implements Shiftable {
             result = result + this.getText().substring(j);
         }
         this.setTextWithEvent(result);
-        this.setCursorPosition(this.selectionEnd + (i - this.selectionEnd + end));
+        this.moveCursorBy(i - this.selectionEnd + end);
     }
 
     @Override
@@ -258,24 +262,28 @@ public class TextBox extends GuiWidget implements Shiftable {
             if (this.selectionEnd != getCursorPosition()) {
                 this.pushText("");
             } else {
-                boolean negative = amount < 0;
-                int j = negative ? getCursorPosition() + amount : getCursorPosition();
-                int k = negative ? getCursorPosition() : getCursorPosition() + amount;
-                String result = "";
-                if (j >= 0) {
-                    result = getText().substring(0, j);
+                try{
+                    boolean negative = amount < 0;
+                    int j = negative ? getCursorPosition() + amount : getCursorPosition();
+                    int k = negative ? getCursorPosition() : getCursorPosition() + amount;
+                    String result = "";
+                    if (j >= 0) {
+                        result = getText().substring(0, j);
+                    }
+    
+                    if (k < getText().length()) {
+                        result += getText().substring(k);
+                    }
+    
+                    this.setTextWithEvent(result);
+    
+                    if (negative) {
+                        this.moveCursorBy(amount);
+                    }
+                } catch(Throwable t){
+                    t.printStackTrace();
                 }
-
-                if (k < getText().length()) {
-                    result += getText().substring(k);
-                }
-
-                this.setTextWithEvent(result);
-
-                if (negative) {
-                    this.setCursorPosition(this.selectionEnd + amount);
-                }
-            }
+           }
         }
     }
 

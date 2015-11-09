@@ -84,8 +84,8 @@ public class ScrollBar extends GuiWidget {
     public void onMouseInput() {
         super.onMouseInput();
         double delta = Mouse.getDWheel();
-        if(delta < 0) setProgressWithNotify(this.scrolled + 0.10F);
-        if(delta > 0) setProgressWithNotify(this.scrolled - 0.10F);
+        if(delta < 0) setProgressWithNotify(this.scrolled + 0.20F);
+        if(delta > 0) setProgressWithNotify(this.scrolled - 0.20F);
     }
     
     private void revalidateScroller(){

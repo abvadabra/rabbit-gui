@@ -40,8 +40,6 @@ public class MultiTextbox extends TextBox {
             if (isBackgroundVisible()) {
                 drawTextBoxBackground();
             }
-            scrollBar.setVisiblie(this.listHeight > this.height - 4);
-            scrollBar.setScrollerSize((int)(getScrollerSize()));
             int color = 0xFFFFFF;
             boolean renderCursor = this.isFocused() && this.cursorCounter / 6 % 2 == 0;
             int startLine = this.getStartLineY();
@@ -91,6 +89,8 @@ public class MultiTextbox extends TextBox {
                ++charCount;
             }
             this.listHeight = lineCount * TextRenderer.getFontRenderer().FONT_HEIGHT;
+            scrollBar.setVisiblie(this.listHeight > this.height - 4);
+            scrollBar.setScrollerSize((int)(getScrollerSize()));
         }
     }
     
@@ -133,7 +133,7 @@ public class MultiTextbox extends TextBox {
                 char[] chars = wholeLine.toCharArray();
                 for(int j = 0; j < chars.length; ++j){
                     char c = chars[j];
-                    this.cursorPos = charCount;
+                    this.setCursorPosition(charCount);
                     if(TextRenderer.getFontRenderer().getStringWidth(line + c) > maxWidth){
                         lineCount++;
                         line = "";
@@ -147,15 +147,16 @@ public class MultiTextbox extends TextBox {
                     charCount++;
                     line += c;
                 }
-                this.cursorPos = charCount;
+                this.setCursorPosition(charCount);
                 charCount++;
                 lineCount++;
                 if(y < lineCount){
                     break;
                 }
+                
             }
             if(y >= lineCount){
-                this.cursorPos = this.getText().length();
+                this.setCursorPosition(this.getText().length());
             }
         }
     }
