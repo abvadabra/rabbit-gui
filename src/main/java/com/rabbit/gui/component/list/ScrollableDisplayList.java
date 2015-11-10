@@ -42,6 +42,7 @@ public class ScrollableDisplayList extends DisplayList {
     @Override
     protected void drawListContent(int mouseX, int mouseY){
         scrollBar.setVisiblie(canFit());
+        scrollBar.setHandleMouseWheel(canFit());
         scrollBar.setScrollerSize(getScrollerSize());
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
