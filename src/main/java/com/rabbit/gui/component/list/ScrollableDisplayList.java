@@ -41,6 +41,8 @@ public class ScrollableDisplayList extends DisplayList {
     
     @Override
     protected void drawListContent(int mouseX, int mouseY){
+        scrollBar.setVisiblie(canFit());
+        scrollBar.setScrollerSize(getScrollerSize());
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
             int slotPosX = this.xPos;
@@ -67,7 +69,16 @@ public class ScrollableDisplayList extends DisplayList {
             }
         } 
     }
-
     
+    /**
+     * Returns true if content height of list is not more that list actual height
+     */
+    private boolean canFit(){
+        return this.content.size() * this.slotHeight > this.height;
+    }
+
+    private int getScrollerSize(){
+        return (int)(1F * (float)this.height / (this.content.size() * this.slotHeight) * (this.height - 4));
+    }
     
 }
