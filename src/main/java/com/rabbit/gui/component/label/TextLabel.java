@@ -15,18 +15,6 @@ public class TextLabel extends GuiWidget implements Shiftable {
     protected String text;
 
     @LayoutComponent
-    protected int xPos = 0;
-    
-    @LayoutComponent
-    protected int yPos = 0;
-    
-    @LayoutComponent
-    protected int width = 100;
-    
-    @LayoutComponent
-    protected int height = 9;
-    
-    @LayoutComponent
     protected boolean isVisible = true;
     
     @LayoutComponent
@@ -42,10 +30,7 @@ public class TextLabel extends GuiWidget implements Shiftable {
     }
     
     public TextLabel(int xPos, int yPos, int width, int height, String text){
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = height;
+        super(xPos, yPos, width, height);
         this.text = text;
     }
     
@@ -65,12 +50,12 @@ public class TextLabel extends GuiWidget implements Shiftable {
         List<String> displayLines = TextRenderer.getFontRenderer().listFormattedStringToWidth(text, width);
         for(int i = 0; i < displayLines.size(); i++) {
             String displayLine = displayLines.get(i);
-            int y = yPos + i * TextRenderer.getFontRenderer().FONT_HEIGHT;
-            if(y >= this.yPos + this.height) break;
+            int y = getY() + i * TextRenderer.getFontRenderer().FONT_HEIGHT;
+            if(y >= getY() + this.height) break;
             if(isCentered()){
-                TextRenderer.renderCenteredString(this.xPos, y, displayLine);
+                TextRenderer.renderCenteredString(getX(), y, displayLine);
             } else {
-                TextRenderer.renderString(this.xPos, y, displayLine);
+                TextRenderer.renderString(getX(), y, displayLine);
             }
         }
     }
@@ -78,9 +63,9 @@ public class TextLabel extends GuiWidget implements Shiftable {
     private void drawOneLined(){
         String displayText = TextRenderer.getFontRenderer().trimStringToWidth(text, width);
         if(isCentered()){
-            TextRenderer.renderCenteredString(this.xPos, this.yPos, displayText);
+            TextRenderer.renderCenteredString(getX(), getY(), displayText);
         } else {
-            TextRenderer.renderString(this.xPos, this.yPos, displayText);
+            TextRenderer.renderString(getX(), getY(), displayText);
         }
     }
 
@@ -119,12 +104,12 @@ public class TextLabel extends GuiWidget implements Shiftable {
 
     @Override
     public void shiftX(int x) {
-        this.xPos += x;
+        this.setX(getX() + x);
     }
 
     @Override
     public void shiftY(int y) {
-        this.yPos += y;
+        this.setY(getY() + y);
     }
 }
 

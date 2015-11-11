@@ -14,18 +14,6 @@ import com.rabbit.gui.utils.GeometryUtils;
 public class DisplayList extends GuiWidget implements WidgetContainer<ListEntry>{
 
     @LayoutComponent
-    protected int xPos;
-    
-    @LayoutComponent
-    protected int yPos;
-    
-    @LayoutComponent
-    protected int width;
-    
-    @LayoutComponent
-    protected int height;
-    
-    @LayoutComponent
     protected int slotHeight;
     
     @LayoutComponent
@@ -34,10 +22,7 @@ public class DisplayList extends GuiWidget implements WidgetContainer<ListEntry>
     protected DisplayList(){}
     
     public DisplayList(int xPos, int yPos, int width, int height, int slotHeight, List<ListEntry> content) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = height;
+        super(xPos, yPos, width, height);
         this.slotHeight = slotHeight;
         this.content = content;
     }
@@ -79,15 +64,15 @@ public class DisplayList extends GuiWidget implements WidgetContainer<ListEntry>
     }
     
     protected void drawListBackground(){
-        Renderer.drawRect(this.xPos - 1, this.yPos - 1, this.xPos + this.width + 1, this.yPos + this.height + 1, -6250336);
-        Renderer.drawRect(this.xPos, this.yPos, this.xPos + this.width, this.yPos + this.height, -0xFFFFFF-1);
+        Renderer.drawRect(getX() - 1, getY() - 1, getX() + this.width + 1, getY() + this.height + 1, -6250336);
+        Renderer.drawRect(getX(), getY(), getX() + this.width, getY() + this.height, -0xFFFFFF-1);
     }
     
     protected void drawListContent(int mouseX, int mouseY){
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
-            int slotPosX = this.xPos;
-            int slotPosY = this.yPos + i * slotHeight;
+            int slotPosX = getX();
+            int slotPosY = getY() + i * slotHeight;
             int slotWidth = this.width;
             int slotHeight = this.slotHeight;
             entry.onDraw(this, slotPosX, slotPosY, slotWidth, slotHeight, mouseX, mouseY);
@@ -97,7 +82,7 @@ public class DisplayList extends GuiWidget implements WidgetContainer<ListEntry>
     @Override
     public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
         super.onMouseClicked(posX, posY, mouseButtonIndex);
-        boolean clickedOnList = GeometryUtils.isDotInArea(this.xPos, this.yPos, this.width, this.height, posX, posY);
+        boolean clickedOnList = GeometryUtils.isDotInArea(getX(), getY(), this.width, this.height, posX, posY);
         if(clickedOnList){
             handleMouseClickList(posX, posY);
         }
@@ -106,8 +91,8 @@ public class DisplayList extends GuiWidget implements WidgetContainer<ListEntry>
     protected void handleMouseClickList(int mouseX, int mouseY){
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
-            int slotPosX = this.xPos;
-            int slotPosY = this.yPos + i * slotHeight;
+            int slotPosX = getX();
+            int slotPosY = getY() + i * slotHeight;
             int slotWidth = this.width;
             int slotHeight = this.slotHeight;
             boolean clickedOnEntry = GeometryUtils.isDotInArea(slotPosX, slotPosY, slotWidth, slotHeight, mouseX, mouseY);

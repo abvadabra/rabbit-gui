@@ -19,7 +19,33 @@ public abstract class GuiWidget implements IGui, WidgetContainer {
     
     @LayoutComponent
     protected String id;
+    
+    @LayoutComponent
+    protected int x;
+    
+    @LayoutComponent
+    protected int y;
+    
+    @LayoutComponent
+    protected int width;
+    
+    @LayoutComponent
+    protected int height;
 
+    protected GuiWidget(){
+        this.x = -1;
+        this.y = -1;
+        this.width = -1;
+        this.height = -1;
+    }
+    
+    protected GuiWidget(int x, int y, int width, int height){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
+    
     /**
      * Called on every render tick
      * 
@@ -127,6 +153,43 @@ public abstract class GuiWidget implements IGui, WidgetContainer {
             components = new ArrayList<>();
         }
         return components;
+    }
+    
+    
+    public int getX() {
+        return x;
+    }
+
+    public GuiWidget setX(int x) {
+        this.x = x;
+        return this;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public GuiWidget setY(int y) {
+        this.y = y;
+        return this;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public GuiWidget setWidth(int width) {
+        this.width = width;
+        return this;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public GuiWidget setHeight(int height) {
+        this.height = height;
+        return this;
     }
 
     /**

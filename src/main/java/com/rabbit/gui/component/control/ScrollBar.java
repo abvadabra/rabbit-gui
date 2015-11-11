@@ -13,14 +13,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class ScrollBar extends GuiWidget {
 
-    protected int xPos;
-    
-    protected int yPos;
-    
-    protected int width;
-    
-    protected int height;
-
     protected float scrolled = 0;
     
     protected int scrollerSize;
@@ -34,10 +26,7 @@ public class ScrollBar extends GuiWidget {
     protected boolean handleMouseWheel;
     
     public ScrollBar(int xPos, int yPos, int width, int height, int scrollerSize){
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = height;
+        super(xPos, yPos, width, height);
         this.scrollerSize = scrollerSize;
     }
 
@@ -47,9 +36,9 @@ public class ScrollBar extends GuiWidget {
         if(isVisible()){
             calculateScroller(mouseY);
             Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("textures/gui/container/creative_inventory/tab_items.png"));
-            Renderer.drawContinuousTexturedBox(xPos, yPos, 174 - 1, 17 - 1, width, height, 14 + 2, 112 + 2, 2, 2, 2, 2);
-            int scrollerHeight = (int)(this.yPos + 2 + this.scrolled * (this.height - 4 - this.scrollerSize));
-            drawScroller(this.xPos + 2, scrollerHeight, this.width - 4, this.scrollerSize);
+            Renderer.drawContinuousTexturedBox(getX(), getY(), 174 - 1, 17 - 1, width, height, 14 + 2, 112 + 2, 2, 2, 2, 2);
+            int scrollerHeight = (int)(getY() + 2 + this.scrolled * (this.height - 4 - this.scrollerSize));
+            drawScroller(getX() + 2, scrollerHeight, this.width - 4, this.scrollerSize);
         }
     }
     
@@ -65,7 +54,7 @@ public class ScrollBar extends GuiWidget {
      */
     private void calculateScroller(int mouseY){
         if(isScrolling) {
-            float magic = ((float)(mouseY - this.yPos + 2) - 10F) / ((float)(this.yPos + this.height - (this.yPos + 2)) - 15.0F);
+            float magic = ((float)(mouseY - getY() + 2) - 10F) / ((float)(getY() + this.height - (getY() + 2)) - 15.0F);
             setProgressWithNotify(magic);
         }
     }
@@ -73,7 +62,7 @@ public class ScrollBar extends GuiWidget {
     @Override
     public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
         super.onMouseClicked(posX, posY, mouseButtonIndex);
-        this.isScrolling = GeometryUtils.isDotInArea(this.xPos + 2, (int)(this.yPos + 2 + this.scrolled * (this.height - this.scrollerSize)), this.width - 4, this.scrollerSize, posX, posY);
+        this.isScrolling = GeometryUtils.isDotInArea(getX() + 2, (int)(getY() + 2 + this.scrolled * (this.height - this.scrollerSize)), this.width - 4, this.scrollerSize, posX, posY);
     }
     
     @Override
@@ -130,22 +119,6 @@ public class ScrollBar extends GuiWidget {
     public ScrollBar setVisiblie(boolean visible){
         this.visible = visible;
         return this;
-    }
-
-    public int getX() {
-        return xPos;
-    }
-
-    public int getY() {
-        return yPos;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public boolean isScrolling() {

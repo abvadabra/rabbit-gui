@@ -29,16 +29,6 @@ public class DropDown<T> extends GuiWidget implements WidgetContainer<T>, Shifta
     protected Map<String, DropDownElement<T>> content = new TreeMap<String , DropDownElement<T>>();
     private Button dropButton;
     
-    @LayoutComponent
-    protected int xPos = 0;
-    
-    @LayoutComponent
-    protected int yPos = 0;
-    
-    @LayoutComponent
-    protected int width = 100;
-    
-    protected int height = 12;
     
     @LayoutComponent
     protected String text;
@@ -66,10 +56,7 @@ public class DropDown<T> extends GuiWidget implements WidgetContainer<T>, Shifta
     }
     
     public DropDown(int xPos, int yPos, int width, String text){
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = 12;
+        super(xPos, yPos, width, 12);
         this.text = text;
     }
     
@@ -259,22 +246,6 @@ public class DropDown<T> extends GuiWidget implements WidgetContainer<T>, Shifta
         return getContent().get(identifier);
     }
     
-    public int getX(){
-        return xPos;
-    }
-    
-    public int getY(){
-        return yPos;
-    }
-
-    public int getWidth(){
-        return width;
-    }
-
-    public int getHeight(){
-        return height;
-    }
-    
     @Override
     public DropDown<T> setId(String id) {
         assignId(id);
@@ -313,13 +284,11 @@ public class DropDown<T> extends GuiWidget implements WidgetContainer<T>, Shifta
     
     @Override
     public void shiftX(int x) {
-        this.xPos += x;    
-        dropButton.shiftX(x);
+        this.setX(getX() + x);
     }
 
     @Override
     public void shiftY(int y) {
-        this.yPos += y;
-        dropButton.shiftY(y);
+        this.setY(getY() + y);
     }
 }

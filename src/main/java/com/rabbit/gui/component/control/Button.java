@@ -42,26 +42,11 @@ public class Button extends GuiWidget implements Shiftable {
 
     protected ButtonClickListener onClick;
    
-    @LayoutComponent
-    protected int xPos = 0;
-    
-    @LayoutComponent
-    protected int yPos = 0;
-    
-    @LayoutComponent
-    protected int width = 200;
-    
-    @LayoutComponent
-    protected int height = 20;
-    
     /**Dummy constructor. Used in layout*/
-    private Button(){};
+    private Button(){}
     
     public Button(int xPos, int yPos, int width, int height, String title) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = height;
+        super(xPos, yPos, width, height);
         this.text = title;
     }
 
@@ -162,22 +147,6 @@ public class Button extends GuiWidget implements Shiftable {
         return text;
     }
 
-    public int getX(){
-        return xPos;
-    }
-    
-    public int getY(){
-        return yPos;
-    }
-    
-    public int getWidth(){
-        return width;
-    }
-    
-    public int getHeight(){
-        return height;
-    }
-    
     protected void playClickSound() {
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     }
@@ -195,11 +164,11 @@ public class Button extends GuiWidget implements Shiftable {
 
     @Override
     public void shiftX(int x) {
-        this.xPos += x;
+        this.setX(getX() + x);
     }
 
     @Override
     public void shiftY(int y) {
-        this.yPos += y;
+        this.setY(getY() + y);
     }
 }

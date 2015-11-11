@@ -16,14 +16,6 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class Table extends GuiWidget {
 
-    protected int xPos = 0;
-    
-    protected int yPos = 0;
-    
-    protected int width = 100;
-    
-    protected int height = 20;
-    
     protected List<Row> rows;
     
     protected boolean isVisible = true;
@@ -35,10 +27,7 @@ public class Table extends GuiWidget {
     protected boolean drawBackground = true;
     
     public Table(int xPos, int yPos, int width, int height, Row ... rows){
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = height;
+        super(xPos, yPos, width, height);
         this.rows = new ArrayList<Row>(Arrays.asList(rows));
     }
     
@@ -127,22 +116,6 @@ public class Table extends GuiWidget {
     
     public List<Row> getRows(){
         return rows;
-    }
-
-    public int getX(){
-        return xPos;
-    }
-    
-    public int getY(){
-        return yPos;
-    }
-
-    public int getWidth(){
-        return width;
-    }
-
-    public int getHeight(){
-        return height;
     }
 
     @Override

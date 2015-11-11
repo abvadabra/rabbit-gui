@@ -31,12 +31,6 @@ public class CheckBox extends GuiWidget implements Shiftable{
     @LayoutComponent
     protected String text;
     
-    @LayoutComponent
-    protected int xPos = 0;
-    
-    @LayoutComponent
-    protected int yPos = 0;
-    
     protected int width = WIDTH;
     protected int height = HEIGHT;
 
@@ -51,10 +45,7 @@ public class CheckBox extends GuiWidget implements Shiftable{
     private CheckBox(){}
     
     public CheckBox(int xPos, int yPos, String title, boolean checked) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = WIDTH;
-        this.height = HEIGHT;
+        super(xPos, yPos, WIDTH, HEIGHT);
         this.text = title;
         this.isChecked = checked;
     }
@@ -168,23 +159,7 @@ public class CheckBox extends GuiWidget implements Shiftable{
     public String getText(){
         return text;
     }
-    
-    public int getX(){
-        return xPos;
-    }
-    
-    public int getY(){
-        return yPos;
-    }
-    
-    public int getWidth(){
-        return width;
-    }
 
-    public int getHeight(){
-        return height;
-    }
-    
     protected void playClickSound() {
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     }
@@ -206,12 +181,12 @@ public class CheckBox extends GuiWidget implements Shiftable{
 
     @Override
     public void shiftX(int x) {
-        this.xPos += x;
+        this.setX(getX() + x);
     }
 
     @Override
     public void shiftY(int y) {
-        this.yPos += y;
+        this.setY(getY() + y);
     }
     
 }

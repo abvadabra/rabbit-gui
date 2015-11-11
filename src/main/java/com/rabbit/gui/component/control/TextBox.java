@@ -23,18 +23,6 @@ public class TextBox extends GuiWidget implements Shiftable {
     public static final int CURSOR_COLOR = -3092272;
     
     @LayoutComponent
-    protected int xPos = 0;
-    
-    @LayoutComponent
-    protected int yPos = 0;
-    
-    @LayoutComponent
-    protected int width = 100;
-    
-    @LayoutComponent
-    protected int height = 20;
-    
-    @LayoutComponent
     protected boolean visibleBackground = true;
     
     @LayoutComponent
@@ -73,10 +61,7 @@ public class TextBox extends GuiWidget implements Shiftable {
     }
 
     public TextBox(int xPos, int yPos, int width, int height, String initialText) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = height;
+        super(xPos, yPos, width, height);
         this.text = initialText;
         this.setCursorPosition(this.text.length());
         Keyboard.enableRepeatEvents(true);
@@ -515,22 +500,6 @@ public class TextBox extends GuiWidget implements Shiftable {
         return this;
     }
 
-    public int getX(){
-        return xPos;
-    }
-    
-    public int getY(){
-        return yPos;
-    }
-
-    public int getWidth(){
-        return width;
-    }
-
-    public int getHeight(){
-        return height;
-    }
-    
     /**
      * Will set text of textbox and execute TextChangedListener
      * 
@@ -572,11 +541,11 @@ public class TextBox extends GuiWidget implements Shiftable {
 
     @Override
     public void shiftX(int x) {
-        this.xPos += x;
+        this.setX(getX() + x);
     }
 
     @Override
     public void shiftY(int y) {
-        this.yPos += y;
+        this.setY(getY() + y);
     }
 }

@@ -35,7 +35,7 @@ public class ScrollableDisplayList extends DisplayList {
         int scrollerSize = this.height / this.content.size();
         if(scrollerSize < 10) scrollerSize = 10;
         if(this.content.size() < this.height / this.slotHeight) scrollerSize = this.height - 4;
-        scrollBar = new ScrollBar(this.xPos + this.width - 10, this.yPos, 10, this.height, scrollerSize);
+        scrollBar = new ScrollBar(getX() + this.width - 10, getY(), 10, this.height, scrollerSize);
         registerComponent(scrollBar);
     }
     
@@ -46,11 +46,11 @@ public class ScrollableDisplayList extends DisplayList {
         scrollBar.setScrollerSize(getScrollerSize());
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
-            int slotPosX = this.xPos;
-            int slotPosY = ((this.yPos + i * slotHeight) - (int)((this.slotHeight * scrollBar.getProgress() * this.content.size()) * 0.925F));
+            int slotPosX = getX();
+            int slotPosY = ((getY() + i * slotHeight) - (int)((this.slotHeight * scrollBar.getProgress() * this.content.size()) * 0.925F));
             int slotWidth = this.width; 
             int slotHeight = this.slotHeight;
-            if(slotPosY + slotHeight <= this.yPos + this.height && slotPosY >= this.yPos){
+            if(slotPosY + slotHeight <= getY() + this.height && slotPosY >= getY()){
                 entry.onDraw(this, slotPosX, slotPosY, slotWidth, slotHeight, mouseX, mouseY);
             }
         }
@@ -60,11 +60,11 @@ public class ScrollableDisplayList extends DisplayList {
     protected void handleMouseClickList(int mouseX, int mouseY){
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
-            int slotPosX = this.xPos;
-            int slotPosY = ((this.yPos + i * slotHeight) - (int)((this.slotHeight * scrollBar.getProgress() * this.content.size()) * 0.925F));
+            int slotPosX = getX();
+            int slotPosY = ((getY() + i * slotHeight) - (int)((this.slotHeight * scrollBar.getProgress() * this.content.size()) * 0.925F));
             int slotWidth = this.width;
             int slotHeight = this.slotHeight;
-            if(slotPosY + slotHeight <= this.yPos + this.height && slotPosY >= this.yPos){
+            if(slotPosY + slotHeight <= getY() + this.height && slotPosY >= getY()){
                 boolean clickedOnEntry = GeometryUtils.isDotInArea(slotPosX, slotPosY, slotWidth, slotHeight, mouseX, mouseY);
                 if(clickedOnEntry) entry.onClick(this, mouseX, mouseY);
             }
