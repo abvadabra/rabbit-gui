@@ -1,4 +1,4 @@
-package com.rabbit.gui.component.label;
+package com.rabbit.gui.component.display;
 
 import java.util.List;
 import java.util.stream.IntStream;
