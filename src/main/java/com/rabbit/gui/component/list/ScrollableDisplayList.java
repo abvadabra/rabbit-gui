@@ -3,7 +3,6 @@ package com.rabbit.gui.component.list;
 import java.util.List;
 
 import com.rabbit.gui.component.control.ScrollBar;
-import com.rabbit.gui.component.list.DisplayList.ListEntry;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.utils.GeometryUtils;
 
@@ -41,8 +40,8 @@ public class ScrollableDisplayList extends DisplayList {
     
     @Override
     protected void drawListContent(int mouseX, int mouseY){
-        scrollBar.setVisiblie(canFit());
-        scrollBar.setHandleMouseWheel(canFit());
+        scrollBar.setVisiblie(!canFit());
+        scrollBar.setHandleMouseWheel(!canFit());
         scrollBar.setScrollerSize(getScrollerSize());
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
@@ -75,11 +74,11 @@ public class ScrollableDisplayList extends DisplayList {
      * Returns true if content height of list is not more that list actual height
      */
     private boolean canFit(){
-        return this.content.size() * this.slotHeight > this.height;
+        return this.content.size() * this.slotHeight < this.height;
     }
 
     private int getScrollerSize(){
-        return (int)(1F * (float)this.height / (this.content.size() * this.slotHeight) * (this.height - 4));
+        return (int)(1F * this.height / (this.content.size() * this.slotHeight) * (this.height - 4));
     }
     
 }
