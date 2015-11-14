@@ -1,11 +1,11 @@
 package com.rabbit.gui.component.display;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.Shiftable;
 import com.rabbit.gui.layout.LayoutComponent;
+import com.rabbit.gui.render.Renderer;
 import com.rabbit.gui.render.TextRenderer;
 
 @LayoutComponent
@@ -23,6 +23,9 @@ public class TextLabel extends GuiWidget implements Shiftable {
     @LayoutComponent
     protected boolean multiline = false;
     
+    @LayoutComponent
+    protected boolean drawBackground = false;
+    
     private TextLabel(){}
     
     public TextLabel(int xPos, int yPos, int width, String text){
@@ -38,6 +41,9 @@ public class TextLabel extends GuiWidget implements Shiftable {
     @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
         if(isVisible()){
+            if(shouldDrawBackground()){
+                drawBackground();
+            }
             if(isMultilined()){
                 drawMultilined();
             } else {
@@ -68,6 +74,11 @@ public class TextLabel extends GuiWidget implements Shiftable {
             TextRenderer.renderString(getX(), getY(), displayText);
         }
     }
+    
+    private void drawBackground(){
+        Renderer.drawRect(getX() - 2, getY() - 2, getX() + this.width + 2, getY() + this.height + 3, -6250336);
+        Renderer.drawRect(getX() - 1, getY() - 1, getX() + this.width + 1, getY() + this.height + 2, -0xFFFFFF-1);
+    }
 
     @Override
     public TextLabel setId(String id) {
@@ -82,6 +93,11 @@ public class TextLabel extends GuiWidget implements Shiftable {
     
     public TextLabel setIsCentered(boolean centered){
         this.centered = centered;
+        return this;
+    }
+    
+    public TextLabel setDrawBackground(boolean drawBackground){
+        this.drawBackground = drawBackground;
         return this;
     }
 
@@ -102,6 +118,10 @@ public class TextLabel extends GuiWidget implements Shiftable {
         return multiline;
     }
 
+    public boolean shouldDrawBackground(){
+        return drawBackground;
+    }
+    
     @Override
     public void shiftX(int x) {
         this.setX(getX() + x);
