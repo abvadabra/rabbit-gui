@@ -63,7 +63,8 @@ public class ScrollableDisplayList extends DisplayList {
             int slotPosY = ((getY() + i * slotHeight) - (int)((this.slotHeight * scrollBar.getProgress() * this.content.size()) * 0.925F));
             int slotWidth = this.width;
             int slotHeight = this.slotHeight;
-            if(slotPosY + slotHeight <= getY() + this.height && slotPosY >= getY()){
+            boolean scrollbarActive = scrollBar.isScrolling() && scrollBar.isVisible();
+            if(slotPosY + slotHeight <= getY() + this.height && slotPosY >= getY() && !scrollbarActive){
                 boolean clickedOnEntry = GeometryUtils.isDotInArea(slotPosX, slotPosY, slotWidth, slotHeight, mouseX, mouseY);
                 if(clickedOnEntry) entry.onClick(this, mouseX, mouseY);
             }
