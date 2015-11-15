@@ -1,12 +1,14 @@
 package com.rabbit.gui.component.control;
 
+import java.awt.Color;
+
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Rectangle;
 
 import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.Shiftable;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
+import com.rabbit.gui.render.TextAlignment;
 import com.rabbit.gui.render.TextRenderer;
 
 import net.minecraft.client.Minecraft;
@@ -19,6 +21,10 @@ public class CheckBox extends GuiWidget implements Shiftable{
 
     //width and height of checkbox are hardcoded and can't be changed
     //if you need to change it use glScalef
+    
+    private static final Color DISABLED_COLOR = new Color(127, 127, 127);
+    private static final Color HOVER_COLOR = new Color(255, 255, 160);
+    private static final Color COMMON_COLOR = Color.white;
     
     protected static final int WIDTH = 11;
     protected static final int HEIGHT = 11;
@@ -59,16 +65,16 @@ public class CheckBox extends GuiWidget implements Shiftable{
         if (isVisible()) {
             prepareRender();
             drawButton();
-            int color;
+            Color color;
             if (!isEnabled()) {
-                color = 0x7F7F7F;
+                color = DISABLED_COLOR;
             } else if (isButtonUnderMouse(mouseX, mouseY)) {
-                color = 0xFFFFA0;
+                color = HOVER_COLOR;
             } else {
-                color = 0xFFFFFF;
+                color = COMMON_COLOR;
             }
             if(isChecked()){
-                TextRenderer.renderCenteredString(getX() + getWidth() / 2 + 1, getY() + 1, "x", color);
+                TextRenderer.renderString(getX() + getWidth() / 2 + 1, getY() + 1,  "x", color, TextAlignment.CENTER);
             }
             TextRenderer.renderString(getX() + getWidth() + 2, getY() + getHeight() / 2 - 3, getText());
         }
