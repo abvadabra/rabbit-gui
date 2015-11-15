@@ -12,7 +12,9 @@ public class TextRenderer {
      * @param yPos
      * @param text
      * @return X position of rendered string
+     * @deprecated use {@link #renderString(int, int, String, TextAlignment)} with TextAlignment.CENTER instead
      */
+    @Deprecated
     public static int renderCenteredString(int xPos, int yPos, String text) {
         return renderCenteredString(xPos, yPos, text, 0xFFFFFF);
     }
@@ -25,9 +27,11 @@ public class TextRenderer {
      * @param text
      * @param color
      * @return X position of rendered string
+     * @deprecated use {@link #renderString(int, int, String, TextAlignment)} with TextAlignment.CENTER instead
      */
+    @Deprecated
     public static int renderCenteredString(int xPos, int yPos, String text, int color) {
-        return renderString(xPos - getFontRenderer().getStringWidth(text) / 2, yPos, text, color);
+        return renderString(xPos - getFontRenderer().getStringWidth(text) / 2, yPos, text, color, TextAlignment.LEFT);
     }
 
 
@@ -35,14 +39,17 @@ public class TextRenderer {
      * See {@link #renderString(int, int, String, int, boolean)}
      */
     public static int renderString(int xPos, int yPos, String text) {
-        return renderString(xPos, yPos, text, 0xFFFFFF);
+        return renderString(xPos, yPos, text, 0xFFFFFF, TextAlignment.LEFT);
     }
 
+    public static int renderString(int xPos, int yPos, String text, TextAlignment align){
+        return renderString(xPos, yPos, text, 0xFFFFFF, align);
+    }
     /**
      * See {@link #renderString(int, int, String, int, boolean)}
      */
-    public static int renderString(int xPos, int yPos, String text, int color) {
-        return renderString(xPos, yPos, text, color, false);
+    public static int renderString(int xPos, int yPos, String text, int color, TextAlignment align) {
+        return renderString(xPos, yPos, text, color, false, align);
     }
 
     /**
@@ -55,8 +62,16 @@ public class TextRenderer {
      * @param shadow
      * @return X position of rendered string
      */
-    public static int renderString(int xPos, int yPos, String text, int color, boolean shadow) {
-        return getFontRenderer().drawString(text, xPos, yPos, color, shadow);
+    public static int renderString(int xPos, int yPos, String text, int color, boolean shadow, TextAlignment align) {
+        switch(align){
+            case LEFT:
+                return getFontRenderer().drawString(text, xPos, yPos, color, shadow);
+            case CENTER:
+                return getFontRenderer().drawString(text, xPos - getFontRenderer().getStringWidth(text) / 2, yPos, color, shadow);
+            case RIGHT:
+                return getFontRenderer().drawString(text, xPos - getFontRenderer().getStringWidth(text), yPos, color, shadow);
+        }
+        return -1;
     }
 
     /**
