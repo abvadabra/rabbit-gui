@@ -1,26 +1,19 @@
 package com.rabbit.gui.component.control;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.IntStream;
-
-import javax.xml.soap.Text;
-
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Rectangle;
 
 import com.rabbit.gui.component.GuiWidget;
-import com.rabbit.gui.component.WidgetContainer;
 import com.rabbit.gui.component.Shiftable;
+import com.rabbit.gui.component.WidgetContainer;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
 import com.rabbit.gui.render.TextRenderer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 @LayoutComponent
@@ -148,10 +141,10 @@ public class DropDown<T> extends GuiWidget implements WidgetContainer<T>, Shifta
     }
     private void drawSlot(String item, int xPos, int yPos, int width, int height, boolean background, int drawOffset){
         String text = TextRenderer.getFontRenderer().trimStringToWidth(item, width - drawOffset);
-        int color = 0xFFFFFF;
+        Color color = Color.white;
         if(background){
             Renderer.drawRect(xPos, yPos, xPos + width, yPos + height - height / 8, 0xFFFFFFFF);
-            color = 0;
+            color = Color.black;
         }
         TextRenderer.renderString(xPos + 2, yPos + (getHeight() / 8), text, color);
     }
@@ -229,6 +222,7 @@ public class DropDown<T> extends GuiWidget implements WidgetContainer<T>, Shifta
         return this.content != null ? content.isEmpty() : true;
     }
     
+    @Override
     public DropDown<T> clear(){
         getContent().clear();
         return this;
