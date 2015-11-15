@@ -6,6 +6,7 @@ import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.Shiftable;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
+import com.rabbit.gui.render.TextAlignment;
 import com.rabbit.gui.render.TextRenderer;
 
 @LayoutComponent
@@ -18,13 +19,13 @@ public class TextLabel extends GuiWidget implements Shiftable {
     protected boolean isVisible = true;
     
     @LayoutComponent
-    protected boolean centered = false;
-    
-    @LayoutComponent
     protected boolean multiline = false;
     
     @LayoutComponent
     protected boolean drawBackground = false;
+    
+    @LayoutComponent
+    protected TextAlignment alignment = TextAlignment.LEFT;
     
     private TextLabel(){}
     
@@ -33,8 +34,13 @@ public class TextLabel extends GuiWidget implements Shiftable {
     }
     
     public TextLabel(int xPos, int yPos, int width, int height, String text){
+        this(xPos, yPos, width, height, text, TextAlignment.LEFT);
+    }
+    
+    public TextLabel(int xPos, int yPos, int width, int height, String text, TextAlignment align){
         super(xPos, yPos, width, height);
         this.text = text;
+        this.alignment = align;
     }
     
     
@@ -58,21 +64,21 @@ public class TextLabel extends GuiWidget implements Shiftable {
             String displayLine = displayLines.get(i);
             int y = getY() + i * TextRenderer.getFontRenderer().FONT_HEIGHT;
             if(y >= getY() + this.height) break;
-            if(isCentered()){
-                TextRenderer.renderCenteredString(getX(), y, displayLine);
-            } else {
-                TextRenderer.renderString(getX(), y, displayLine);
-            }
+            drawAlignedLine(getX(), y, getWidth(), displayLine, alignment);
         }
     }
     
     private void drawOneLined(){
         String displayText = TextRenderer.getFontRenderer().trimStringToWidth(text, width);
-        if(isCentered()){
-            TextRenderer.renderCenteredString(getX(), getY(), displayText);
-        } else {
-            TextRenderer.renderString(getX(), getY(), displayText);
-        }
+        drawAlignedLine(getX(), getY(), getWidth(), displayText, alignment);
+    }
+    
+    private void drawAlignedLine(int x, int y, int width, String text, TextAlignment alignment){
+        if(alignment == TextAlignment.CENTER){
+            x = x + getWidth() / 2;
+        } else if(alignment == TextAlignment.RIGHT)
+            x = x + getWidth();
+        TextRenderer.renderString(x, y, text, alignment);
     }
     
     private void drawBackground(){
@@ -91,20 +97,11 @@ public class TextLabel extends GuiWidget implements Shiftable {
         return this;
     }
     
-    public TextLabel setIsCentered(boolean centered){
-        this.centered = centered;
-        return this;
-    }
-    
     public TextLabel setDrawBackground(boolean drawBackground){
         this.drawBackground = drawBackground;
         return this;
     }
 
-    public boolean isCentered(){
-        return centered;
-    }
-    
     public boolean isVisible(){
         return isVisible;
     }
@@ -120,6 +117,15 @@ public class TextLabel extends GuiWidget implements Shiftable {
 
     public boolean shouldDrawBackground(){
         return drawBackground;
+    }
+    
+    public TextLabel setTextAlignment(TextAlignment align){
+        this.alignment = align;
+        return this;
+    }
+    
+    public TextAlignment getTextAlignment(){
+        return this.alignment;
     }
     
     @Override
