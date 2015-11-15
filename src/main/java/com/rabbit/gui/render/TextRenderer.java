@@ -27,7 +27,7 @@ public class TextRenderer {
      * @param text
      * @param color
      * @return X position of rendered string
-     * @deprecated use {@link #renderString(int, int, String, TextAlignment)} with TextAlignment.CENTER instead
+     * @deprecated use {@link #renderString(int, int, String, int, TextAlignment)} with TextAlignment.CENTER instead
      */
     @Deprecated
     public static int renderCenteredString(int xPos, int yPos, String text, int color) {
@@ -45,6 +45,11 @@ public class TextRenderer {
     public static int renderString(int xPos, int yPos, String text, TextAlignment align){
         return renderString(xPos, yPos, text, 0xFFFFFF, align);
     }
+    
+    public static int renderString(int xPos, int yPos, String text, int color) {
+        return renderString(xPos, yPos, text, color, false, TextAlignment.LEFT);
+    }
+    
     /**
      * See {@link #renderString(int, int, String, int, boolean)}
      */
