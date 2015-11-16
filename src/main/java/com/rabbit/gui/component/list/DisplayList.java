@@ -4,14 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.rabbit.gui.component.GuiWidget;
-import com.rabbit.gui.component.WidgetContainer;
+import com.rabbit.gui.component.WidgetList;
 import com.rabbit.gui.component.list.DisplayList.ListEntry;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
 import com.rabbit.gui.utils.GeometryUtils;
 
 @LayoutComponent
-public class DisplayList extends GuiWidget implements WidgetContainer<ListEntry>{
+public class DisplayList extends GuiWidget implements WidgetList<ListEntry>{
 
     @LayoutComponent
     protected int slotHeight;

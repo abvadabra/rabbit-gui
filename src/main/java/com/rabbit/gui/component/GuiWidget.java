@@ -53,6 +53,7 @@ public abstract class GuiWidget implements IGui, WidgetContainer {
      * @param mouseY
      * @param partialTicks
      */
+    @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
         getComponentsList().forEach(com -> com.onDraw(mouseX, mouseY, partialTicks));
     }
@@ -63,6 +64,7 @@ public abstract class GuiWidget implements IGui, WidgetContainer {
      * @param typedChar
      * @param typedIndex
      */
+    @Override
     public void onKeyTyped(char typedChar, int typedIndex) {
         getComponentsList().forEach(com -> com.onKeyTyped(typedChar, typedIndex));
     }
@@ -74,10 +76,12 @@ public abstract class GuiWidget implements IGui, WidgetContainer {
      * @param posY
      * @param mouseButtonIndex
      */
+    @Override
     public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
         getComponentsList().forEach(com -> com.onMouseClicked(posX, posY, mouseButtonIndex));
     }
 
+    @Override
     public void onMouseRelease(int mouseX, int mouseY) {
         getComponentsList().forEach(com -> com.onMouseRelease(mouseX, mouseY));
     }
@@ -85,6 +89,7 @@ public abstract class GuiWidget implements IGui, WidgetContainer {
     /**
      * Called every update tick (usually 20 times in second)
      */
+    @Override
     public void onUpdate() {
         getComponentsList().forEach(com -> com.onUpdate());        
     }
@@ -92,6 +97,7 @@ public abstract class GuiWidget implements IGui, WidgetContainer {
     /**
      * Called when screen is about to be closed
      */
+    @Override
     public void onClose() {
         getComponentsList().forEach(com -> com.onClose());
     }
@@ -200,7 +206,7 @@ public abstract class GuiWidget implements IGui, WidgetContainer {
     public String getId() {
         return id;
     }
-
+    
     /**
      * Sets this component id to provided
      * @return self

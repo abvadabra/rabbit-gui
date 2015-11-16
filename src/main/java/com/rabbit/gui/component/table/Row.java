@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.rabbit.gui.component.WidgetContainer;
+import com.rabbit.gui.component.WidgetList;
 
-public class Row<T> implements WidgetContainer<T>{
+public class Row<T> implements WidgetList<T>{
     
     protected final String name;
     protected final List<T> content;

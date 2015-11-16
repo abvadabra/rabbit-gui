@@ -1,7 +1,5 @@
 package com.rabbit.gui.component;
 
-import java.util.List;
-
 import com.rabbit.gui.base.WidgetContainer;
 
 /**
@@ -68,13 +66,6 @@ public interface IGui {
     void setup();
 
     /**
-     * Registers component as a part of pane
-     * 
-     * @param component
-     */
-    void registerComponent(IGui component);
-
-    /**
      * Returns and id component, can be <code>null</code>
      * @return
      */
@@ -86,19 +77,5 @@ public interface IGui {
      */
     <T> IGui setId(String id);
     
-    /**
-     * Called when component registered in pane
-     */
-    default void onRegistered(WidgetContainer pane) {
-        setParent(pane);
-    }
-
-    /**
-     * Returns pane in which this component registered
-     * 
-     * @return parent pane - can be null if it hasn't been registered yet
-     */
-    WidgetContainer getParent();
-
     void setParent(WidgetContainer pane);
 }

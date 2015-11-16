@@ -3,10 +3,11 @@ package com.rabbit.gui.show;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.Validate;
 import org.lwjgl.opengl.Display;
 
-import com.rabbit.gui.base.WidgetContainer;
 import com.rabbit.gui.base.Stage;
+import com.rabbit.gui.base.WidgetContainer;
 import com.rabbit.gui.component.IGui;
 
 import net.minecraft.util.StringUtils;
@@ -132,6 +133,12 @@ public abstract class Show implements IShow, WidgetContainer{
     @Override
     public int getHeight() {
         return height;
+    }
+    
+    @Override
+    public void onRegistered(WidgetContainer pane){
+        Validate.isTrue(pane instanceof Stage, "Provided WidgetContainer should be Stage");
+        this.setStage((Stage)pane);
     }
 
     /*

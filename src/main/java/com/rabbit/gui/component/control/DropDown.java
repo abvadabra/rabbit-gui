@@ -9,7 +9,7 @@ import java.util.TreeMap;
 
 import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.Shiftable;
-import com.rabbit.gui.component.WidgetContainer;
+import com.rabbit.gui.component.WidgetList;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
 import com.rabbit.gui.render.TextRenderer;
@@ -17,7 +17,7 @@ import com.rabbit.gui.render.TextRenderer;
 import net.minecraft.util.ResourceLocation;
 
 @LayoutComponent
-public class DropDown<T> extends GuiWidget implements WidgetContainer<T>, Shiftable {
+public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
 
     protected Map<String, DropDownElement<T>> content = new TreeMap<String , DropDownElement<T>>();
     private Button dropButton;
