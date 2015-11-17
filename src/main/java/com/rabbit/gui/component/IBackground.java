@@ -1,9 +1,9 @@
 package com.rabbit.gui.component;
 
 /**
- * Represents ui elements which is commonly rendered <br> 
- * at the background of the show and dosn't restart when resize
+ * Represents background elements of the show
  */
-public interface IBackground extends IGui{
-
+public interface IBackground {
+    
+    void onDraw(int width, int height, int mouseX, int mouseY, float partialTicks);        
 }
