@@ -8,6 +8,7 @@ import org.lwjgl.opengl.Display;
 
 import com.rabbit.gui.base.Stage;
 import com.rabbit.gui.base.WidgetContainer;
+import com.rabbit.gui.component.IBackground;
 import com.rabbit.gui.component.IGui;
 
 import net.minecraft.util.StringUtils;
@@ -19,6 +20,7 @@ public abstract class Show implements IShow, WidgetContainer{
     protected int width, height;
     protected Stage stage;
     protected String title;
+    private IBackground background;
     
     private void updateDisplayTitle(){
         Display.setTitle("Minecraft 1.7.10" + " - " + title);
@@ -65,6 +67,7 @@ public abstract class Show implements IShow, WidgetContainer{
 
     @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
+        if(getBackground() != null) getBackground().onDraw(width, height, mouseX, mouseY, partialTicks);
         getComponentsList().forEach(com -> com.onDraw(mouseX, mouseY, partialTicks));
     }
 
@@ -133,6 +136,16 @@ public abstract class Show implements IShow, WidgetContainer{
     @Override
     public int getHeight() {
         return height;
+    }
+    
+    @Override
+    public void setBackground(IBackground background) {
+        this.background = background;
+    }
+    
+    @Override
+    public IBackground getBackground(){
+        return background;
     }
     
     @Override

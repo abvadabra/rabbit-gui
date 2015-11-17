@@ -1,6 +1,7 @@
 package com.rabbit.gui.show;
 
 import com.rabbit.gui.base.Stage;
+import com.rabbit.gui.component.IBackground;
 import com.rabbit.gui.component.IGui;
 
 public interface IShow extends IGui{
@@ -21,4 +22,7 @@ public interface IShow extends IGui{
     
     int getHeight();
     
+    void setBackground(IBackground background);
+    
+    IBackground getBackground();
 }
