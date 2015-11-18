@@ -29,14 +29,14 @@ public class Renderer {
         float f = 0.00390625F;
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV((double) (posX + 0), (double) (posY + height), (double) 0,
-                (double) ((float) (uPos + 0) * f), (double) ((float) (vPos + height) * f));
-        tessellator.addVertexWithUV((double) (posX + width), (double) (posY + height), (double) 0,
-                (double) ((float) (uPos + width) * f), (double) ((float) (vPos + height) * f));
-        tessellator.addVertexWithUV((double) (posX + width), (double) (posY + 0), (double) 0,
-                (double) ((float) (uPos + width) * f), (double) ((float) (vPos + 0) * f));
-        tessellator.addVertexWithUV((double) (posX + 0), (double) (posY + 0), (double) 0,
-                (double) ((float) (uPos + 0) * f), (double) ((float) (vPos + 0) * f));
+        tessellator.addVertexWithUV(posX + 0, posY + height, 0,
+                (uPos + 0) * f, (vPos + height) * f);
+        tessellator.addVertexWithUV(posX + width, posY + height, 0,
+                (uPos + width) * f, (vPos + height) * f);
+        tessellator.addVertexWithUV(posX + width, posY + 0, 0,
+                (uPos + width) * f, (vPos + 0) * f);
+        tessellator.addVertexWithUV(posX + 0, posY + 0, 0,
+                (uPos + 0) * f, (vPos + 0) * f);
         tessellator.draw();
     }
 
@@ -62,20 +62,20 @@ public class Renderer {
             yTop = yBot;
             yBot = temp;
         }
-        float f3 = (float) (color >> 24 & 255) / 255.0F;
-        float f = (float) (color >> 16 & 255) / 255.0F;
-        float f1 = (float) (color >> 8 & 255) / 255.0F;
-        float f2 = (float) (color & 255) / 255.0F;
+        float f3 = (color >> 24 & 255) / 255.0F;
+        float f = (color >> 16 & 255) / 255.0F;
+        float f1 = (color >> 8 & 255) / 255.0F;
+        float f2 = (color & 255) / 255.0F;
         Tessellator tessellator = Tessellator.instance;
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         GL11.glColor4f(f, f1, f2, f3);
         tessellator.startDrawingQuads();
-        tessellator.addVertex((double) xTop, (double) yBot, 0.0D);
-        tessellator.addVertex((double) xBot, (double) yBot, 0.0D);
-        tessellator.addVertex((double) xBot, (double) yTop, 0.0D);
-        tessellator.addVertex((double) xTop, (double) yTop, 0.0D);
+        tessellator.addVertex(xTop, yBot, 0.0D);
+        tessellator.addVertex(xBot, yBot, 0.0D);
+        tessellator.addVertex(xBot, yTop, 0.0D);
+        tessellator.addVertex(xTop, yTop, 0.0D);
         tessellator.draw();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
@@ -93,10 +93,10 @@ public class Renderer {
             yTop = yBot;
             yBot = temp;
         }
-        float f3 = (float) (color >> 24 & 255) / 255.0F;
-        float f = (float) (color >> 16 & 255) / 255.0F;
-        float f1 = (float) (color >> 8 & 255) / 255.0F;
-        float f2 = (float) (color & 255) / 255.0F;
+        float f3 = (color >> 24 & 255) / 255.0F;
+        float f = (color >> 16 & 255) / 255.0F;
+        float f1 = (color >> 8 & 255) / 255.0F;
+        float f2 = (color & 255) / 255.0F;
         Tessellator tessellator = Tessellator.instance;
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -104,10 +104,10 @@ public class Renderer {
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         GL11.glColor4f(f, f1, f2, f3);
         tessellator.startDrawingQuads();
-        tessellator.addVertex((double) xTop, (double) yBot, 0.0D);
-        tessellator.addVertex((double) xBot, (double) yBot, 0.0D);
-        tessellator.addVertex((double) xBot, (double) yTop, 0.0D);
-        tessellator.addVertex((double) xTop, (double) yTop, 0.0D);
+        tessellator.addVertex(xTop, yBot, 0.0D);
+        tessellator.addVertex(xBot, yBot, 0.0D);
+        tessellator.addVertex(xBot, yTop, 0.0D);
+        tessellator.addVertex(xTop, yTop, 0.0D);
         tessellator.draw();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
@@ -161,5 +161,29 @@ public class Renderer {
             drawTexturedModalRect(x, y + topBorder + (j * fillerHeight), u, v + topBorder, leftBorder, (j == yPasses ? remainderHeight : fillerHeight));
             drawTexturedModalRect(x + leftBorder + canvasWidth, y + topBorder + (j * fillerHeight), u + leftBorder + fillerWidth, v + topBorder, rightBorder, (j == yPasses ? remainderHeight : fillerHeight));
         });
+    }
+    
+    /**
+     * Draws image and scales picture (without cutting it)
+     * @param xPos
+     * @param yPos
+     * @param u
+     * @param v
+     * @param imageWidth
+     * @param imageHeight
+     * @param width
+     * @param height
+     * @param zLevel
+     */
+    public static void drawTexturedModalRect(int xPos, int yPos, int u, int v, int imageWidth, int imageHeight, int width, int height, float zLevel) {
+        float f = 1F / width;
+        float f1 = 1F / height;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV(xPos,yPos + imageHeight, zLevel, u * f, (v + imageHeight) * f1);
+        tessellator.addVertexWithUV(xPos + imageWidth, yPos + imageHeight, zLevel, (u + imageWidth) * f, (v + imageHeight) * f1);
+        tessellator.addVertexWithUV(xPos + imageWidth, yPos, zLevel, (u + imageWidth) * f, v * f1);
+        tessellator.addVertexWithUV(xPos, yPos, zLevel, u * f, v * f1);
+        tessellator.draw();
     }
 }
