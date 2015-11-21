@@ -31,7 +31,7 @@ public class ScrollableDisplayList extends DisplayList {
     @Override
     public void setup() {
         super.setup();
-        int scrollerSize = this.height / this.content.size();
+        int scrollerSize = this.height / (this.content.isEmpty() ? 1 : this.content.size());
         if(scrollerSize < 10) scrollerSize = 10;
         if(this.content.size() < this.height / this.slotHeight) scrollerSize = this.height - 4;
         scrollBar = new ScrollBar(getX() + this.width - 10, getY(), 10, this.height, scrollerSize);
