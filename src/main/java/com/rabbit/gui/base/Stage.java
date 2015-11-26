@@ -18,6 +18,17 @@ public class Stage extends GuiScreen{
         this.show = show;
         this.show.setStage(this);
     }
+
+    public void reinitShow(){
+        show.setSize(width, height);
+        if(show instanceof WidgetContainer) ((WidgetContainer)show).getComponentsList().clear();
+        if (!hasBeenInitialized) {
+            show.onInit();
+            hasBeenInitialized = true;
+        }
+        show.setup();
+        if(show instanceof WidgetContainer) ((WidgetContainer)show).getComponentsList().forEach(component -> component.setup());
+    }
     
     @Override
     public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
@@ -53,14 +64,7 @@ public class Stage extends GuiScreen{
 
     @Override
     public final void initGui() {
-        show.setSize(width, height);
-        if(show instanceof WidgetContainer) ((WidgetContainer)show).getComponentsList().clear();
-        if (!hasBeenInitialized) {
-            show.onInit();
-            hasBeenInitialized = true;
-        }
-        show.setup();
-        if(show instanceof WidgetContainer) ((WidgetContainer)show).getComponentsList().forEach(component -> component.setup());
+        reinitShow();
     }
 
     @Override
