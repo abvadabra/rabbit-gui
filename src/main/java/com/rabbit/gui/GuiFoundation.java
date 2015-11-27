@@ -24,6 +24,7 @@ public class GuiFoundation {
         Stage current = getCurrentStage();
         if(current != null){
             current.setShow(show);
+            current.reinitShow();
         } else {
             Minecraft.getMinecraft().displayGuiScreen(new Stage(show));
         }
