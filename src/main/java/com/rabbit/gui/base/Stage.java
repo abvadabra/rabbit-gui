@@ -1,22 +1,35 @@
 package com.rabbit.gui.base;
 
-import org.lwjgl.input.Keyboard;
-
+import com.rabbit.gui.component.IGui;
 import com.rabbit.gui.show.IShow;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.input.Keyboard;
 
-import java.util.*;
+import java.util.Stack;
 
 public class Stage extends GuiScreen{
-    
+
+    /**
+     * Currently displayed show
+     */
     protected IShow show;
-    protected boolean hasBeenInitialized = false;
+
+    /**
+     * Contains all opened shows (including current)
+     */
     private Stack<IShow> showHistory = new Stack<>();
-    
+
+    /**
+     * Will create an empty show <br>
+     * Note: If you try to render empty stage the crash may occur
+     */
     public Stage(){}
-    
+
+    /**
+     * Creates stage and places the given show on it
+     * @param show - displayed show
+     */
     public Stage(IShow show){
         display(show);
     }
@@ -31,7 +44,7 @@ public class Stage extends GuiScreen{
     /**
      * Reinitialized currently opened shows, updates it's resolution and re-setups it. <br>
      * If <code>forceInit</code> is <code>true</code> show#onInit() will be called even if it's been already initialized
-     * @param forceInit
+     * @param forceInit - if <code>true</code> show#onInit() will be called event if it's been already initialized
      */
     public void reinitShow(boolean forceInit){
         show.setSize(width, height);
@@ -40,12 +53,12 @@ public class Stage extends GuiScreen{
             show.onInit();
         }
         show.setup();
-        if(show instanceof WidgetContainer) ((WidgetContainer)show).getComponentsList().forEach(component -> component.setup());
+        if(show instanceof WidgetContainer) ((WidgetContainer)show).getComponentsList().forEach(IGui::setup);
     }
 
     /**
      * Puts the given show on stage
-     * @param show
+     * @param show - show to display
      */
     public void display(IShow show){
         setShow(show);
@@ -54,15 +67,28 @@ public class Stage extends GuiScreen{
         reinitShow();
     }
 
+    /**
+     * Setter for show field, if you want to display show use {@link #display(IShow)} instead
+     * @param show - new show
+     * @return current instance of Stage
+     */
     public Stage setShow(IShow show){
         this.show = show;
         return this;
     }
 
     /**
+     * Returns currently displayed show
+     * @return currently display show
+     */
+    public IShow getShow(){
+        return show;
+    }
+
+    /**
      * Updated stage's history and adds the given show <br>
      * If given show already in the history it will be moved to the start
-     * @param show
+     * @param show - show which must be placed in history
      */
     private void pushHistory(IShow show){
         if(this.showHistory.contains(show)){
@@ -71,34 +97,52 @@ public class Stage extends GuiScreen{
         this.showHistory.push(show);
     }
 
+    /**
+     * @return This stage history
+     */
     public Stack<IShow> getShowHistory(){
         return this.showHistory;
     }
 
+    /**
+     * Wrapper for vanilla method
+     */
     @Override
-    public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
-        show.onDraw(p_73863_1_, p_73863_2_, p_73863_3_);
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        show.onDraw(mouseX, mouseY, partialTicks);
     }
 
+    /**
+     * Wrapper for vanilla method
+     */
     @Override
-    protected void keyTyped(char p_73869_1_, int p_73869_2_) {
-        show.onKeyTyped(p_73869_1_, p_73869_2_);
-        if(p_73869_2_ == Keyboard.KEY_ESCAPE){
+    protected void keyTyped(char typedChar, int typedKeyIndex) {
+        show.onKeyTyped(typedChar, typedKeyIndex);
+        if(typedKeyIndex == Keyboard.KEY_ESCAPE){
             Minecraft.getMinecraft().setIngameFocus();
         }
     }
 
+    /**
+     * Wrapper for vanilla method
+     */
     @Override
-    public void mouseClicked(int p_73864_1_, int p_73864_2_, int p_73864_3_) {
-        show.onMouseClicked(p_73864_1_, p_73864_2_, p_73864_3_);
+    public void mouseClicked(int clickX, int clickY, int mouseIndex) {
+        show.onMouseClicked(clickX, clickY, mouseIndex);
     }
-    
+
+    /**
+     * Wrapper for vanilla method
+     */
     @Override
     public void handleMouseInput(){
         super.handleMouseInput();
         show.onMouseInput();
     }
 
+    /**
+     * Wrapper for vanilla method
+     */
     @Override
     protected void mouseMovedOrUp(int mouseX, int mouseY, int type) {
         super.mouseMovedOrUp(mouseX, mouseY, type);
@@ -107,28 +151,35 @@ public class Stage extends GuiScreen{
         }
     }
 
+    /**
+     * Wrapper for vanilla method
+     */
     @Override
     public final void initGui() {
         reinitShow();
     }
 
+    /**
+     * Wrapper for vanilla method
+     */
     @Override
     public void updateScreen() {
         show.onUpdate();
     }
 
+    /**
+     * Wrapper for vanilla method
+     */
     @Override
     public void onGuiClosed() {
         show.onClose();
     }
 
+    /**
+     * Wrapper for vanilla method
+     */
     @Override
     public boolean doesGuiPauseGame() {
         return false;
     }
-    
-    public IShow getShow(){
-        return show;
-    }
-    
 }
