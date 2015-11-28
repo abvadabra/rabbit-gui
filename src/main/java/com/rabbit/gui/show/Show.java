@@ -21,6 +21,7 @@ public abstract class Show implements IShow, WidgetContainer{
     protected Stage stage;
     protected String title;
     private IBackground background;
+    private boolean initialized = false;
     
     private void updateDisplayTitle(){
         Display.setTitle("Minecraft 1.7.10" + " - " + title);
@@ -37,6 +38,7 @@ public abstract class Show implements IShow, WidgetContainer{
         if(!StringUtils.isNullOrEmpty(title)){
             updateDisplayTitle();
         }
+        this.initialized = true;
     }
     
     @Override
@@ -154,9 +156,14 @@ public abstract class Show implements IShow, WidgetContainer{
         this.setStage((Stage)pane);
     }
 
+    @Override
+    public boolean hasBeenInitialized() {
+        return this.initialized;
+    }
+
     /*
-     * DO NOT CALL THIS METHOD. Use #setStage instead!
-     */
+         * DO NOT CALL THIS METHOD. Use #setStage instead!
+         */
     @Deprecated
     @Override
     public final void setParent(WidgetContainer c){}
