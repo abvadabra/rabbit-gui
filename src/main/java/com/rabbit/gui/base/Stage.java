@@ -63,8 +63,8 @@ public class Stage extends GuiScreen{
     public void display(IShow show){
         setShow(show);
         show.setStage(this);
-        pushHistory(show);
-        reinitShow();
+        reinitShow(true);
+        pushHistory(this.show);
     }
 
     /**
@@ -98,10 +98,30 @@ public class Stage extends GuiScreen{
     }
 
     /**
+     * Displays previously opened show <br>
+     * If current show is the only opened show this stage will be closed <br>
+     * If history is empty nothing will happen
+     */
+    public void displayPrevious(){
+        if(getShowHistory().size() != 0){
+            if(getShowHistory().size() == 1){
+                close();
+            } else {
+                getShowHistory().pop(); //remove current
+                display(getShowHistory().pop()); //remove and open previous
+            }
+        }
+    }
+
+    /**
      * @return This stage history
      */
     public Stack<IShow> getShowHistory(){
         return this.showHistory;
+    }
+
+    public void close(){
+        Minecraft.getMinecraft().setIngameFocus();
     }
 
     /**
