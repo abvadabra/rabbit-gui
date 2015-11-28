@@ -21,10 +21,22 @@ public class Stage extends GuiScreen{
         display(show);
     }
 
+    /**
+     * Shortcut for #reinitShow(false), provided for backward compatibility
+     */
     public void reinitShow(){
+        reinitShow(false);
+    }
+
+    /**
+     * Reinitialized currently opened shows, updates it's resolution and re-setups it. <br>
+     * If <code>forceInit</code> is <code>true</code> show#onInit() will be called even if it's been already initialized
+     * @param forceInit
+     */
+    public void reinitShow(boolean forceInit){
         show.setSize(width, height);
         if(show instanceof WidgetContainer) ((WidgetContainer)show).getComponentsList().clear();
-        if (!show.hasBeenInitialized()) {
+        if (!show.hasBeenInitialized() || forceInit) {
             show.onInit();
         }
         show.setup();
