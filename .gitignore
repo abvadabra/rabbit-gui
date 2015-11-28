@@ -48,3 +48,9 @@ local.properties
 
 # STS (Spring Tool Suite)
 .springBeans
+*.iml
+*.ipr
+*.iws
+
+## Directory-based project format:
+.idea/
