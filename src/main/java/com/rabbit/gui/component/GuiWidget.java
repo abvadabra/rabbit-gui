@@ -142,6 +142,7 @@ public abstract class GuiWidget implements IGui, WidgetContainer {
     @Override
     public void registerComponent(IGui component) {
         this.getComponentsList().add(component);
+        if(component instanceof WidgetContainer) ((WidgetContainer) component).onRegistered(this);
     }
 
     /**

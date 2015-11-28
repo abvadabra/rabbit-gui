@@ -49,6 +49,7 @@ public abstract class Show implements IShow, WidgetContainer{
     @Override
     public void registerComponent(IGui component) {
         components.add(component);
+        if(component instanceof WidgetContainer) ((WidgetContainer) component).onRegistered(this);
     }
 
     @Override
