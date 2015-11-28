@@ -23,6 +23,8 @@ public interface IShow extends IGui{
     int getHeight();
     
     void setBackground(IBackground background);
-    
+
+    boolean hasBeenInitialized();
+
     IBackground getBackground();
 }
