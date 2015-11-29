@@ -1,14 +1,14 @@
 package com.rabbit.gui.component.list;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.WidgetList;
-import com.rabbit.gui.component.list.DisplayList.ListEntry;
+import com.rabbit.gui.component.list.entries.ListEntry;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
 import com.rabbit.gui.utils.GeometryUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 @LayoutComponent
 public class DisplayList extends GuiWidget implements WidgetList<ListEntry>{
@@ -105,13 +105,6 @@ public class DisplayList extends GuiWidget implements WidgetList<ListEntry>{
         assignId(id);
         return this;
     }
-    
-    public interface ListEntry{
 
-        public default void onDraw(DisplayList list, int posX, int posY, int width, int height, int mouseX, int mouseY){}
-        
-        public default void onClick(DisplayList list, int mouseX, int mouseY){}
-    
-    }
 
 }
