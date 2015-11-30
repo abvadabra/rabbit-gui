@@ -3,6 +3,7 @@ package com.rabbit.gui.component.list;
 import java.util.List;
 
 import com.rabbit.gui.component.control.ScrollBar;
+import com.rabbit.gui.component.list.entries.ListEntry;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.utils.GeometryUtils;
 
