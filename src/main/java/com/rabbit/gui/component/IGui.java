@@ -32,8 +32,10 @@ public interface IGui {
      * @param posX
      * @param posY
      * @param mouseButtonIndex
+     *
+     * @return <code>true</code> if element has been clicked
      */
-    void onMouseClicked(int posX, int posY, int mouseButtonIndex);
+    boolean onMouseClicked(int posX, int posY, int mouseButtonIndex);
 
     
     /**

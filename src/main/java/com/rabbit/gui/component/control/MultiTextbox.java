@@ -114,8 +114,9 @@ public class MultiTextbox extends TextBox {
     }
 
     @Override
-    protected void handleMouseClick(int posX, int posY, int mouseButtonIndex){
-        setIsFocused(isTextBoxUnderMouse(posX, posY));
+    protected boolean handleMouseClick(int posX, int posY, int mouseButtonIndex){
+        boolean clicked = isTextBoxUnderMouse(posX, posY);
+        setIsFocused(clicked);
         if (isFocused() && mouseButtonIndex == 0) {
             int lenght = posX -  getX();
             String temp = TextRenderer.getFontRenderer().trimStringToWidth(this.text.substring(this.scrollOffset),  getWidth());
@@ -142,7 +143,7 @@ public class MultiTextbox extends TextBox {
                         }
                     }
                     if(lineCount == y && x <= TextRenderer.getFontRenderer().getStringWidth(line + c)){
-                        return;
+                        return clicked;
                     }
                     charCount++;
                     line += c;
@@ -159,6 +160,7 @@ public class MultiTextbox extends TextBox {
                 this.setCursorPosition(this.getText().length());
             }
         }
+        return clicked;
     }
     
     

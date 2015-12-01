@@ -150,21 +150,18 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     }
 
     @Override
-    public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
+    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
         super.onMouseClicked(posX, posY, mouseButtonIndex);
-        if(isEnabled()){
-            boolean inArea = this.isUnrolled ? expandedListUnderMouse(posX, posY) : underMouse(posX, posY);
-            
-            if(!inArea){
-                this.isUnrolled = false;
-            }
-            
+        boolean clicked = this.isUnrolled ? expandedListUnderMouse(posX, posY) : underMouse(posX, posY);
+        if(!clicked) this.isUnrolled = false;
+        if(clicked && isEnabled()){
+
             if(underMouse(posX, posY) && !isEmpty()){
                 this.isUnrolled = !this.isUnrolled;
             }
             
             if(this.isUnrolled){
-                List<String> contentKeys = new ArrayList(getContent().keySet());
+                List<String> contentKeys = new ArrayList<>(getContent().keySet());
                 for(int index = 0; index < contentKeys.size(); index++) {
                    int yPos = getY() + getHeight() + (getHeight() / 8) + (index * 12);
                    boolean hoverItem = posX >= getX() && posX <= getX() + getWidth() && posY >= yPos && posY <= yPos + 12;
@@ -176,6 +173,7 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
                 }
             }
         }
+        return clicked;
     }
 
     private boolean underMouse(int x, int y){

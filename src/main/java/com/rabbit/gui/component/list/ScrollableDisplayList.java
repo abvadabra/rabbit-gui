@@ -25,11 +25,6 @@ public class ScrollableDisplayList extends DisplayList {
     }
 
     @Override
-    public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
-        super.onMouseClicked(posX, posY, mouseButtonIndex);
-    }
-
-    @Override
     public void setup() {
         super.setup();
         int scrollerSize = this.height / (this.content.isEmpty() ? 1 : this.content.size());

@@ -350,18 +350,20 @@ public class TextBox extends GuiWidget implements Shiftable {
     }
 
     @Override
-    public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
+    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
         super.onMouseClicked(posX, posY, mouseButtonIndex);
-        handleMouseClick(posX, posY, mouseButtonIndex);
+        return handleMouseClick(posX, posY, mouseButtonIndex);
     }
     
-    protected void handleMouseClick(int posX, int posY, int mouseButtonIndex){
-        setIsFocused(isTextBoxUnderMouse(posX, posY));
+    protected boolean handleMouseClick(int posX, int posY, int mouseButtonIndex){
+        boolean clicked = isTextBoxUnderMouse(posX, posY);
+        setIsFocused(clicked);
         if (isFocused() && mouseButtonIndex == 0) {
             int lenght = posX -  getX();
             String temp = TextRenderer.getFontRenderer().trimStringToWidth(this.text.substring(this.scrollOffset),  getWidth());
             this.setCursorPosition(TextRenderer.getFontRenderer().trimStringToWidth(temp, lenght).length() + this.scrollOffset);
         }
+        return clicked;
     }
 
     public String getSelectedText() {

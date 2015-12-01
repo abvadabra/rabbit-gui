@@ -60,9 +60,10 @@ public class ScrollBar extends GuiWidget {
     }
     
     @Override
-    public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
+    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
         super.onMouseClicked(posX, posY, mouseButtonIndex);
         this.isScrolling = GeometryUtils.isDotInArea(getX() + 2, (int)(getY() + 2 + this.scrolled * (this.height - this.scrollerSize)), this.width - 4, this.scrollerSize, posX, posY);
+        return isScrolling;
     }
     
     @Override

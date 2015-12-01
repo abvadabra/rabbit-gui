@@ -1,7 +1,9 @@
 package com.rabbit.gui.show;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.apache.commons.lang3.Validate;
 import org.lwjgl.opengl.Display;
@@ -71,7 +73,10 @@ public abstract class Show implements IShow, WidgetContainer{
     @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
         if(getBackground() != null) getBackground().onDraw(width, height, mouseX, mouseY, partialTicks);
-        getComponentsList().forEach(com -> com.onDraw(mouseX, mouseY, partialTicks));
+        //we need to draw components in reversed order, the last added element will be under earlier
+        for(ListIterator<IGui> it = getComponentsList().listIterator(getComponentsList().size()); it.hasPrevious();){
+            it.previous().onDraw(mouseX, mouseY, partialTicks);
+        }
     }
 
     @Override
@@ -80,8 +85,13 @@ public abstract class Show implements IShow, WidgetContainer{
     }
 
     @Override
-    public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
-        getComponentsList().forEach(com -> com.onMouseClicked(posX, posY, mouseButtonIndex));
+    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
+        boolean clicked = false;
+        for(IGui com : getComponentsList()) {
+            if (clicked) break;
+            clicked = com.onMouseClicked(posX, posY, mouseButtonIndex);
+        }
+        return clicked;
     }
 
     @Override

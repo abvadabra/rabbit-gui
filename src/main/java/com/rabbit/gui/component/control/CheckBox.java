@@ -93,11 +93,13 @@ public class CheckBox extends GuiWidget implements Shiftable{
     }
 
     @Override
-    public void onMouseClicked(int posX, int posY, int mouseButtonIndex) {
-        if (isButtonUnderMouse(posX, posY) && isEnabled()) {
+    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
+        boolean clicked = isButtonUnderMouse(posX, posY) && isEnabled();
+        if (clicked) {
             setIsCheckedWithNotify(!isChecked());
             playClickSound();
         }
+        return clicked;
     }
 
     public boolean isChecked(){
