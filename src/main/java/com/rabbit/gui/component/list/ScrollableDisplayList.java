@@ -1,11 +1,16 @@
 package com.rabbit.gui.component.list;
 
+import java.awt.*;
 import java.util.List;
 
 import com.rabbit.gui.component.control.ScrollBar;
 import com.rabbit.gui.component.list.entries.ListEntry;
 import com.rabbit.gui.layout.LayoutComponent;
-import com.rabbit.gui.utils.GeometryUtils;
+import com.rabbit.gui.render.Renderer;
+import com.rabbit.gui.utils.Geometry;
+import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 @LayoutComponent
 public class ScrollableDisplayList extends DisplayList {
@@ -39,14 +44,21 @@ public class ScrollableDisplayList extends DisplayList {
         scrollBar.setVisiblie(!canFit());
         scrollBar.setHandleMouseWheel(!canFit());
         scrollBar.setScrollerSize(getScrollerSize());
+        int scale = Geometry.computeScaleFactor();
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
             int slotPosX = getX();
             int slotPosY = ((getY() + i * slotHeight) - (int)((this.slotHeight * scrollBar.getProgress() * this.content.size()) * 0.925F));
             int slotWidth = this.width; 
             int slotHeight = this.slotHeight;
-            if(slotPosY + slotHeight <= getY() + this.height && slotPosY >= getY()){
+            if(slotPosY + slotHeight < getY() + this.height && slotPosY > getY()){
+                GL11.glPushMatrix();
+                GL11.glEnable(GL11.GL_SCISSOR_TEST);
+                Minecraft mc = Minecraft.getMinecraft();
+                GL11.glScissor(getX() * scale, mc.displayHeight - (getY() + getHeight()) * scale, getWidth() * scale, getHeight() * scale);
                 entry.onDraw(this, slotPosX, slotPosY, slotWidth, slotHeight, mouseX, mouseY);
+                GL11.glDisable(GL11.GL_SCISSOR_TEST);
+                GL11.glPopMatrix();
             }
         }
     }
@@ -61,7 +73,7 @@ public class ScrollableDisplayList extends DisplayList {
             int slotHeight = this.slotHeight;
             boolean scrollbarActive = scrollBar.isScrolling() && scrollBar.isVisible();
             if(slotPosY + slotHeight <= getY() + this.height && slotPosY >= getY() && !scrollbarActive){
-                boolean clickedOnEntry = GeometryUtils.isDotInArea(slotPosX, slotPosY, slotWidth, slotHeight, mouseX, mouseY);
+                boolean clickedOnEntry = Geometry.isDotInArea(slotPosX, slotPosY, slotWidth, slotHeight, mouseX, mouseY);
                 if(clickedOnEntry) entry.onClick(this, mouseX, mouseY);
             }
         } 
