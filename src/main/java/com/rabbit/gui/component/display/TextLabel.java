@@ -123,6 +123,14 @@ public class TextLabel extends GuiWidget implements Shiftable {
         this.alignment = align;
         return this;
     }
+
+    public void setText(String text){
+        this.text = text;
+    }
+
+    public String getText(){
+        return this.text;
+    }
     
     public TextAlignment getTextAlignment(){
         return this.alignment;
