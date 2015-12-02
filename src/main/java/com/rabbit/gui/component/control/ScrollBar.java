@@ -1,11 +1,10 @@
 package com.rabbit.gui.component.control;
 
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 
 import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.render.Renderer;
-import com.rabbit.gui.utils.GeometryUtils;
+import com.rabbit.gui.utils.Geometry;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -62,7 +61,7 @@ public class ScrollBar extends GuiWidget {
     @Override
     public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
         super.onMouseClicked(posX, posY, mouseButtonIndex);
-        this.isScrolling = GeometryUtils.isDotInArea(getX() + 2, (int)(getY() + 2 + this.scrolled * (this.height - this.scrollerSize)), this.width - 4, this.scrollerSize, posX, posY);
+        this.isScrolling = Geometry.isDotInArea(getX() + 2, (int)(getY() + 2 + this.scrolled * (this.height - this.scrollerSize)), this.width - 4, this.scrollerSize, posX, posY);
         return isScrolling;
     }
     

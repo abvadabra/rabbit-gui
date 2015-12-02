@@ -5,7 +5,7 @@ import com.rabbit.gui.component.WidgetList;
 import com.rabbit.gui.component.list.entries.ListEntry;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
-import com.rabbit.gui.utils.GeometryUtils;
+import com.rabbit.gui.utils.Geometry;
 
 import java.util.Arrays;
 import java.util.List;
@@ -82,7 +82,7 @@ public class DisplayList extends GuiWidget implements WidgetList<ListEntry>{
     @Override
     public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
         super.onMouseClicked(posX, posY, mouseButtonIndex);
-        boolean clickedOnList = GeometryUtils.isDotInArea(getX(), getY(), this.width, this.height, posX, posY);
+        boolean clickedOnList = Geometry.isDotInArea(getX(), getY(), this.width, this.height, posX, posY);
         if(clickedOnList){
             handleMouseClickList(posX, posY);
         }
@@ -96,7 +96,7 @@ public class DisplayList extends GuiWidget implements WidgetList<ListEntry>{
             int slotPosY = getY() + i * slotHeight;
             int slotWidth = this.width;
             int slotHeight = this.slotHeight;
-            boolean clickedOnEntry = GeometryUtils.isDotInArea(slotPosX, slotPosY, slotWidth, slotHeight, mouseX, mouseY);
+            boolean clickedOnEntry = Geometry.isDotInArea(slotPosX, slotPosY, slotWidth, slotHeight, mouseX, mouseY);
             if(clickedOnEntry) entry.onClick(this, mouseX, mouseY);
         } 
     }
