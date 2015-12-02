@@ -51,7 +51,7 @@ public class ScrollableDisplayList extends DisplayList {
             int slotPosY = ((getY() + i * slotHeight) - (int)((this.slotHeight * scrollBar.getProgress() * this.content.size()) * 0.925F));
             int slotWidth = this.width; 
             int slotHeight = this.slotHeight;
-            if(slotPosY + slotHeight < getY() + this.height && slotPosY > getY()){
+            if(slotPosY < getY() + this.height && slotPosY + slotHeight > getY()){
                 GL11.glPushMatrix();
                 GL11.glEnable(GL11.GL_SCISSOR_TEST);
                 Minecraft mc = Minecraft.getMinecraft();
