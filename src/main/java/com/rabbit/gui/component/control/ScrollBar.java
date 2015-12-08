@@ -20,7 +20,7 @@ public class ScrollBar extends GuiWidget {
     
     protected boolean visible = true;
     
-    protected OnProgressChanged progressChangedListener = (bar) -> {};
+    protected OnProgressChanged progressChangedListener = (bar, mod) -> {};
     
     protected boolean handleMouseWheel;
     
@@ -54,7 +54,7 @@ public class ScrollBar extends GuiWidget {
     private void calculateScroller(int mouseY){
         if(isScrolling) {
             float magic = ((float)(mouseY - getY() + 2) - 10F) / ((float)(getY() + this.height - (getY() + 2)) - 15.0F);
-            setProgressWithNotify(magic);
+            updateProgress(magic - this.scrolled);
         }
     }
     
@@ -76,8 +76,8 @@ public class ScrollBar extends GuiWidget {
         super.onMouseInput();
         if(shouldHandleMouseWheel()){
             double delta = Mouse.getDWheel();
-            if(delta < 0) setProgressWithNotify(this.scrolled + 0.20F);
-            if(delta > 0) setProgressWithNotify(this.scrolled - 0.20F);
+            if(delta < 0) updateProgress(0.20F);
+            if(delta > 0) updateProgress(-0.20F);
         }
     }
     
@@ -97,12 +97,13 @@ public class ScrollBar extends GuiWidget {
         this.scrollerSize = size;
         return this;
     }
-    
-    public void setProgressWithNotify(float scroll){
-        setProgress(scroll);
-        getProgressChangedListener().onProgressChanged(this);
+
+    public void updateProgress(float modifier){
+        setProgress(this.scrolled + modifier);
+        getProgressChangedListener().onProgressChanged(this, modifier);
     }
     
+
     public OnProgressChanged getProgressChangedListener() {
         return progressChangedListener;
     }
@@ -142,7 +143,7 @@ public class ScrollBar extends GuiWidget {
     }
     
     public static interface OnProgressChanged{
-        void onProgressChanged(ScrollBar bar);
+        void onProgressChanged(ScrollBar bar, float modifier);
     }
     
 }
