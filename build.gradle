@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0"
+version = "v1.2.0"
 group= "com.rabbit"
 archivesBaseName = "rabbit-gui"
 
@@ -26,21 +26,48 @@ minecraft {
     runDir = "eclipse"
 }
 
+configurations {
+    shade
+    compile.extendsFrom shade
+}
+
+dependencies {
+    shade 'net.objecthunter:exp4j:0.4.5'
+}
+
+task shadedJar(type: Jar){
+    from (sourceSets.main.output) {
+        setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    }
+    configurations.shade.each{ dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-ING', 'META-INF/**'
+        }
+    }
+    classifier = 'shaded'
+}
+
 task sourceJar(type: Jar) { 
     from sourceSets.main.allSource
     classifier = 'sources'
 }
 
-tasks.build.dependsOn('sourceJar')
+def action = new Action<net.minecraftforge.gradle.tasks.user.reobf.ArtifactSpec>(){
+    void execute(net.minecraftforge.gradle.tasks.user.reobf.ArtifactSpec artifactSpec) {
+        artifactSpec.classpath = sourceSets.main.compileClasspath
+    }
+}
+
+reobf.reobf(shadedJar, action)
+
+tasks.jar.dependsOn('sourceJar', 'shadedJar')
 
 artifacts {
     archives jar
     archives sourceJar
+    archives shadedJar
 }
 
-dependencies {
-    compile 'net.objecthunter:exp4j:0.4.5'
-}
 
 compileJava {
     sourceCompatibility = 1.8

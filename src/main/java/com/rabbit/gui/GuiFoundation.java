@@ -7,12 +7,12 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import net.minecraft.client.Minecraft;
 
-@Mod(modid = "rabbit-gui", name = "Rabbit Gui Library")
+@Mod(modid = "rabbit-gui", name = "Rabbit Gui Library", version = "v1.2.0")
 public class GuiFoundation {
 
     @Mod.EventHandler
     public void postLoad(FMLPostInitializationEvent event) {
-        FMLLog.info("Rabbit Gui has been successfuly initialized");
+        FMLLog.info("Rabbit Gui has been successfully initialized");
     }
 
     /**
