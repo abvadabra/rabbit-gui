@@ -51,6 +51,11 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     public DropDown(int xPos, int yPos, int width, String text){
         super(xPos, yPos, width, 12);
         this.text = text;
+        initDropButton();
+    }
+
+    private void initDropButton(){
+        this.dropButton = new Button(getX() + getWidth() - 12, getY(), 12, 12, "\u25BC");
     }
     
     
@@ -94,7 +99,7 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     
     @Override
     public void setup(){
-        registerComponent(dropButton = new Button(getX() + getWidth() - 12, getY(), 12, 12, "\u25BC"));
+        registerComponent(dropButton);
     }
     
     @Override
@@ -204,6 +209,7 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     
     public DropDown<T> setIsEnabled(boolean isEnabled){
         this.isEnabled = isEnabled;
+        this.dropButton.setIsEnabled(false);
         return this;
     }
     
@@ -213,6 +219,7 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     
     public DropDown<T> setIsVisible(boolean isVisible){
         this.isVisible = isVisible;
+        this.dropButton.setIsVisible(isVisible);
         return this;
     }
     
