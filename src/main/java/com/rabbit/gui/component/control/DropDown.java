@@ -43,7 +43,15 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     protected ItemSelectedListener<T> itemSelectedListener;
     
     private DropDown(){}
-    
+
+    public DropDown(int xPos, int yPos, int width, T ... values){
+        this(xPos, yPos, width);
+        addAll(values);
+        if(values.length > 0) {
+            setDefaultItem(String.valueOf(values[0]));
+        }
+    }
+
     public DropDown(int xPos, int yPos, int width){
         this(xPos, yPos, width, "");
     }
@@ -209,7 +217,7 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     
     public DropDown<T> setIsEnabled(boolean isEnabled){
         this.isEnabled = isEnabled;
-        this.dropButton.setIsEnabled(false);
+        this.dropButton.setIsEnabled(isEnabled);
         return this;
     }
     
