@@ -163,9 +163,9 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     }
 
     @Override
-    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
-        super.onMouseClicked(posX, posY, mouseButtonIndex);
-        boolean clicked = this.isUnrolled ? expandedListUnderMouse(posX, posY) : underMouse(posX, posY);
+    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex, boolean overlap) {
+        super.onMouseClicked(posX, posY, mouseButtonIndex, overlap);
+        boolean clicked = !overlap && (this.isUnrolled ? expandedListUnderMouse(posX, posY) : underMouse(posX, posY));
         if(!clicked) this.isUnrolled = false;
         if(clicked && isEnabled()){
 

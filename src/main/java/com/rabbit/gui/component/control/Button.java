@@ -78,8 +78,8 @@ public class Button extends GuiWidget implements Shiftable {
     }
 
     @Override
-    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
-        boolean clicked = isButtonUnderMouse(posX, posY)&& isEnabled();
+    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex, boolean overlap) {
+        boolean clicked = isButtonUnderMouse(posX, posY)&& isEnabled() && !overlap;
         if (clicked) {
             if (getClickListener() != null){
                 getClickListener().onClick(this);

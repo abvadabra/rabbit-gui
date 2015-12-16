@@ -32,10 +32,11 @@ public interface IGui {
      * @param posX
      * @param posY
      * @param mouseButtonIndex
+     * @param overlap - indicates if there is any other component in the same location
      *
      * @return <code>true</code> if element has been clicked
      */
-    boolean onMouseClicked(int posX, int posY, int mouseButtonIndex);
+    boolean onMouseClicked(int posX, int posY, int mouseButtonIndex, boolean overlap);
 
     
     /**

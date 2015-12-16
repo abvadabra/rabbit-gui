@@ -59,9 +59,9 @@ public class ScrollBar extends GuiWidget {
     }
     
     @Override
-    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
-        super.onMouseClicked(posX, posY, mouseButtonIndex);
-        this.isScrolling = Geometry.isDotInArea(getX() + 2, (int)(getY() + 2 + this.scrolled * (this.height - this.scrollerSize)), this.width - 4, this.scrollerSize, posX, posY);
+    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex, boolean overlap) {
+        super.onMouseClicked(posX, posY, mouseButtonIndex, overlap);
+        this.isScrolling = !overlap && Geometry.isDotInArea(getX() + 2, (int)(getY() + 2 + this.scrolled * (this.height - this.scrollerSize)), this.width - 4, this.scrollerSize, posX, posY);
         return isScrolling;
     }
     

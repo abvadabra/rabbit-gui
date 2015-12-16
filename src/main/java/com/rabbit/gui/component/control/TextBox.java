@@ -350,13 +350,13 @@ public class TextBox extends GuiWidget implements Shiftable {
     }
 
     @Override
-    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
-        super.onMouseClicked(posX, posY, mouseButtonIndex);
-        return handleMouseClick(posX, posY, mouseButtonIndex);
+    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex, boolean overlap) {
+        super.onMouseClicked(posX, posY, mouseButtonIndex, overlap);
+        return handleMouseClick(posX, posY, mouseButtonIndex, overlap);
     }
     
-    protected boolean handleMouseClick(int posX, int posY, int mouseButtonIndex){
-        boolean clicked = isTextBoxUnderMouse(posX, posY);
+    protected boolean handleMouseClick(int posX, int posY, int mouseButtonIndex, boolean overlap){
+        boolean clicked = isTextBoxUnderMouse(posX, posY) && !overlap;
         setIsFocused(clicked);
         if (isFocused() && mouseButtonIndex == 0) {
             int lenght = posX -  getX();

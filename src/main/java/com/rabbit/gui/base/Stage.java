@@ -148,7 +148,7 @@ public class Stage extends GuiScreen{
      */
     @Override
     public void mouseClicked(int clickX, int clickY, int mouseIndex) {
-        show.onMouseClicked(clickX, clickY, mouseIndex);
+        show.onMouseClicked(clickX, clickY, mouseIndex, false);
     }
 
     /**

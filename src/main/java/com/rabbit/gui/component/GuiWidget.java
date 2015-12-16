@@ -79,11 +79,10 @@ public abstract class GuiWidget implements IGui, WidgetContainer {
      * @return <code>true</code> if the element has been clicked
      */
     @Override
-    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
+    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex, boolean overlap) {
         boolean clicked = false;
         for(IGui com : getComponentsList()) {
-            if (clicked) break;
-            clicked = com.onMouseClicked(posX, posY, mouseButtonIndex);
+            clicked = com.onMouseClicked(posX, posY, mouseButtonIndex, clicked) || clicked;
         }
         return clicked;
     }

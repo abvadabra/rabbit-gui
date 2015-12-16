@@ -80,9 +80,9 @@ public class DisplayList extends GuiWidget implements WidgetList<ListEntry>{
     }
 
     @Override
-    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex) {
-        super.onMouseClicked(posX, posY, mouseButtonIndex);
-        boolean clickedOnList = Geometry.isDotInArea(getX(), getY(), this.width, this.height, posX, posY);
+    public boolean onMouseClicked(int posX, int posY, int mouseButtonIndex, boolean overlap) {
+        super.onMouseClicked(posX, posY, mouseButtonIndex, overlap);
+        boolean clickedOnList = !overlap && Geometry.isDotInArea(getX(), getY(), this.width, this.height, posX, posY);
         if(clickedOnList){
             handleMouseClickList(posX, posY);
         }

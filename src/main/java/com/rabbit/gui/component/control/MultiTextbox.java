@@ -114,8 +114,8 @@ public class MultiTextbox extends TextBox {
     }
 
     @Override
-    protected boolean handleMouseClick(int posX, int posY, int mouseButtonIndex){
-        boolean clicked = isTextBoxUnderMouse(posX, posY);
+    protected boolean handleMouseClick(int posX, int posY, int mouseButtonIndex, boolean overlap){
+        boolean clicked = !overlap && isTextBoxUnderMouse(posX, posY);
         setIsFocused(clicked);
         if (isFocused() && mouseButtonIndex == 0) {
             int lenght = posX -  getX();
