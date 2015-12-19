@@ -27,8 +27,8 @@ public interface WidgetContainer {
      */
     WidgetContainer getParent();
     
-    default <T> IGui findComponentById(String id){
-        return getComponentsList().stream().filter(com -> id.equals(com.getId())).findFirst().orElse(null);
+    default <T> T findComponentById(String id){
+        return (T) getComponentsList().stream().filter(com -> id.equals(com.getId())).findFirst().orElse(null);
     }
     
 }
