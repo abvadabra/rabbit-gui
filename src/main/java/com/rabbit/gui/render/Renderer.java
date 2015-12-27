@@ -1,12 +1,11 @@
 package com.rabbit.gui.render;
 
-import java.awt.*;
-import java.util.stream.IntStream;
-
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.stream.IntStream;
 
 public class Renderer {
 
@@ -63,15 +62,11 @@ public class Renderer {
             yTop = yBot;
             yBot = temp;
         }
-        float f3 = (color >> 24 & 255) / 255.0F;
-        float f = (color >> 16 & 255) / 255.0F;
-        float f1 = (color >> 8 & 255) / 255.0F;
-        float f2 = (color & 255) / 255.0F;
         Tessellator tessellator = Tessellator.instance;
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(f, f1, f2, f3);
+        glColorRGB(color);
         tessellator.startDrawingQuads();
         tessellator.addVertex(xTop, yBot, 0.0D);
         tessellator.addVertex(xBot, yBot, 0.0D);
@@ -94,16 +89,12 @@ public class Renderer {
             yTop = yBot;
             yBot = temp;
         }
-        float f3 = (color >> 24 & 255) / 255.0F;
-        float f = (color >> 16 & 255) / 255.0F;
-        float f1 = (color >> 8 & 255) / 255.0F;
-        float f2 = (color & 255) / 255.0F;
         Tessellator tessellator = Tessellator.instance;
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         specialGL.run();
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(f, f1, f2, f3);
+        glColorRGB(color);
         tessellator.startDrawingQuads();
         tessellator.addVertex(xTop, yBot, 0.0D);
         tessellator.addVertex(xBot, yBot, 0.0D);
@@ -200,11 +191,7 @@ public class Renderer {
     public static void drawFilledArc(int xCenter, int yCenter, int radius, double startDegrees, double finishDegrees, int color){
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        float f3 = (color >> 24 & 255) / 255.0F;
-        float f = (color >> 16 & 255) / 255.0F;
-        float f1 = (color >> 8 & 255) / 255.0F;
-        float f2 = (color & 255) / 255.0F;
-        GL11.glColor4f(f, f1, f2, f3);
+        glColorRGB(color);
         GL11.glBegin(GL11.GL_TRIANGLE_FAN);
         GL11.glVertex2d(xCenter, yCenter);
         for(double i = startDegrees; i <= finishDegrees; i += 0.05){
@@ -237,5 +224,4 @@ public class Renderer {
         float blue = (rgb & 255) / 255.0F;
         GL11.glColor4f(red, green, blue, alpha);
     }
-
 }
