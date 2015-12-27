@@ -12,7 +12,7 @@ We are using [JitPack.io](http://jitpack.io) for build deployment. So you must a
 ```
 After that in the dependencies section add:
 ```
-compile 'com.github.FRedEnergy.rabbit-gui:main:v1.2.1'
+compile 'com.github.FRedEnergy:rabbit-gui:v1.3.0:shaded'
 ```
 You also can use 10 first chars from commit hash as a version
 
