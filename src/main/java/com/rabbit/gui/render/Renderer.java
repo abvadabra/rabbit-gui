@@ -1,5 +1,6 @@
 package com.rabbit.gui.render;
 
+import java.awt.*;
 import java.util.stream.IntStream;
 
 import org.lwjgl.opengl.GL11;
@@ -216,4 +217,25 @@ public class Renderer {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();
     }
+
+    /**
+     * Evaluates rgb from given color and bind it to GL
+     * @param color - awt color
+     */
+    public static void glColorAWT(Color color){
+        glColorRGB(color.getRGB());
+    }
+
+    /**
+     * Evaluates red, green, blue and alpha from given color and binds them to GL
+     * @param rgb - rgb color
+     */
+    public static void glColorRGB(int rgb){
+        float alpha = (rgb >> 24 & 255) / 255.0F;
+        float red = (rgb >> 16 & 255) / 255.0F;
+        float green = (rgb >> 8 & 255) / 255.0F;
+        float blue = (rgb & 255) / 255.0F;
+        GL11.glColor4f(red, green, blue, alpha);
+    }
+
 }
