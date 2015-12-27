@@ -186,4 +186,34 @@ public class Renderer {
         tessellator.addVertexWithUV(xPos, yPos, zLevel, u * f, v * f1);
         tessellator.draw();
     }
+
+    /**
+     * Draws filled arc with the given color centered in the given location with the given size
+     * @param xCenter - x center of the arc
+     * @param yCenter - y center of the arc
+     * @param radius - size of the arc
+     * @param startDegrees - start angle of the arc
+     * @param finishDegrees - finish angle of the arc
+     * @param color - rgb color of the arc
+     */
+    public static void drawFilledArc(int xCenter, int yCenter, int radius, int startDegrees, int finishDegrees, int color){
+        GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        float f3 = (color >> 24 & 255) / 255.0F;
+        float f = (color >> 16 & 255) / 255.0F;
+        float f1 = (color >> 8 & 255) / 255.0F;
+        float f2 = (color & 255) / 255.0F;
+        GL11.glColor4f(f, f1, f2, f3);
+        GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+        GL11.glVertex2d(xCenter, yCenter);
+        for(int i = startDegrees; i <= finishDegrees; i++){
+            double theta = 2 * Math.PI * i / 360;
+            double dotX = xCenter + Math.sin(theta) * radius;
+            double dotY = yCenter + Math.cos(theta) * radius;
+            GL11.glVertex2d(dotX, dotY);
+        }
+        GL11.glEnd();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glPopMatrix();
+    }
 }
