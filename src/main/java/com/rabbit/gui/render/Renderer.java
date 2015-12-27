@@ -206,6 +206,34 @@ public class Renderer {
     }
 
     /**
+     * Draws triangle pointed at the top, if you need to rotate it use glRotate before
+     *
+     * @param leftX - left dot x
+     * @param leftY - left dot y
+     * @param topX - top dot x
+     * @param topY - top dot y
+     * @param rightX - right dot x
+     * @param rightY - right dot y
+     * @param color - rgb color
+     */
+    public static void drawTriangle(int leftX, int leftY, int topX, int topY, int rightX, int rightY, int color){
+        GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        glColorRGB(color);
+        Tessellator tes = Tessellator.instance;
+        tes.startDrawing(GL11.GL_TRIANGLES);
+        tes.addVertex(topX, topY, 0);
+        tes.addVertex(leftX, leftY, 0);
+        tes.addVertex(rightX, rightY, 0);
+        tes.draw();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+    }
+
+    /**
      * Evaluates rgb from given color and bind it to GL
      * @param color - awt color
      */
