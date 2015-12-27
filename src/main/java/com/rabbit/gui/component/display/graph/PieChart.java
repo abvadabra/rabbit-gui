@@ -2,6 +2,8 @@ package com.rabbit.gui.component.display.graph;
 
 import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.render.Renderer;
+import com.rabbit.gui.render.TextAlignment;
+import com.rabbit.gui.render.TextRenderer;
 
 import java.awt.*;
 import java.util.stream.DoubleStream;
@@ -11,7 +13,7 @@ public class PieChart extends GuiWidget {
     /**
      * Contains colors which will be used in diagram, by default it's filled with six common colors from java.awt.Color class
      */
-    protected Color[] colors = {Color.BLUE, Color.RED, Color.ORANGE, Color.GREEN, Color.MAGENTA, Color.pink};
+    protected Color[] colors = {Color.BLUE, Color.RED, Color.ORANGE, Color.MAGENTA, Color.GREEN, Color.pink};
     /**
      * Width and height of the diagram
      */
@@ -25,22 +27,27 @@ public class PieChart extends GuiWidget {
      */
     protected double[] angles = new double[0];
     /**
-     * Sum of data, usually calculated in constructor
+     * Contains titles per each value, titles length may be differ from value length
      */
-    protected double total;
+    protected String[] titles = new String[0];
 
     private PieChart() {}
 
     public PieChart(int x, int y, int size, double[] data) {
+        this(x, y, size, data, new String[0]);
+    }
+
+    public PieChart(int x, int y, int size, double[] data, String[] titles) {
         super(x, y, size, size);
         this.size = size;
         this.data = data;
+        this.titles = titles;
         initialCalculate();
     }
 
     protected void initialCalculate(){
         angles = new double[data.length];
-        total = DoubleStream.of(data).sum();
+        double total = DoubleStream.of(data).sum();
         for(int i = 0; i < data.length; i++){
             angles[i] = data[i] / total * 360;
         }
@@ -53,6 +60,13 @@ public class PieChart extends GuiWidget {
         for(int i = 0; i < data.length; i++){
             Color color = colors[i % colors.length];
             Renderer.drawFilledArc(this.x + this.width / 2, this.y + this.height / 2, size / 2, prevAngle, angles[i] + prevAngle, color.getRGB());
+
+            if(i < titles.length) {
+                double textAngle = Math.toRadians(prevAngle + angles[i] / 2);
+                int textX = (int)(this.x + this.width / 2 + Math.sin(textAngle) * size / 4);
+                int textY = (int)(this.y + this.height / 2 + Math.cos(textAngle) * size / 4);
+                TextRenderer.renderString(textX, textY, titles[i], TextAlignment.CENTER);
+            }
             prevAngle += angles[i];
         }
     }
@@ -69,6 +83,15 @@ public class PieChart extends GuiWidget {
         this.data = data;
         initialCalculate();
         return this;
+    }
+
+    public PieChart setTitles(String[] titles){
+        this.titles = titles;
+        return this;
+    }
+
+    public String[] getTitles(){
+        return titles;
     }
 
     /**
