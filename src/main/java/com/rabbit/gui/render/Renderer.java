@@ -196,7 +196,7 @@ public class Renderer {
      * @param finishDegrees - finish angle of the arc
      * @param color - rgb color of the arc
      */
-    public static void drawFilledArc(int xCenter, int yCenter, int radius, int startDegrees, int finishDegrees, int color){
+    public static void drawFilledArc(int xCenter, int yCenter, int radius, double startDegrees, double finishDegrees, int color){
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         float f3 = (color >> 24 & 255) / 255.0F;
@@ -206,8 +206,8 @@ public class Renderer {
         GL11.glColor4f(f, f1, f2, f3);
         GL11.glBegin(GL11.GL_TRIANGLE_FAN);
         GL11.glVertex2d(xCenter, yCenter);
-        for(int i = startDegrees; i <= finishDegrees; i++){
-            double theta = 2 * Math.PI * i / 360;
+        for(double i = startDegrees; i <= finishDegrees; i += 0.05){
+            double theta = 2 * Math.PI * i / 360.0;
             double dotX = xCenter + Math.sin(theta) * radius;
             double dotY = yCenter + Math.cos(theta) * radius;
             GL11.glVertex2d(dotX, dotY);
