@@ -1,11 +1,11 @@
 package com.rabbit.gui.render;
 
-import java.util.stream.IntStream;
-
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.stream.IntStream;
 
 public class Renderer {
 
@@ -62,15 +62,11 @@ public class Renderer {
             yTop = yBot;
             yBot = temp;
         }
-        float f3 = (color >> 24 & 255) / 255.0F;
-        float f = (color >> 16 & 255) / 255.0F;
-        float f1 = (color >> 8 & 255) / 255.0F;
-        float f2 = (color & 255) / 255.0F;
         Tessellator tessellator = Tessellator.instance;
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(f, f1, f2, f3);
+        glColorRGB(color);
         tessellator.startDrawingQuads();
         tessellator.addVertex(xTop, yBot, 0.0D);
         tessellator.addVertex(xBot, yBot, 0.0D);
@@ -93,16 +89,12 @@ public class Renderer {
             yTop = yBot;
             yBot = temp;
         }
-        float f3 = (color >> 24 & 255) / 255.0F;
-        float f = (color >> 16 & 255) / 255.0F;
-        float f1 = (color >> 8 & 255) / 255.0F;
-        float f2 = (color & 255) / 255.0F;
         Tessellator tessellator = Tessellator.instance;
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         specialGL.run();
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(f, f1, f2, f3);
+        glColorRGB(color);
         tessellator.startDrawingQuads();
         tessellator.addVertex(xTop, yBot, 0.0D);
         tessellator.addVertex(xBot, yBot, 0.0D);
@@ -185,5 +177,79 @@ public class Renderer {
         tessellator.addVertexWithUV(xPos + imageWidth, yPos, zLevel, (u + imageWidth) * f, v * f1);
         tessellator.addVertexWithUV(xPos, yPos, zLevel, u * f, v * f1);
         tessellator.draw();
+    }
+
+    /**
+     * Draws filled arc with the given color centered in the given location with the given size
+     * @param xCenter - x center of the arc
+     * @param yCenter - y center of the arc
+     * @param radius - size of the arc
+     * @param startDegrees - start angle of the arc
+     * @param finishDegrees - finish angle of the arc
+     * @param color - rgb color of the arc
+     */
+    public static void drawFilledArc(int xCenter, int yCenter, int radius, double startDegrees, double finishDegrees, int color){
+        GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        glColorRGB(color);
+        GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+        GL11.glVertex2d(xCenter, yCenter);
+        for(double i = startDegrees; i <= finishDegrees; i += 0.05){
+            double theta = 2 * Math.PI * i / 360.0;
+            double dotX = xCenter + Math.sin(theta) * radius;
+            double dotY = yCenter + Math.cos(theta) * radius;
+            GL11.glVertex2d(dotX, dotY);
+        }
+        GL11.glEnd();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glPopMatrix();
+    }
+
+    /**
+     * Draws triangle pointed at the top, if you need to rotate it use glRotate before
+     *
+     * @param leftX - left dot x
+     * @param leftY - left dot y
+     * @param topX - top dot x
+     * @param topY - top dot y
+     * @param rightX - right dot x
+     * @param rightY - right dot y
+     * @param color - rgb color
+     */
+    public static void drawTriangle(int leftX, int leftY, int topX, int topY, int rightX, int rightY, int color){
+        GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        glColorRGB(color);
+        Tessellator tes = Tessellator.instance;
+        tes.startDrawing(GL11.GL_TRIANGLES);
+        tes.addVertex(topX, topY, 0);
+        tes.addVertex(leftX, leftY, 0);
+        tes.addVertex(rightX, rightY, 0);
+        tes.draw();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+    }
+
+    /**
+     * Evaluates rgb from given color and bind it to GL
+     * @param color - awt color
+     */
+    public static void glColorAWT(Color color){
+        glColorRGB(color.getRGB());
+    }
+
+    /**
+     * Evaluates red, green, blue and alpha from given color and binds them to GL
+     * @param rgb - rgb color
+     */
+    public static void glColorRGB(int rgb){
+        float alpha = (rgb >> 24 & 255) / 255.0F;
+        float red = (rgb >> 16 & 255) / 255.0F;
+        float green = (rgb >> 8 & 255) / 255.0F;
+        float blue = (rgb & 255) / 255.0F;
+        GL11.glColor4f(red, green, blue, alpha);
     }
 }
