@@ -234,6 +234,30 @@ public class Renderer {
     }
 
     /**
+     * Draws line from first given point to second with given line width
+     *
+     *
+     * @param fromX - first point x
+     * @param fromY - first point y
+     * @param toX - second point x
+     * @param toY - second point y
+     * @param color - rgb color
+     * @param width - line width
+     */
+    public static void drawLine(int fromX, int fromY, int toX, int toY, int color, float width){
+        GL11.glPushMatrix();
+        glColorRGB(color);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glLineWidth(width);
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        GL11.glVertex2i(fromX, fromY);
+        GL11.glVertex2i(toX, toY);
+        GL11.glEnd();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glPopMatrix();
+    }
+
+    /**
      * Evaluates rgb from given color and bind it to GL
      * @param color - awt color
      */
