@@ -29,7 +29,7 @@ minecraft {
 }
 
 dependencies {
-    compile 'com.github.FRedEnergy:rabbit-gui:v1.2.0'
+    compile 'com.github.FRedEnergy:rabbit-gui:v1.3.0:shaded'
 }
 
 compileJava {
