@@ -36,6 +36,7 @@ public class TextBox extends GuiWidget implements Shiftable {
     
     @LayoutComponent
     protected String text;
+    protected String initailText;
     protected int cursorPos;
     protected int scrollOffset;
 
@@ -63,6 +64,7 @@ public class TextBox extends GuiWidget implements Shiftable {
     public TextBox(int xPos, int yPos, int width, int height, String initialText) {
         super(xPos, yPos, width, height);
         this.text = initialText;
+        this.initailText = initialText;
         this.setCursorPosition(this.text.length());
         Keyboard.enableRepeatEvents(true);
     }
@@ -447,6 +449,11 @@ public class TextBox extends GuiWidget implements Shiftable {
     }
 
     public TextBox setIsFocused(boolean isFocused) {
+    	if(isFocused && this.text == this.initailText){
+    		this.setText("");
+    	} else if(!isFocused && this.text.isEmpty()){
+    		this.setText(this.initailText);
+    	}
         this.isFocused = isFocused;
         return this;
     }
@@ -470,7 +477,7 @@ public class TextBox extends GuiWidget implements Shiftable {
         return this.maxStringLenght;
     }
 
-    public TextBox setMaxLenght(int max) {
+    public TextBox setMaxLength(int max) {
         this.maxStringLenght = max;
         return this;
     }
@@ -512,7 +519,7 @@ public class TextBox extends GuiWidget implements Shiftable {
         String previousText = this.text;
         this.setText(newText);
         if (getTextChangedListener() != null)
-            getTextChangedListener().onTextChanged(this, previousText);
+            getTextChangedListener().onTextChanged(this, newText);
         return this;
     }
 

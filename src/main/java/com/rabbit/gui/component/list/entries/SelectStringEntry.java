@@ -41,4 +41,8 @@ public class SelectStringEntry extends SelectListEntry {
     public static interface OnClickListener{
         void onClick(DisplayList list, int mouseX, int mouseY);
     }
+    
+    public String getTitle() {
+        return this.title;
+    }
 }
