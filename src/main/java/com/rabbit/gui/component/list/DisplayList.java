@@ -13,6 +13,8 @@ import java.util.List;
 @LayoutComponent
 public class DisplayList extends GuiWidget implements WidgetList<ListEntry>{
 
+    protected boolean visibleBackground = true;
+
     @LayoutComponent
     protected int slotHeight;
     
@@ -58,7 +60,9 @@ public class DisplayList extends GuiWidget implements WidgetList<ListEntry>{
     
     @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
-        drawListBackground();
+        if(isVisibleBackground()) {
+            drawListBackground();
+        }
         drawListContent(mouseX, mouseY);
         super.onDraw(mouseX, mouseY, partialTicks);
     }
@@ -108,5 +112,12 @@ public class DisplayList extends GuiWidget implements WidgetList<ListEntry>{
         return this;
     }
 
+    public DisplayList setVisibleBackground(boolean visibleBackground) {
+        this.visibleBackground = visibleBackground;
+        return this;
+    }
 
+    public boolean isVisibleBackground(){
+        return this.visibleBackground;
+    }
 }

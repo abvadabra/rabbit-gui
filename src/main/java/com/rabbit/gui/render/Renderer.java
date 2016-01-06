@@ -1,13 +1,51 @@
 package com.rabbit.gui.render;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
-import java.awt.*;
+import java.awt.Color;
+import java.util.List;
 import java.util.stream.IntStream;
 
 public class Renderer {
+
+
+    /**
+     * Draws a rectangle with a vertical gradient between the specified colors in the given points
+     * @param xTop - top x point
+     * @param yTop - top y point
+     * @param xBot - bottom x point
+     * @param yBot - bottom y point
+     * @param firstColor - first gradient color
+     * @param secondColor - second gradient color
+     */
+    public static void drawGradient(int xTop, int yTop, int xBot, int yBot, int firstColor, int secondColor){
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+        GL11.glBegin(GL11.GL_QUADS);
+        glColorRGB(firstColor);
+        GL11.glVertex2d(xBot, yTop);
+        GL11.glVertex2d(xTop, yTop);
+        glColorRGB(secondColor);
+        GL11.glVertex2d(xTop, yBot);
+        GL11.glVertex2d(xBot, yBot);
+        GL11.glEnd();
+
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+    }
 
     /**
      * Draws rectangle with the previously binded texture
@@ -232,6 +270,93 @@ public class Renderer {
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
     }
+
+    /**
+     * Draws line from first given point to second with given line width
+     *
+     *
+     * @param fromX - first point x
+     * @param fromY - first point y
+     * @param toX - second point x
+     * @param toY - second point y
+     * @param color - rgb color
+     * @param width - line width
+     */
+    public static void drawLine(int fromX, int fromY, int toX, int toY, int color, float width){
+        GL11.glPushMatrix();
+        glColorRGB(color);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glLineWidth(width);
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        GL11.glVertex2i(fromX, fromY);
+        GL11.glVertex2i(toX, toY);
+        GL11.glEnd();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glPopMatrix();
+    }
+
+    public static void drawItemTooltip(ItemStack stack, int xPos, int yPos){
+        List<String> content = stack.getTooltip(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().gameSettings.advancedItemTooltips);
+        for(int i = 0; i < content.size(); ++i){
+            if(i == 0){
+                content.set(i, stack.getRarity().rarityColor + content.get(i));
+            } else {
+                content.set(i, EnumChatFormatting.GRAY + content.get(i));
+            }
+        }
+        drawHoveringText(content, xPos, yPos);
+    }
+
+    public static void drawHoveringText(List<String> content, int xPos, int yPos){
+        if(!content.isEmpty()){
+            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+            RenderHelper.disableStandardItemLighting();
+            GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glDisable(GL11.GL_DEPTH_TEST);
+
+            int width = 0;
+            for(String line: content){
+                int lineWidth = TextRenderer.getFontRenderer().getStringWidth(line);
+                width = Math.max(width, lineWidth);
+            }
+            int x = xPos + 12;
+            int y = yPos - 12;
+            int additional = 8;
+
+            if(content.size() > 1){
+                additional += 2 + (content.size() - 1) * 10;
+            }
+
+            int firstColor = -267386864;
+            int secondColor = 1347420415;
+
+            drawGradient(x - 3, y - 4, x + width + 3, y - 3, firstColor, firstColor);
+            drawGradient(x - 3, y + additional + 3, x + width + 3, y + additional + 4, firstColor, firstColor);
+            drawGradient(x - 3, y - 3, x + width + 3, y + additional + 3, firstColor, firstColor);
+            drawGradient(x - 4, y - 3, x - 3, y + additional + 3, firstColor, firstColor);
+            drawGradient(x + width + 3, y - 3, x + width + 4, y + additional + 3, firstColor, firstColor);
+            int l1 = (secondColor & 16711422) >> 1 | secondColor & -16777216;
+            drawGradient(x - 3, y - 3 + 1, x - 3 + 1, y + additional + 3 - 1, secondColor, l1);
+            drawGradient(x + width + 2, y - 3 + 1, x + width + 3, y + additional + 3 - 1, secondColor, l1);
+            drawGradient(x - 3, y - 3, x + width + 3, y - 3 + 1, secondColor, secondColor);
+            drawGradient(x - 3, y + additional + 2, x + width + 3, y + additional + 3, l1, l1);
+
+            for(int i = 0; i < content.size(); ++i){
+                String line = content.get(i);
+                TextRenderer.renderString(x, y, line, Color.white, true, TextAlignment.LEFT);
+                if(i == 0){
+                    y += 2;
+                }
+                y += 10;
+            }
+
+            GL11.glEnable(GL11.GL_LIGHTING);
+            GL11.glEnable(GL11.GL_DEPTH_TEST);
+            RenderHelper.enableStandardItemLighting();
+            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        }
+    }
+
 
     /**
      * Evaluates rgb from given color and bind it to GL
