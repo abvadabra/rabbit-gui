@@ -1,7 +1,6 @@
 package com.rabbit.example;
 
 import com.rabbit.example.ui.HelloWorldShow;
-import com.rabbit.example.ui.WorkingWithIDs;
 import com.rabbit.gui.GuiFoundation;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -38,6 +37,7 @@ public class GuiExampleMod {
         if(exampleKeyBind.isPressed()){
             GuiFoundation.display(new HelloWorldShow());
 //            GuiFoundation.display(new WorkingWithIDs());
+//            GuiFoundation.display(new PieChartExample());
         }
     }
 
