@@ -41,7 +41,7 @@ public class TextBox extends GuiWidget implements Shiftable {
     protected int scrollOffset;
 
     @LayoutComponent
-    protected int maxStringLenght = 100;
+    protected int maxStringLength = 100;
     
     protected int selectionEnd = -2;
     
@@ -474,11 +474,11 @@ public class TextBox extends GuiWidget implements Shiftable {
     }
 
     public int getMaxLength() {
-        return this.maxStringLenght;
+        return this.maxStringLength;
     }
 
     public TextBox setMaxLength(int max) {
-        this.maxStringLenght = max;
+        this.maxStringLength = max;
         return this;
     }
 
