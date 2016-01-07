@@ -67,7 +67,6 @@ public class ScrollableDisplayList extends DisplayList {
     protected void handleMouseClickList(int mouseX, int mouseY){
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
-            entry.setSelected(false);
             int slotPosX = getX();
             int slotPosY = ((getY() + i * slotHeight) - (int)((this.slotHeight * scrollBar.getProgress() * this.content.size()) * 0.925F));
             int slotWidth = this.width;

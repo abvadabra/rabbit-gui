@@ -27,9 +27,4 @@ public interface ListEntry{
      */
     public default void onClick(DisplayList list, int mouseX, int mouseY){}
 
-    /**
-     * Called when user clicks on the list entry
-     * @param state - is the entry selected
-     */
-    public default void setSelected(boolean state){}
 }

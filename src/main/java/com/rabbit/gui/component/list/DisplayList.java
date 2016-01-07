@@ -96,7 +96,6 @@ public class DisplayList extends GuiWidget implements WidgetList<ListEntry>{
     protected void handleMouseClickList(int mouseX, int mouseY){
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
-			entry.setSelected(false);
             int slotPosX = getX();
             int slotPosY = getY() + i * slotHeight;
             int slotWidth = this.width;
