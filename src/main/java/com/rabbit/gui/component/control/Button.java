@@ -1,6 +1,8 @@
 package com.rabbit.gui.component.control;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
@@ -8,6 +10,7 @@ import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.Shiftable;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
+import com.rabbit.gui.render.TextAlignment;
 import com.rabbit.gui.render.TextRenderer;
 
 import net.minecraft.client.Minecraft;
@@ -25,6 +28,9 @@ import net.minecraft.util.ResourceLocation;
 @LayoutComponent
 public class Button extends GuiWidget implements Shiftable {
 
+	protected boolean drawHoverText = false;
+	protected List<String> hoverText = new ArrayList();
+	
     protected static final int DISABLED_STATE = 0;
     protected static final int IDLE_STATE = 1;
     protected static final int HOVER_STATE = 2;
@@ -43,7 +49,7 @@ public class Button extends GuiWidget implements Shiftable {
     protected ButtonClickListener onClick;
    
     /**Dummy constructor. Used in layout*/
-    private Button(){}
+    protected Button(){}
     
     public Button(int xPos, int yPos, int width, int height, String title) {
         super(xPos, yPos, width, height);
@@ -58,10 +64,13 @@ public class Button extends GuiWidget implements Shiftable {
                 drawButton(DISABLED_STATE);
             } else if (isButtonUnderMouse(mouseX, mouseY)) {
                 drawButton(HOVER_STATE);
+                if (this.drawHoverText) {
+					Renderer.drawHoveringText(this.hoverText, mouseX, mouseY);
+				}
             } else {
                 drawButton(IDLE_STATE);
             }
-            TextRenderer.renderCenteredString(getX() + getWidth() / 2, getY() + getHeight() / 2 - 4, getText());
+            TextRenderer.renderString(getX() + getWidth() / 2, getY() + getHeight() / 2 - 4, getText(), TextAlignment.CENTER);
         }
     }
     
@@ -173,4 +182,23 @@ public class Button extends GuiWidget implements Shiftable {
     public void shiftY(int y) {
         this.setY(getY() + y);
     }
+    
+    public Button doesDrawHoverText(boolean state) {
+		this.drawHoverText = state;
+		return this;
+	}
+
+	public Button addHoverText(String text) {
+		this.hoverText.add(text);
+		return this;
+	}
+
+	public Button setHoverText(List<String> text) {
+		this.hoverText = text;
+		return this;
+	}
+
+	public List<String> getHoverText() {
+		return this.hoverText;
+	}
 }
