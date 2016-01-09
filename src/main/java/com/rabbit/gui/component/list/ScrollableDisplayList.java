@@ -48,7 +48,7 @@ public class ScrollableDisplayList extends DisplayList {
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
             int slotPosX = getX();
-            int slotPosY = ((getY() + i * slotHeight) - (int)((this.slotHeight * scrollBar.getProgress() * this.content.size()) * 0.925F));
+            int slotPosY = ((getY() + i * slotHeight) - (int) ((this.slotHeight * scrollBar.getProgress() * this.content.size()) - ((this.height - this.slotHeight) * (scrollBar.getProgress())/ 1)));
             int slotWidth = this.width; 
             int slotHeight = this.slotHeight;
             if(slotPosY < getY() + this.height && slotPosY + slotHeight > getY()){
@@ -68,7 +68,7 @@ public class ScrollableDisplayList extends DisplayList {
         for(int i = 0; i < content.size(); i++){
             ListEntry entry = content.get(i);
             int slotPosX = getX();
-            int slotPosY = ((getY() + i * slotHeight) - (int)((this.slotHeight * scrollBar.getProgress() * this.content.size()) * 0.925F));
+            int slotPosY = ((getY() + i * slotHeight) - (int) ((this.slotHeight * scrollBar.getProgress() * this.content.size()) - ((this.height - this.slotHeight) * (scrollBar.getProgress())/ 1)));
             int slotWidth = this.width;
             int slotHeight = this.slotHeight;
             boolean scrollbarActive = scrollBar.isScrolling() && scrollBar.isVisible();
