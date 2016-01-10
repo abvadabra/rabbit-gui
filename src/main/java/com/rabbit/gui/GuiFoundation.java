@@ -26,7 +26,8 @@ public class GuiFoundation {
             current.setShow(show);
             current.reinitShow();
         } else {
-            Minecraft.getMinecraft().displayGuiScreen(new Stage(show));
+            Minecraft.getMinecraft().displayGuiScreen(new Stage());
+            getCurrentStage().display(show);
         }
     }
 
