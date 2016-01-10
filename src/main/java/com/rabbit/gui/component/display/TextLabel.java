@@ -46,6 +46,7 @@ public class TextLabel extends GuiWidget implements Shiftable {
     
     @Override
     public void onDraw(int mouseX, int mouseY, float partialTicks) {
+        super.onDraw(mouseX, mouseY, partialTicks);
         if(isVisible()){
             if(shouldDrawBackground()){
                 drawBackground();
@@ -58,7 +59,7 @@ public class TextLabel extends GuiWidget implements Shiftable {
         }
     }
     
-    private void drawMultilined(){
+    protected void drawMultilined(){
         List<String> displayLines = TextRenderer.getFontRenderer().listFormattedStringToWidth(text, width);
         for(int i = 0; i < displayLines.size(); i++) {
             String displayLine = displayLines.get(i);
@@ -68,16 +69,16 @@ public class TextLabel extends GuiWidget implements Shiftable {
         }
     }
     
-    private void drawOneLined(){
+    protected void drawOneLined(){
         String displayText = TextRenderer.getFontRenderer().trimStringToWidth(text, width);
         drawAlignedLine(getX(), getY(), getWidth(), displayText, alignment);
     }
     
-    private void drawAlignedLine(int x, int y, int width, String text, TextAlignment alignment){
+    protected void drawAlignedLine(int x, int y, int width, String text, TextAlignment alignment){
         if(alignment == TextAlignment.CENTER){
-            x = x + getWidth() / 2;
+            x = x + width / 2;
         } else if(alignment == TextAlignment.RIGHT)
-            x = x + getWidth();
+            x = x + width;
         TextRenderer.renderString(x, y, text, alignment);
     }
     
