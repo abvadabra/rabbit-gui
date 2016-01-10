@@ -176,7 +176,9 @@ public class Stage extends GuiScreen{
      */
     @Override
     public final void initGui() {
-        reinitShow();
+        if(this.show != null) {
+            reinitShow();
+        }
     }
 
     /**
