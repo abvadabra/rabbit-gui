@@ -3,6 +3,7 @@ package com.rabbit.gui.component.list;
 import java.awt.*;
 import java.util.List;
 
+import com.rabbit.gui.component.control.IScrollBarSource;
 import com.rabbit.gui.component.control.ScrollBar;
 import com.rabbit.gui.component.list.entries.ListEntry;
 import com.rabbit.gui.layout.LayoutComponent;
@@ -13,7 +14,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 @LayoutComponent
-public class ScrollableDisplayList extends DisplayList {
+public class ScrollableDisplayList extends DisplayList implements IScrollBarSource {
 
     protected ScrollBar scrollBar;
     
@@ -51,7 +52,7 @@ public class ScrollableDisplayList extends DisplayList {
             int slotPosY = ((getY() + i * slotHeight) - (int) ((this.slotHeight * scrollBar.getProgress() * this.content.size()) - ((this.height - this.slotHeight) * (scrollBar.getProgress())/ 1)));
             int slotWidth = this.width; 
             int slotHeight = this.slotHeight;
-            if(slotPosY < getY() + this.height && slotPosY + slotHeight > getY()){
+            if(slotPosY < getY() + this.height&& slotPosY + slotHeight > getY()){
                 GL11.glPushMatrix();
                 GL11.glEnable(GL11.GL_SCISSOR_TEST);
                 Minecraft mc = Minecraft.getMinecraft();
@@ -78,7 +79,16 @@ public class ScrollableDisplayList extends DisplayList {
             }
         } 
     }
-    
+
+    @Override
+    public void handleMouseWheel(ScrollBar scrollBar) {
+        double delta = Mouse.getDWheel();
+        float visibleSlots = getHeight() / slotHeight;
+        float modifier = 1F * visibleSlots / getContent().size();
+        if(delta < 0) scrollBar.updateProgress(modifier);
+        if(delta > 0) scrollBar.updateProgress(-modifier);
+    }
+
     /**
      * Returns true if content height of list is not more that list actual height
      */
@@ -89,5 +99,5 @@ public class ScrollableDisplayList extends DisplayList {
     private int getScrollerSize(){
         return (int)(1F * this.height / (this.content.size() * this.slotHeight) * (this.height - 4));
     }
-    
+
 }
