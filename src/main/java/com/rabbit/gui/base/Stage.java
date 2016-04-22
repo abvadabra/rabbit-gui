@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 
+import java.io.IOException;
 import java.util.Stack;
 
 public class Stage extends GuiScreen{
@@ -155,21 +156,28 @@ public class Stage extends GuiScreen{
      * Wrapper for vanilla method
      */
     @Override
-    public void handleMouseInput(){
+    public void handleMouseInput() throws IOException{
         super.handleMouseInput();
         show.onMouseInput();
     }
 
-    /**
-     * Wrapper for vanilla method
-     */
     @Override
-    protected void mouseMovedOrUp(int mouseX, int mouseY, int type) {
-        super.mouseMovedOrUp(mouseX, mouseY, type);
-        if(type == 0 || type == 1){
+    protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+        super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
+        if(clickedMouseButton == 0 || clickedMouseButton == 1)
             show.onMouseRelease(mouseX, mouseY);
-        }
     }
+
+//    /**
+//     * Wrapper for vanilla method
+//     */
+//    @Override
+//    protected void mouseMovedOrUp(int mouseX, int mouseY, int type) {
+//        super.mouseMovedOrUp(mouseX, mouseY, type);
+//        if(type == 0 || type == 1){
+//            show.onMouseRelease(mouseX, mouseY);
+//        }
+//    }
 
     /**
      * Wrapper for vanilla method

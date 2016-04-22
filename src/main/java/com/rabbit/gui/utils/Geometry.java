@@ -15,7 +15,7 @@ public class Geometry {
      */
     public static int computeScaleFactor(){
         Minecraft mc = Minecraft.getMinecraft();
-        return new ScaledResolution(mc, mc.displayWidth, mc.displayHeight).getScaleFactor();
+        return new ScaledResolution(mc).getScaleFactor();
     }
     
 }

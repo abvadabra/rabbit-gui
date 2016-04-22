@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import net.minecraft.init.SoundEvents;
 import org.lwjgl.opengl.GL11;
 
 import com.rabbit.gui.component.GuiWidget;
@@ -34,7 +35,7 @@ public class Button extends GuiWidget implements Shiftable {
     protected static final int DISABLED_STATE = 0;
     protected static final int IDLE_STATE = 1;
     protected static final int HOVER_STATE = 2;
-    
+
     protected ResourceLocation buttonTexture = new ResourceLocation("textures/gui/widgets.png");
     
     @LayoutComponent
@@ -159,7 +160,7 @@ public class Button extends GuiWidget implements Shiftable {
     }
 
     protected void playClickSound() {
-        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ui_button_click, 1.0F));
     }
     
     @Override

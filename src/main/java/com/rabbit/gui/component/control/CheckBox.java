@@ -1,20 +1,19 @@
 package com.rabbit.gui.component.control;
 
-import java.awt.Color;
-
-import org.lwjgl.opengl.GL11;
-
 import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.Shiftable;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
 import com.rabbit.gui.render.TextAlignment;
 import com.rabbit.gui.render.TextRenderer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
 
 @LayoutComponent
 public class CheckBox extends GuiWidget implements Shiftable{
@@ -54,10 +53,6 @@ public class CheckBox extends GuiWidget implements Shiftable{
         super(xPos, yPos, WIDTH, HEIGHT);
         this.text = title;
         this.isChecked = checked;
-    }
-    
-    void b(ResourceLocation loc){
-        Minecraft.getMinecraft().getTextureManager().getTexture(loc);
     }
 
     @Override
@@ -169,7 +164,7 @@ public class CheckBox extends GuiWidget implements Shiftable{
     }
 
     protected void playClickSound() {
-        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ui_button_click, 1.0F));
     }
     
     public CheckBoxStatusChangedListener getStatusChangedListener(){

@@ -1,18 +1,13 @@
 package com.rabbit.gui.component.table;
 
+import com.rabbit.gui.component.GuiWidget;
+import com.rabbit.gui.render.Renderer;
+import com.rabbit.gui.render.TextRenderer;
+import net.minecraft.util.text.TextFormatting;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-
-import org.lwjgl.util.Rectangle;
-
-import com.rabbit.gui.component.GuiWidget;
-import com.rabbit.gui.component.control.Button;
-import com.rabbit.gui.render.Renderer;
-import com.rabbit.gui.render.TextRenderer;
-
-import net.minecraft.util.EnumChatFormatting;
 
 public class Table extends GuiWidget {
 
@@ -49,7 +44,7 @@ public class Table extends GuiWidget {
     }
 
     private void drawRow(int xPos, int yPos, int width, int height, int oneLineHeight, Row row){
-        TextRenderer.renderCenteredString(xPos + width / 2, yPos + 5, EnumChatFormatting.UNDERLINE + row.getName());
+        TextRenderer.renderCenteredString(xPos + width / 2, yPos + 5, TextFormatting.UNDERLINE + row.getName());
         List<String> lines = row.getStringContent();
         for(int i = 0; i < row.getContent().size(); i++){
             TextRenderer.renderCenteredString(xPos + width / 2, yPos + oneLineHeight / 2 + (oneLineHeight * i), lines.get(i));

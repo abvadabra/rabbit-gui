@@ -1,15 +1,11 @@
 package com.rabbit.gui.component.control;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
-import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
 import com.rabbit.gui.render.TextRenderer;
+import net.minecraft.util.math.MathHelper;
 
-import net.minecraft.util.MathHelper;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MultiTextbox extends TextBox {
 

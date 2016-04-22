@@ -2,10 +2,10 @@ package com.rabbit.gui;
 
 import com.rabbit.gui.base.Stage;
 import com.rabbit.gui.show.IShow;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 @Mod(modid = "rabbit-gui", name = "Rabbit Gui Library", version = "v1.3.0")
 public class GuiFoundation {

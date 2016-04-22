@@ -154,7 +154,7 @@ public class TextBox extends GuiWidget implements Shiftable {
 
     public void pushText(String text) {
         String result = "";
-        String filtered = ChatAllowedCharacters.filerAllowedCharacters(text);
+        String filtered = ChatAllowedCharacters.filterAllowedCharacters(text);
         int i = this.getCursorPosition() < this.selectionEnd ? this.getCursorPosition() : this.selectionEnd;
         int j = this.getCursorPosition() < this.selectionEnd ? this.selectionEnd : this.getCursorPosition();
         int k = this.getMaxLength() - getText().length() - (i - this.selectionEnd);
