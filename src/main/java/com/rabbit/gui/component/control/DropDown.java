@@ -17,7 +17,7 @@ import com.rabbit.gui.render.TextRenderer;
 public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
 
     protected Map<String, DropDownElement<T>> content = new TreeMap<String , DropDownElement<T>>();
-    private Button dropButton;
+    protected Button dropButton;
     
     
     @LayoutComponent
@@ -55,7 +55,7 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
         initDropButton();
     }
 
-    private void initDropButton(){
+    protected void initDropButton(){
         this.dropButton = new Button(getX() + getWidth() - 12, getY(), 12, 12, "\u25BC");
     }
     
@@ -120,12 +120,12 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
         super.onDraw(mouseX, mouseY, partialTicks);
     }
     
-    private void drawDropDownBackground(){
+    protected void drawDropDownBackground(){
         Renderer.drawRect(getX() - 1, getY() - 1, getX() + getWidth() + 1, getY() + getHeight() + 1, -6250336);
         Renderer.drawRect(getX(), getY(), getX() + getWidth() - 13, getY() + getHeight(), -16777216);
     }
     
-    private void drawExpandedList(int mouseX, int mouseY, float partialTicks){
+    protected void drawExpandedList(int mouseX, int mouseY, float partialTicks){
         List<String> keys = new ArrayList<>(getContent().keySet());
         int unrollHeight = keys.size() * getHeight();
         Renderer.drawRect(getX() - 1, getY() + getHeight(), getX() + getWidth() + 1, getY() + getHeight() + unrollHeight + 1, -6250336);
@@ -144,7 +144,8 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     private void drawSlot(String item, int xPos, int yPos, int width, int height, boolean background){
         drawSlot(item, xPos, yPos, width, height, background, 2);
     }
-    private void drawSlot(String item, int xPos, int yPos, int width, int height, boolean background, int drawOffset){
+
+    protected void drawSlot(String item, int xPos, int yPos, int width, int height, boolean background, int drawOffset){
         String text = TextRenderer.getFontRenderer().trimStringToWidth(item, width - drawOffset);
         Color color = Color.white;
         if(background){
@@ -181,11 +182,11 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
         return clicked;
     }
 
-    private boolean underMouse(int x, int y){
+    protected boolean underMouse(int x, int y){
         return x >= getX() && x <= getX() + getWidth() && y >= getY() && y <= getY() + getHeight();
     }
     
-    private boolean expandedListUnderMouse(int mouseX, int mouseY){
+    protected boolean expandedListUnderMouse(int mouseX, int mouseY){
         return mouseX >= getX() - 1 && mouseX < getX() + getWidth() + 1 && mouseY >= getY() - 1 && mouseY < getY() + getHeight() + (getContent().size() * 12) - 1;
     }
     
