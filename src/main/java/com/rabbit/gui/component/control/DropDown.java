@@ -2,7 +2,6 @@ package com.rabbit.gui.component.control;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -13,8 +12,6 @@ import com.rabbit.gui.component.WidgetList;
 import com.rabbit.gui.layout.LayoutComponent;
 import com.rabbit.gui.render.Renderer;
 import com.rabbit.gui.render.TextRenderer;
-
-import net.minecraft.util.ResourceLocation;
 
 @LayoutComponent
 public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
@@ -27,9 +24,7 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     protected String text;
     
     protected String selected;
-    
-    protected String hovered;
-    
+
     protected boolean isUnrolled = false;
     
     @LayoutComponent
@@ -37,8 +32,6 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     
     @LayoutComponent
     protected boolean isEnabled = true;
-    
-    protected ResourceLocation texture = new ResourceLocation("textures/gui/widgets.png");
     
     protected ItemSelectedListener<T> itemSelectedListener;
     
@@ -48,7 +41,7 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
         this(xPos, yPos, width);
         addAll(values);
         if(values.length > 0) {
-            setDefaultItem(String.valueOf(values[0]));
+            setSelected(String.valueOf(values[0]));
         }
     }
 
@@ -79,7 +72,7 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
 
     @Override
     public DropDown<T> addAll(T ... values){
-        Arrays.stream(values).forEach(this::add);
+        for(T val: values) add(val);
         return this;
     }
 
@@ -89,14 +82,13 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     
     public DropDown<T> addItemAndSetDefault(String name, T value){
         add(name, value);
-        setDefaultItem(name);
+        setSelected(name);
         return this;
     }
     
-    private void setDefaultItem(String name){
-        if(getContent().containsKey(name)){
+    public void setSelected(String name){
+        if(getContent().containsKey(name))
             this.selected = name;
-        }
     }
     
     @Override
@@ -116,14 +108,13 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
            setIsEnabled(false);
         }
         if(isVisible()){
-            boolean hover = underMouse(mouseX, mouseY);
             drawDropDownBackground();
             if(isUnrolled){
                 drawExpandedList(mouseX, mouseY, partialTicks);
             }
             
             if(this.selected != null){
-                drawSlot(getSelectedIdentifier(), getX(), getY(), getWidth(), getHeight(), false, 14);
+                drawSlot(getContent().get(getSelectedIdentifier()).getValue().toString(), getX(), getY(), getWidth(), getHeight(), false, 14);
             }
         }
         super.onDraw(mouseX, mouseY, partialTicks);
@@ -135,17 +126,18 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     }
     
     private void drawExpandedList(int mouseX, int mouseY, float partialTicks){
-        List<String> keys = new ArrayList(getContent().keySet());
+        List<String> keys = new ArrayList<>(getContent().keySet());
         int unrollHeight = keys.size() * getHeight();
         Renderer.drawRect(getX() - 1, getY() + getHeight(), getX() + getWidth() + 1, getY() + getHeight() + unrollHeight + 1, -6250336);
         Renderer.drawRect(getX(), getY() + getHeight() + 1, getX() + getWidth(), getY() + getHeight() + unrollHeight, -16777216);
         boolean hoverUnrolledList = mouseX >= getX() && mouseX <= getX() + getWidth() && mouseY >= getY() && mouseY <= getY() + getHeight() + unrollHeight + 1;
         for(int index = 0; index < keys.size(); index++){
             String itemIdentifier = keys.get(index);
+            String drawn = getContent().get(itemIdentifier).getValue().toString();
             int yPos = getY() + getHeight() + (getHeight() / 8) + (index * 12);
             boolean hoverSlot = mouseX >= getX() && mouseX <= getX() + getWidth() && mouseY >= yPos && mouseY <= yPos + 12;
             boolean selectedSlot = hoverSlot || (!hoverUnrolledList && itemIdentifier.equalsIgnoreCase(getSelectedIdentifier()));
-            drawSlot(itemIdentifier, getX(), yPos, getWidth(), getHeight(), selectedSlot);
+            drawSlot(drawn, getX(), yPos, getWidth(), getHeight(), selectedSlot);
         }
     }
     
@@ -232,7 +224,7 @@ public class DropDown<T> extends GuiWidget implements WidgetList<T>, Shiftable {
     }
     
     public boolean isEmpty(){
-        return this.content != null ? content.isEmpty() : true;
+        return this.content == null || content.isEmpty();
     }
     
     @Override
