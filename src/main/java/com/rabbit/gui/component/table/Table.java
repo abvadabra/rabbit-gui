@@ -10,6 +10,7 @@ import org.lwjgl.util.Rectangle;
 import com.rabbit.gui.component.GuiWidget;
 import com.rabbit.gui.component.control.Button;
 import com.rabbit.gui.render.Renderer;
+import com.rabbit.gui.render.TextAlignment;
 import com.rabbit.gui.render.TextRenderer;
 
 import net.minecraft.util.EnumChatFormatting;
@@ -49,10 +50,10 @@ public class Table extends GuiWidget {
     }
 
     private void drawRow(int xPos, int yPos, int width, int height, int oneLineHeight, Row row){
-        TextRenderer.renderCenteredString(xPos + width / 2, yPos + 5, EnumChatFormatting.UNDERLINE + row.getName());
+        TextRenderer.renderString(xPos + width / 2, yPos + 5, EnumChatFormatting.UNDERLINE + row.getName(), TextAlignment.CENTER);
         List<String> lines = row.getStringContent();
         for(int i = 0; i < row.getContent().size(); i++){
-            TextRenderer.renderCenteredString(xPos + width / 2, yPos + oneLineHeight / 2 + (oneLineHeight * i), lines.get(i));
+            TextRenderer.renderString(xPos + width / 2, yPos + oneLineHeight / 2 + (oneLineHeight * i), lines.get(i), TextAlignment.CENTER);
             if(i + 1 != row.getContent().size() && drawHorizontalLines()){
                 Renderer.drawRect(xPos + 5, yPos + oneLineHeight * i + oneLineHeight, xPos + width - 5, yPos + oneLineHeight * i + oneLineHeight + 1, -6250336);
             }

@@ -309,10 +309,9 @@ public class Renderer {
 
     public static void drawHoveringText(List<String> content, int xPos, int yPos){
         if(!content.isEmpty()){
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-            RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
+        	GL11.glPushMatrix();
+        	GL11.glDisable(GL11.GL_SCISSOR_TEST);
+            GL11.glTranslatef(0, 0, 1);
 
             int width = 0;
             for(String line: content){
@@ -350,10 +349,9 @@ public class Renderer {
                 y += 10;
             }
 
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
-            RenderHelper.enableStandardItemLighting();
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+            GL11.glTranslatef(0, 0, -1);
+            GL11.glEnable(GL11.GL_SCISSOR_TEST);
+            GL11.glPopMatrix();
         }
     }
 
